@@ -1,4 +1,4 @@
-module Route exposing (Route(..), fromUrl, href, replaceUrl)
+module Route exposing (Route(..), fromUrl, href)
 
 import Browser.Navigation as Nav
 import Html exposing (Attribute)
@@ -15,7 +15,7 @@ type Route
     = Home
     | Poetry
     | Code 
-
+    
 parser : Parser (Route -> a) a
 parser =
     oneOf
@@ -33,11 +33,11 @@ href : Route -> Attribute msg
 href targetRoute =
     Attr.href (routeToString targetRoute)
 
-
+{--
 replaceUrl : Nav.Key -> Route -> Cmd msg
 replaceUrl key route =
     Nav.replaceUrl key (routeToString route)
-
+--}
 fromUrl : Url -> Maybe Route
 fromUrl url =
     -- The RealWorld spec treats the fragment like a path.
@@ -61,9 +61,9 @@ routeToPieces page =
             []
 
         Poetry -> 
-            []
+            ["poetry"]
 
         Code -> 
-            []
+            ["code"]
 
 --}

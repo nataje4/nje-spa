@@ -42,7 +42,7 @@ view model =
     , body =
         [ div []
             [ img [ src "/logo.svg" ] []
-            , h1 [] [ text "Your Elm App is working!" ]
+            , h1 [] [ text "You're CODE'!" ]
             ]
         ]
     }

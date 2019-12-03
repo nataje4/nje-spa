@@ -6,7 +6,7 @@ import Browser
 import Home exposing (..)
 import Poetry exposing (..)
 import Code exposing (..)
-import Route exposing (Route)
+import Route exposing (Route(..))
 import Url exposing (..)
 import Browser.Navigation as Nav exposing (Key, load, pushUrl)
 
@@ -14,27 +14,20 @@ import Browser.Navigation as Nav exposing (Key, load, pushUrl)
 ---- MODEL ----
 
 
-type SubModel 
+type Model 
     = Home Home.Model
     | Poetry Poetry.Model 
     | Code Code.Model 
+    | Err
 
 
-type alias Model =
-    { key : Nav.Key
-    , sub : SubModel
-    }
-
-
+--Flags are required by the Browser.application function
 init : Flags -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url navKey =
-    ( initModel navKey, Cmd.none )
-
-initModel : Nav.Key -> Model 
-initModel navKey = 
-    { key = navKey
-    , sub = Home Home.Model 
-    }
+    let 
+        route = (Route.fromUrl url)
+    in 
+        changeRouteTo route (routeToModel route)
 
 type alias Flags = 
     {}
@@ -67,7 +60,7 @@ update msg model =
 
                         Just _ ->
                             ( model
-                            , Nav.pushUrl model.key (Url.toString url)
+                            , Nav.load (Url.toString url)
                             )
 
                 Browser.External href ->
@@ -76,7 +69,10 @@ update msg model =
                     )
 
         ChangedUrl url ->
-            changeRouteTo (Route.fromUrl url) model
+            let 
+                route = (Route.fromUrl url)
+            in 
+                changeRouteTo route (routeToModel route)
 
 
 changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
@@ -85,27 +81,46 @@ changeRouteTo maybeRoute model =
         Nothing ->
             Debug.todo "handle invalid route in changeRouteTo"
         Just Route.Poetry -> 
-            (model, Route.replaceUrl model.key Route.Poetry)
+            (Poetry Poetry.initModel, Cmd.none)
         Just Route.Code -> 
-            (model, Route.replaceUrl model.key Route.Code)
+            (Code Code.initModel, Cmd.none)
         Just Route.Home -> 
-            (model, Route.replaceUrl model.key Route.Home)
+            (Home Home.initModel, Cmd.none)
 
+routeToModel: Maybe Route -> Model
+routeToModel maybeRoute =
+    case maybeRoute of
+        Just Route.Home -> 
+            Home Home.initModel
+        Just Route.Poetry -> 
+            Poetry Poetry.initModel
+        Just Route.Code  -> 
+            Code  Code.initModel
+        Nothing -> 
+            Err
 
 ---- VIEW ----
 
 
 view : Model  -> Browser.Document msg
 view model =
-    case model.sub of 
-        Home homeModel -> 
-            Home.view homeModel
+    case model of 
+        Home home -> 
+            Home.view home
 
-        Poetry poetryModel -> 
-            Poetry.view poetryModel
+        Poetry poetry -> 
+            Poetry.view poetry
 
-        Code codeModel -> 
-            Code.view codeModel
+        Code code -> 
+            Code.view code
+        Err -> 
+            { title = "NJE: ERROR"
+            , body =
+                [ div []
+                    [ h1 [] [ text "ERROR PAGE NOT FOUND" ]
+                    ]
+                ]
+            }
 
 
 ---- SUBSCRIPTIONS ----
