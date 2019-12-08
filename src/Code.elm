@@ -3,24 +3,35 @@ module Code exposing (..)
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src)
 import Browser
+import Element exposing (Device, DeviceClass(..), Orientation(..))
+
 
 ---- MODEL ----
 
 
-type alias Model =
-    {}
 
+type alias Model =
+    { deviceType : Element.Device
+    , windowSize : Flags
+    }
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( {}, Cmd.none )
+    ( initModel flags, Cmd.none )
 
-initModel : Model 
-initModel = 
-    {}
+initModel flags =
+    { deviceType = Element.classifyDevice flags
+    , windowSize = flags
+    }
 
 type alias Flags = 
-    {}
+    WindowSize
+
+type alias WindowSize =
+    { width: Int 
+    , height: Int
+    }
+
 
 ---- UPDATE ----
 

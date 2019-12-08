@@ -1,15 +1,18 @@
 module Main exposing (..)
 
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
+
 import Browser
-import Home exposing (..)
-import Poetry exposing (..)
-import Code exposing (..)
+import Browser.Events exposing (onResize)
+import Browser.Dom exposing (getViewport, Viewport)
+import Browser.Navigation as Nav exposing (Key, load, pushUrl)
+import Home exposing (Model, initModel, view)
+import Poetry exposing (Model, initModel, view)
+import Code exposing (Model, initModel, view)
+import Error exposing (Model, initModel, view)
 import Route exposing (Route(..))
 import Url exposing (..)
-import Browser.Navigation as Nav exposing (Key, load, pushUrl)
-
+import Element exposing (Device, DeviceClass(..), Orientation(..), classifyDevice)
+import Task
 
 ---- MODEL ----
 
@@ -18,7 +21,7 @@ type Model
     = Home Home.Model
     | Poetry Poetry.Model 
     | Code Code.Model 
-    | Err
+    | Error Error.Model
 
 
 --Flags are required by the Browser.application function
@@ -27,10 +30,17 @@ init flags url navKey =
     let 
         route = (Route.fromUrl url)
     in 
-        changeRouteTo route (routeToModel route)
+        routeToModel route flags -- Model 
+            |> changeRouteTo route 
+
 
 type alias Flags = 
-    {}
+    WindowSize
+
+type alias WindowSize =
+    { width: Int 
+    , height: Int
+    }
 
 ---- UPDATE ----
 
@@ -38,6 +48,7 @@ type alias Flags =
 type Msg
     = ChangedUrl Url
     | ClickedLink Browser.UrlRequest
+    | ResizeWindow Int Int 
 
 
 update :  Msg -> Model -> ( Model, Cmd Msg )
@@ -72,32 +83,58 @@ update msg model =
             let 
                 route = (Route.fromUrl url)
             in 
-                changeRouteTo route (routeToModel route)
+                changeRouteTo route (routeToModel route) 
+        
+        ResizeWindow width height -> 
+            let 
+                device : Element.Device
+                device = 
+                    WindowSize width height
+                        |> Element.classifyDevice
+            in 
+                ( updateDeviceType device model  , Cmd.none )            
+
 
 
 changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute model =
     case maybeRoute of
         Nothing ->
-            Debug.todo "handle invalid route in changeRouteTo"
+            (Error (Error.initModel model.windowSize), Cmd.none)
         Just Route.Poetry -> 
-            (Poetry Poetry.initModel, Cmd.none)
+            (Poetry (Poetry.initModel model.windowSize), Cmd.none)
         Just Route.Code -> 
-            (Code Code.initModel, Cmd.none)
+            (Code (Code.initModel model.windowSize), Cmd.none)
         Just Route.Home -> 
-            (Home Home.initModel, Cmd.none)
+            (Home (Home.initModel model.windowSize), Cmd.none)
 
-routeToModel: Maybe Route -> Model
-routeToModel maybeRoute =
+routeToModel: Maybe Route -> Flags -> Model
+routeToModel maybeRoute flags =
     case maybeRoute of
         Just Route.Home -> 
-            Home Home.initModel
+            Home (Home.initModel flags)
         Just Route.Poetry -> 
-            Poetry Poetry.initModel
+            Poetry (Poetry.initModel flags)
         Just Route.Code  -> 
-            Code  Code.initModel
+            Code (Code.initModel flags)
         Nothing -> 
-            Err
+            Error (Error.initModel flags)
+
+updateDeviceType : Device -> Model -> Model 
+updateDeviceType device model = 
+    case model of 
+        Home homeModel -> 
+            Home { homeModel | deviceType = device}
+
+        Poetry poetryModel -> 
+            Poetry { poetryModel | deviceType = device}
+
+        Code codeModel -> 
+            Code { codeModel | deviceType = device}
+
+        Error errorModel -> 
+            Error { errorModel | deviceType = device}
+
 
 ---- VIEW ----
 
@@ -110,24 +147,21 @@ view model =
 
         Poetry poetry -> 
             Poetry.view poetry
-
+        
         Code code -> 
             Code.view code
-        Err -> 
-            { title = "NJE: ERROR"
-            , body =
-                [ div []
-                    [ h1 [] [ text "ERROR PAGE NOT FOUND" ]
-                    ]
-                ]
-            }
+        
+        Error error -> 
+            Error.view error 
+
 
 
 ---- SUBSCRIPTIONS ----
 
-subscriptions : Model -> Sub Msg
-subscriptions model = 
-    Sub.none
+subscriptions : model -> Sub Msg
+subscriptions _ =
+  onResize (\w h -> ResizeWindow w h)
+
 
 ---- PROGRAM ----
 

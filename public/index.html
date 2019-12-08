@@ -7,12 +7,17 @@
     <link rel="stylesheet" type="text/css" href="main.css"/> 
 
 
-    <script src="elm.js?v=1.01"></script>
+    <script src="elm.js?v=1.02"></script>
 
   </head>
   <body>
     <script>
-      var flags ={};
+      var flags =
+        {
+          width:window.innerWidth, 
+          height:window.innerHeight
+        };
+
       var app = Elm.Main.init({flags: flags});
     </script>
   </body>

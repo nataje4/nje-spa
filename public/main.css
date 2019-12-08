@@ -6,15 +6,15 @@ body {
 
 .title {
 	font-family: 'Work Sans', sans-serif;
-	font-size: 3.25em; 
+	font-size: 3em; 
 	text-align: center;
 }
 
 .subtitle {
-	width:65%;
+	width:70%;
 	font-size: 1.2em;
 	margin: auto; 
-	text-align: center
+	text-align: center;
 	padding-bottom: 50px;
 
 }
@@ -39,6 +39,7 @@ body {
 
 .picture-link {
 	float: left;
+	padding-bottom: 50px;
 }
 
 
@@ -54,6 +55,8 @@ body {
 
 .row {
   margin: auto;
+  width: 100%; 
+  max-width: 700px; 
 }
 
 

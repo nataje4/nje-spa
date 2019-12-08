@@ -1,4 +1,4 @@
-module Poetry exposing (..)
+module Error exposing (..)
 
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src, href)
@@ -32,6 +32,7 @@ type alias WindowSize =
     { width: Int 
     , height: Int
     }
+
 ---- UPDATE ----
 
 
@@ -54,7 +55,7 @@ view model =
     , body =
         [ div []
             [ img [ src "/logo.svg" ] []
-            , h1 [] [ Html.text "You're POETRY!" ]
+            , h1 [] [ Html.text "You're ERROR!" ]
             ]
         ]
     }
