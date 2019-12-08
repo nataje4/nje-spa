@@ -88,12 +88,12 @@ update msg model =
         
         ResizeWindow width height -> 
             let 
-                device : Element.Device
-                device = 
+                windowSize : Flags
+                windowSize = 
                     WindowSize width height
-                        |> Element.classifyDevice
+
             in 
-                ( updateDeviceType device model  , Cmd.none )            
+                ( updateWindowSize windowSize model  , Cmd.none )            
 
 
 
@@ -125,21 +125,6 @@ routeToModel maybeRoute flags =
             Code (Code.initModel flags)
         Nothing -> 
             Error (Error.initModel flags)
-
-updateDeviceType : Device -> Model -> Model 
-updateDeviceType device model = 
-    case model of 
-        Home homeModel -> 
-            Home { homeModel | deviceType = device}
-
-        Poetry poetryModel -> 
-            Poetry { poetryModel | deviceType = device}
-
-        Code codeModel -> 
-            Code { codeModel | deviceType = device}
-
-        Error errorModel -> 
-            Error { errorModel | deviceType = device}
 
 updateWindowSize : Flags -> Model -> Model 
 updateWindowSize windowSize model = 

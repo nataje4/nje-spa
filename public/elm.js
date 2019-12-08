@@ -10543,49 +10543,17 @@ var $author$project$Main$getWindowSize = function (model) {
 			return errorModel.windowSize;
 	}
 };
-var $mdgriffith$elm_ui$Element$BigDesktop = {$: 'BigDesktop'};
-var $mdgriffith$elm_ui$Element$Desktop = {$: 'Desktop'};
-var $mdgriffith$elm_ui$Element$Landscape = {$: 'Landscape'};
-var $mdgriffith$elm_ui$Element$Phone = {$: 'Phone'};
-var $mdgriffith$elm_ui$Element$Portrait = {$: 'Portrait'};
-var $mdgriffith$elm_ui$Element$Tablet = {$: 'Tablet'};
-var $elm$core$Basics$min = F2(
-	function (x, y) {
-		return (_Utils_cmp(x, y) < 0) ? x : y;
-	});
-var $mdgriffith$elm_ui$Element$classifyDevice = function (window) {
-	return {
-		_class: function () {
-			var shortSide = A2($elm$core$Basics$min, window.width, window.height);
-			var longSide = A2($elm$core$Basics$max, window.width, window.height);
-			return (shortSide < 600) ? $mdgriffith$elm_ui$Element$Phone : ((longSide <= 1200) ? $mdgriffith$elm_ui$Element$Tablet : (((longSide > 1200) && (longSide <= 1920)) ? $mdgriffith$elm_ui$Element$Desktop : $mdgriffith$elm_ui$Element$BigDesktop));
-		}(),
-		orientation: (_Utils_cmp(window.width, window.height) < 0) ? $mdgriffith$elm_ui$Element$Portrait : $mdgriffith$elm_ui$Element$Landscape
-	};
-};
 var $author$project$Code$initModel = function (flags) {
-	return {
-		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
-		windowSize: flags
-	};
+	return {windowSize: flags};
 };
 var $author$project$Error$initModel = function (flags) {
-	return {
-		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
-		windowSize: flags
-	};
+	return {windowSize: flags};
 };
 var $author$project$Home$initModel = function (flags) {
-	return {
-		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
-		windowSize: flags
-	};
+	return {windowSize: flags};
 };
 var $author$project$Poetry$initModel = function (flags) {
-	return {
-		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
-		windowSize: flags
-	};
+	return {windowSize: flags};
 };
 var $author$project$Main$changeRouteTo = F2(
 	function (maybeRoute, model) {
@@ -11119,33 +11087,33 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
-var $author$project$Main$updateDeviceType = F2(
-	function (device, model) {
+var $author$project$Main$updateWindowSize = F2(
+	function (windowSize, model) {
 		switch (model.$) {
 			case 'Home':
 				var homeModel = model.a;
 				return $author$project$Main$Home(
 					_Utils_update(
 						homeModel,
-						{deviceType: device}));
+						{windowSize: windowSize}));
 			case 'Poetry':
 				var poetryModel = model.a;
 				return $author$project$Main$Poetry(
 					_Utils_update(
 						poetryModel,
-						{deviceType: device}));
+						{windowSize: windowSize}));
 			case 'Code':
 				var codeModel = model.a;
 				return $author$project$Main$Code(
 					_Utils_update(
 						codeModel,
-						{deviceType: device}));
+						{windowSize: windowSize}));
 			default:
 				var errorModel = model.a;
 				return $author$project$Main$Error(
 					_Utils_update(
 						errorModel,
-						{deviceType: device}));
+						{windowSize: windowSize}));
 		}
 	});
 var $author$project$Main$update = F2(
@@ -11181,10 +11149,9 @@ var $author$project$Main$update = F2(
 			default:
 				var width = msg.a;
 				var height = msg.b;
-				var device = $mdgriffith$elm_ui$Element$classifyDevice(
-					A2($author$project$Main$WindowSize, width, height));
+				var windowSize = A2($author$project$Main$WindowSize, width, height);
 				return _Utils_Tuple2(
-					A2($author$project$Main$updateDeviceType, device, model),
+					A2($author$project$Main$updateWindowSize, windowSize, model),
 					$elm$core$Platform$Cmd$none);
 		}
 	});

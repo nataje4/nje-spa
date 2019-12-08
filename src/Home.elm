@@ -14,8 +14,7 @@ import Element exposing (Device, DeviceClass(..), Orientation(..))
 
 
 type alias Model =
-    { deviceType : Element.Device
-    , windowSize : Flags
+    { windowSize : Flags
     }
 
 init : Flags -> ( Model, Cmd Msg )
@@ -23,8 +22,7 @@ init flags =
     ( initModel flags, Cmd.none )
 
 initModel flags =
-    { deviceType = Element.classifyDevice flags
-    , windowSize = flags
+    { windowSize = flags
     }
 
 type alias Flags = 
