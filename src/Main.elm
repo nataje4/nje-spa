@@ -82,8 +82,9 @@ update msg model =
         ChangedUrl url ->
             let 
                 route = (Route.fromUrl url)
+                windowSize = getWindowSize model 
             in 
-                changeRouteTo route (routeToModel route) 
+                changeRouteTo route (routeToModel route windowSize) 
         
         ResizeWindow width height -> 
             let 
@@ -98,15 +99,20 @@ update msg model =
 
 changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute model =
-    case maybeRoute of
-        Nothing ->
-            (Error (Error.initModel model.windowSize), Cmd.none)
-        Just Route.Poetry -> 
-            (Poetry (Poetry.initModel model.windowSize), Cmd.none)
-        Just Route.Code -> 
-            (Code (Code.initModel model.windowSize), Cmd.none)
-        Just Route.Home -> 
-            (Home (Home.initModel model.windowSize), Cmd.none)
+    let
+        windowSize : Flags
+        windowSize = 
+            getWindowSize model
+    in 
+        case maybeRoute of
+            Nothing ->
+                (Error (Error.initModel windowSize), Cmd.none)
+            Just Route.Poetry -> 
+                (Poetry (Poetry.initModel windowSize), Cmd.none)
+            Just Route.Code -> 
+                (Code (Code.initModel windowSize), Cmd.none)
+            Just Route.Home -> 
+                (Home (Home.initModel windowSize), Cmd.none)
 
 routeToModel: Maybe Route -> Flags -> Model
 routeToModel maybeRoute flags =
@@ -135,6 +141,35 @@ updateDeviceType device model =
         Error errorModel -> 
             Error { errorModel | deviceType = device}
 
+updateWindowSize : Flags -> Model -> Model 
+updateWindowSize windowSize model = 
+    case model of 
+        Home homeModel -> 
+            Home { homeModel | windowSize = windowSize}
+
+        Poetry poetryModel -> 
+            Poetry { poetryModel | windowSize = windowSize}
+
+        Code codeModel -> 
+            Code { codeModel | windowSize = windowSize}
+
+        Error errorModel -> 
+            Error { errorModel | windowSize = windowSize}
+
+getWindowSize : Model -> WindowSize
+getWindowSize model = 
+    case model of 
+        Home homeModel -> 
+            homeModel.windowSize
+
+        Poetry poetryModel -> 
+            poetryModel.windowSize
+
+        Code codeModel -> 
+            codeModel.windowSize
+
+        Error errorModel -> 
+            errorModel.windowSize
 
 ---- VIEW ----
 

@@ -10518,54 +10518,34 @@ var $elm$browser$Browser$application = _Browser_application;
 var $author$project$Main$Code = function (a) {
 	return {$: 'Code', a: a};
 };
+var $author$project$Main$Error = function (a) {
+	return {$: 'Error', a: a};
+};
 var $author$project$Main$Home = function (a) {
 	return {$: 'Home', a: a};
 };
 var $author$project$Main$Poetry = function (a) {
 	return {$: 'Poetry', a: a};
 };
+var $author$project$Main$getWindowSize = function (model) {
+	switch (model.$) {
+		case 'Home':
+			var homeModel = model.a;
+			return homeModel.windowSize;
+		case 'Poetry':
+			var poetryModel = model.a;
+			return poetryModel.windowSize;
+		case 'Code':
+			var codeModel = model.a;
+			return codeModel.windowSize;
+		default:
+			var errorModel = model.a;
+			return errorModel.windowSize;
+	}
+};
+var $mdgriffith$elm_ui$Element$BigDesktop = {$: 'BigDesktop'};
 var $mdgriffith$elm_ui$Element$Desktop = {$: 'Desktop'};
 var $mdgriffith$elm_ui$Element$Landscape = {$: 'Landscape'};
-var $author$project$Code$initModel = {
-	deviceType: {_class: $mdgriffith$elm_ui$Element$Desktop, orientation: $mdgriffith$elm_ui$Element$Landscape}
-};
-var $author$project$Home$initModel = {
-	deviceType: {_class: $mdgriffith$elm_ui$Element$Desktop, orientation: $mdgriffith$elm_ui$Element$Landscape}
-};
-var $author$project$Poetry$initModel = {
-	deviceType: {_class: $mdgriffith$elm_ui$Element$Desktop, orientation: $mdgriffith$elm_ui$Element$Landscape}
-};
-var $elm$core$Debug$todo = _Debug_todo;
-var $author$project$Main$changeRouteTo = F2(
-	function (maybeRoute, model) {
-		if (maybeRoute.$ === 'Nothing') {
-			return _Debug_todo(
-				'Main',
-				{
-					start: {line: 111, column: 13},
-					end: {line: 111, column: 23}
-				})('handle invalid route in changeRouteTo');
-		} else {
-			switch (maybeRoute.a.$) {
-				case 'Poetry':
-					var _v1 = maybeRoute.a;
-					return _Utils_Tuple2(
-						$author$project$Main$Poetry($author$project$Poetry$initModel),
-						$elm$core$Platform$Cmd$none);
-				case 'Code':
-					var _v2 = maybeRoute.a;
-					return _Utils_Tuple2(
-						$author$project$Main$Code($author$project$Code$initModel),
-						$elm$core$Platform$Cmd$none);
-				default:
-					var _v3 = maybeRoute.a;
-					return _Utils_Tuple2(
-						$author$project$Main$Home($author$project$Home$initModel),
-						$elm$core$Platform$Cmd$none);
-			}
-		}
-	});
-var $mdgriffith$elm_ui$Element$BigDesktop = {$: 'BigDesktop'};
 var $mdgriffith$elm_ui$Element$Phone = {$: 'Phone'};
 var $mdgriffith$elm_ui$Element$Portrait = {$: 'Portrait'};
 var $mdgriffith$elm_ui$Element$Tablet = {$: 'Tablet'};
@@ -10583,6 +10563,61 @@ var $mdgriffith$elm_ui$Element$classifyDevice = function (window) {
 		orientation: (_Utils_cmp(window.width, window.height) < 0) ? $mdgriffith$elm_ui$Element$Portrait : $mdgriffith$elm_ui$Element$Landscape
 	};
 };
+var $author$project$Code$initModel = function (flags) {
+	return {
+		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
+		windowSize: flags
+	};
+};
+var $author$project$Error$initModel = function (flags) {
+	return {
+		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
+		windowSize: flags
+	};
+};
+var $author$project$Home$initModel = function (flags) {
+	return {
+		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
+		windowSize: flags
+	};
+};
+var $author$project$Poetry$initModel = function (flags) {
+	return {
+		deviceType: $mdgriffith$elm_ui$Element$classifyDevice(flags),
+		windowSize: flags
+	};
+};
+var $author$project$Main$changeRouteTo = F2(
+	function (maybeRoute, model) {
+		var windowSize = $author$project$Main$getWindowSize(model);
+		if (maybeRoute.$ === 'Nothing') {
+			return _Utils_Tuple2(
+				$author$project$Main$Error(
+					$author$project$Error$initModel(windowSize)),
+				$elm$core$Platform$Cmd$none);
+		} else {
+			switch (maybeRoute.a.$) {
+				case 'Poetry':
+					var _v1 = maybeRoute.a;
+					return _Utils_Tuple2(
+						$author$project$Main$Poetry(
+							$author$project$Poetry$initModel(windowSize)),
+						$elm$core$Platform$Cmd$none);
+				case 'Code':
+					var _v2 = maybeRoute.a;
+					return _Utils_Tuple2(
+						$author$project$Main$Code(
+							$author$project$Code$initModel(windowSize)),
+						$elm$core$Platform$Cmd$none);
+				default:
+					var _v3 = maybeRoute.a;
+					return _Utils_Tuple2(
+						$author$project$Main$Home(
+							$author$project$Home$initModel(windowSize)),
+						$elm$core$Platform$Cmd$none);
+			}
+		}
+	});
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
@@ -10807,69 +10842,35 @@ var $author$project$Route$fromUrl = function (url) {
 				path: A2($elm$core$Maybe$withDefault, '', url.fragment)
 			}));
 };
-var $author$project$Main$Error = function (a) {
-	return {$: 'Error', a: a};
-};
-var $author$project$Error$initModel = {
-	deviceType: {_class: $mdgriffith$elm_ui$Element$Desktop, orientation: $mdgriffith$elm_ui$Element$Landscape}
-};
-var $author$project$Main$routeToModel = function (maybeRoute) {
-	if (maybeRoute.$ === 'Just') {
-		switch (maybeRoute.a.$) {
-			case 'Home':
-				var _v1 = maybeRoute.a;
-				return $author$project$Main$Home($author$project$Home$initModel);
-			case 'Poetry':
-				var _v2 = maybeRoute.a;
-				return $author$project$Main$Poetry($author$project$Poetry$initModel);
-			default:
-				var _v3 = maybeRoute.a;
-				return $author$project$Main$Code($author$project$Code$initModel);
-		}
-	} else {
-		return $author$project$Main$Error($author$project$Error$initModel);
-	}
-};
-var $author$project$Main$updateDeviceType = F2(
-	function (device, model) {
-		switch (model.$) {
-			case 'Home':
-				var homeModel = model.a;
-				return $author$project$Main$Home(
-					_Utils_update(
-						homeModel,
-						{deviceType: device}));
-			case 'Poetry':
-				var poetryModel = model.a;
-				return $author$project$Main$Poetry(
-					_Utils_update(
-						poetryModel,
-						{deviceType: device}));
-			case 'Code':
-				var codeModel = model.a;
-				return $author$project$Main$Code(
-					_Utils_update(
-						codeModel,
-						{deviceType: device}));
-			default:
-				var errorModel = model.a;
-				return $author$project$Main$Error(
-					_Utils_update(
-						errorModel,
-						{deviceType: device}));
+var $author$project$Main$routeToModel = F2(
+	function (maybeRoute, flags) {
+		if (maybeRoute.$ === 'Just') {
+			switch (maybeRoute.a.$) {
+				case 'Home':
+					var _v1 = maybeRoute.a;
+					return $author$project$Main$Home(
+						$author$project$Home$initModel(flags));
+				case 'Poetry':
+					var _v2 = maybeRoute.a;
+					return $author$project$Main$Poetry(
+						$author$project$Poetry$initModel(flags));
+				default:
+					var _v3 = maybeRoute.a;
+					return $author$project$Main$Code(
+						$author$project$Code$initModel(flags));
+			}
+		} else {
+			return $author$project$Main$Error(
+				$author$project$Error$initModel(flags));
 		}
 	});
 var $author$project$Main$init = F3(
 	function (flags, url, navKey) {
 		var route = $author$project$Route$fromUrl(url);
-		var device = $mdgriffith$elm_ui$Element$classifyDevice(flags);
 		return A2(
 			$author$project$Main$changeRouteTo,
 			route,
-			A2(
-				$author$project$Main$updateDeviceType,
-				device,
-				$author$project$Main$routeToModel(route)));
+			A2($author$project$Main$routeToModel, route, flags));
 	});
 var $author$project$Main$ResizeWindow = F2(
 	function (a, b) {
@@ -11118,13 +11119,35 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
-var $elm$core$Basics$round = _Basics_round;
-var $author$project$Main$viewportToWindowSize = function (viewport) {
-	return {
-		height: $elm$core$Basics$round(viewport.viewport.height),
-		width: $elm$core$Basics$round(viewport.viewport.width)
-	};
-};
+var $author$project$Main$updateDeviceType = F2(
+	function (device, model) {
+		switch (model.$) {
+			case 'Home':
+				var homeModel = model.a;
+				return $author$project$Main$Home(
+					_Utils_update(
+						homeModel,
+						{deviceType: device}));
+			case 'Poetry':
+				var poetryModel = model.a;
+				return $author$project$Main$Poetry(
+					_Utils_update(
+						poetryModel,
+						{deviceType: device}));
+			case 'Code':
+				var codeModel = model.a;
+				return $author$project$Main$Code(
+					_Utils_update(
+						codeModel,
+						{deviceType: device}));
+			default:
+				var errorModel = model.a;
+				return $author$project$Main$Error(
+					_Utils_update(
+						errorModel,
+						{deviceType: device}));
+		}
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -11149,23 +11172,17 @@ var $author$project$Main$update = F2(
 				}
 			case 'ChangedUrl':
 				var url = msg.a;
+				var windowSize = $author$project$Main$getWindowSize(model);
 				var route = $author$project$Route$fromUrl(url);
 				return A2(
 					$author$project$Main$changeRouteTo,
 					route,
-					$author$project$Main$routeToModel(route));
-			case 'ResizeWindow':
+					A2($author$project$Main$routeToModel, route, windowSize));
+			default:
 				var width = msg.a;
 				var height = msg.b;
 				var device = $mdgriffith$elm_ui$Element$classifyDevice(
 					A2($author$project$Main$WindowSize, width, height));
-				return _Utils_Tuple2(
-					A2($author$project$Main$updateDeviceType, device, model),
-					$elm$core$Platform$Cmd$none);
-			default:
-				var viewport = msg.a;
-				var device = $mdgriffith$elm_ui$Element$classifyDevice(
-					$author$project$Main$viewportToWindowSize(viewport));
 				return _Utils_Tuple2(
 					A2($author$project$Main$updateDeviceType, device, model),
 					$elm$core$Platform$Cmd$none);
@@ -11381,4 +11398,4 @@ _Platform_export({'Main':{'init':$author$project$Main$main(
 				},
 				A2($elm$json$Json$Decode$field, 'height', $elm$json$Json$Decode$int));
 		},
-		A2($elm$json$Json$Decode$field, 'width', $elm$json$Json$Decode$int)))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"},"Browser.Dom.Viewport":{"args":[],"type":"{ scene : { width : Basics.Float, height : Basics.Float }, viewport : { x : Basics.Float, y : Basics.Float, width : Basics.Float, height : Basics.Float } }"}},"unions":{"Main.Msg":{"args":[],"tags":{"ChangedUrl":["Url.Url"],"ClickedLink":["Browser.UrlRequest"],"NewWindowSize":["Browser.Dom.Viewport"],"ResizeWindow":["Basics.Int","Basics.Int"]}},"Basics.Float":{"args":[],"tags":{"Float":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+		A2($elm$json$Json$Decode$field, 'width', $elm$json$Json$Decode$int)))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Main.Msg":{"args":[],"tags":{"ChangedUrl":["Url.Url"],"ClickedLink":["Browser.UrlRequest"],"ResizeWindow":["Basics.Int","Basics.Int"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
