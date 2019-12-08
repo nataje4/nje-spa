@@ -2,6 +2,7 @@ module ViewHelpers exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Element exposing (Device, DeviceClass(..), Orientation(..))
 
 pictureLink: String -> String -> String -> String -> Html msg 
 pictureLink perRowClass linkString imgSrc text_ = 

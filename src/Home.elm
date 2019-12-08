@@ -1,12 +1,12 @@
 module Home exposing (..)
 
-import Html exposing (..)
+--import Html exposing (..)
 import Html.Attributes exposing (..)
 import Browser
 import Browser.Events exposing (onResize)
 import Browser.Dom exposing (getViewport, Viewport)
 import ViewHelpers exposing (pictureLink)
-import Element exposing (Device, DeviceClass(..), Orientation(..))
+import Element as El exposing ()
 
 
 ---- MODEL ----
@@ -49,17 +49,27 @@ update msg model =
 
 view : Model  -> Browser.Document msg
 view model =
-    { title = "NJE"
-    , body =
-        [ div [class "body-div"]
-            [ h1 [class "title"] [ text "NATALIE JANE EDSON" ]
-            , p [class "subtitle"] [text "is a poet, programmer, and aspiring polymath based in Portland, OR. She has a lot to say about her work—what do you want to know about?"]
-            , div [class "row"]
-                [ pictureLink "two-per-row" "/#/code" "/assets/cat.gif" "CODE" 
-                , pictureLink "two-per-row" "/#/poetry" "/assets/ocean-square.gif" "POETRY" 
-                ]
-            ]
-        ]
-    }
+    let 
+        device: El.Device 
+        device = 
+            classifyDevice model.windowSize
+
+        body : El.el msg
+        body = 
+            case (device.class, device.orientation) of 
+                (BigDesktop, _) ->
+                    El
+                (Desktop, _) ->
+
+                (_, _) ->
+
+
+
+    in 
+        { title = "NJE"
+        , body =
+            El.layout 
+                []
+        }       body
 
 
