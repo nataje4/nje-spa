@@ -5,6 +5,23 @@ import Html.Attributes exposing (src, class, href)
 import Element as El exposing (..)
 import Element.Font as EF exposing (..)
 
+type ScreenSize
+    = Small
+    | Medium 
+    | Large 
+    | ExtraLarge 
+
+findScreenSize : Int -> ScreenSize 
+findScreenSize width =  
+    if width <= 300 then 
+        Small 
+    else if width <= 900 then 
+        Medium 
+    else if width <= 1200 then 
+        Large 
+    else 
+        ExtraLarge 
+
 
 workSans =
     typeface "Work Sans"
@@ -47,6 +64,7 @@ titleStyle =
     , center
     , EF.size 48
     , paddingEach {noPadding | top =60, bottom = 20}
+    , EF.bold
     ]
 
 
@@ -64,6 +82,7 @@ bottomTextStyle =
     , center
     , EF.size 32
     , alignBottom
+    , EF.bold
     ]
 
 noPadding =
@@ -76,17 +95,16 @@ noPadding =
 
 pictureLink: String -> String -> String -> String -> Int -> Element msg 
 pictureLink linkString imgSrc desc bottomText fillPortion_ = 
-    El.column 
-        [ width (fillPortion fillPortion_ )
+    link 
+        [width (fillPortion fillPortion_)
+        , padding 10
         ]
-        [ link 
-            []
-            { url = linkString
-            , label = 
-                El.row []
+        { url = linkString
+        , label = 
+            El.column []
+                [ El.row []
                     [ image 
-                        [ width 
-                            ( fill |> maximum 300) 
+                        [ width (shrink |> maximum 300)
                         , centerX 
                         , alignTop 
                         , paddingEach {noPadding | bottom = 10}
@@ -94,10 +112,11 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                         { src = imgSrc
                         , description = desc
                         }
-                    , El.paragraph bottomTextStyle [ text bottomText] 
                     ]
-            }
-        ]
+                , El.row [] [El.paragraph bottomTextStyle [ text bottomText] ]
+                ]
+        }
+    
 
 {--.square-image {
     width: 90%;

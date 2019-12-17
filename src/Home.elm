@@ -62,15 +62,15 @@ subtitleText =
 view : Model  -> Browser.Document msg
 view model =
     let 
-        device: El.Device 
-        device = 
-            classifyDevice model.windowSize
+        screenSize : ScreenSize
+        screenSize = 
+            findScreenSize model.windowSize.width
 
         body : Html msg
         body = 
-            case (device.class, device.orientation) of 
+            case screenSize of 
 
-                (BigDesktop, _) ->
+                ExtraLarge ->
                     El.layout 
                         bodyStyle 
                         (El.column []  
@@ -91,28 +91,7 @@ view model =
                             ]
                         )
                     
-                (Desktop, _) ->
-                    El.layout 
-                        bodyStyle   
-                        (El.column []
-                            [ El.row [] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
-                                    [ paragraph titleStyle titleText
-                                    , paragraph subtitleStyle subtitleText
-                                    ]
-                                , El.column [El.width (fillPortion 1)] [ none]
-                                ]
-                            , El.row [] 
-                                [ El.column [El.width (fillPortion 1)] [none]
-                                , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
-                                , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
-                                , El.column [El.width (fillPortion 1)] [none]
-                                ]
-                            ]
-                        )
-                    
-                (_, _) ->
+                Small ->
                     El.layout 
                         bodyStyle   
                         (El.column []
@@ -127,7 +106,29 @@ view model =
                             , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
                             , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
                             ]
-                        ) --}
+                        ) --}                        )
+                    
+                _ ->
+                    El.layout 
+                        bodyStyle   
+                        (El.column []
+                            [ El.row [centerX] 
+                                [ El.column [El.width (fillPortion 1)] [ none]
+                                , textColumn [El.width (fillPortion 3)] 
+                                    [ paragraph titleStyle titleText
+                                    , paragraph subtitleStyle subtitleText
+                                    ]
+                                , El.column [El.width (fillPortion 1)] [ none]
+                                ]
+                            , El.row [centerX] 
+                                [ El.column [El.width (fillPortion 1)] [none]
+                                , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
+                                , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
+                                , El.column [El.width (fillPortion 1)] [none]
+                                ]
+                            ]
+                        )
+
                     
 
 
