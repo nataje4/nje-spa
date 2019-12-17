@@ -1,23 +1,10 @@
 module ViewHelpers exposing (..)
 
-import Html exposing (a, img, span, div, text, Html)
+--import Html exposing (a, img, span, div, text, Html)
 import Html.Attributes exposing (src, class, href)
 import Element as El exposing (..)
 import Element.Font as EF exposing (..)
 
-pictureLink: String -> String -> String -> String -> Html msg 
-pictureLink perRowClass linkString imgSrc text_ = 
-    div 
-        [ class "picture-link"
-        , class perRowClass
-        ]
-        [ a 
-            [ href linkString  
-            ] 
-            [ img [src imgSrc, class "square-image"] []
-            , span [class "bottom-text"] [Html.text text_]
-            ]
-        ]
 
 workSans =
     typeface "Work Sans"
@@ -76,6 +63,7 @@ bottomTextStyle =
     [ emphasisFonts
     , center
     , EF.size 32
+    , alignBottom
     ]
 
 noPadding =
@@ -84,6 +72,33 @@ noPadding =
     , bottom = 0
     , left = 0
     }
+
+
+pictureLink: String -> String -> String -> String -> Int -> Element msg 
+pictureLink linkString imgSrc desc bottomText fillPortion_ = 
+    El.column 
+        [ width (fillPortion fillPortion_ )
+        ]
+        [ link 
+            []
+            { url = linkString
+            , label = 
+                El.row []
+                    [ image 
+                        [ width 
+                            ( fill |> maximum 300) 
+                        , centerX 
+                        , alignTop 
+                        , paddingEach {noPadding | bottom = 10}
+                        ]
+                        { src = imgSrc
+                        , description = desc
+                        }
+                    , El.paragraph bottomTextStyle [ text bottomText] 
+                    ]
+            }
+        ]
+
 {--.square-image {
     width: 90%;
     max-width: 300px;

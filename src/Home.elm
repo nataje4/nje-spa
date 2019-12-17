@@ -1,7 +1,7 @@
 module Home exposing (..)
 
 --import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (Html)
 import Browser
 import Browser.Events exposing (onResize)
 import Browser.Dom exposing (getViewport, Viewport)
@@ -66,48 +66,74 @@ view model =
         device = 
             classifyDevice model.windowSize
 
-        body : El.Element msg
+        body : Html msg
         body = 
             case (device.class, device.orientation) of 
+
                 (BigDesktop, _) ->
-                    El.row [] 
-                        [ El.column [El.width (fillPortion 2)] [ none]
-                        , textColumn [El.width (fillPortion 3)] 
-                            [ paragraph titleStyle titleText
-                            , paragraph subtitleStyle subtitleText
+                    El.layout 
+                        bodyStyle 
+                        (El.column []  
+                            [ El.row [] 
+                                [ El.column [El.width (fillPortion 2)] [ none]
+                                , textColumn [El.width (fillPortion 3)] 
+                                    [ paragraph titleStyle titleText
+                                    , paragraph subtitleStyle subtitleText
+                                    ]
+                                , El.column [El.width (fillPortion 2)] [ none]
+                                ]
+                            , El.row [] 
+                                [ El.column [El.width (fillPortion 2)] [none]
+                                , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
+                                , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
+                                , El.column [El.width (fillPortion 2)] [none]
+                                ]
                             ]
-                        , El.column [El.width (fillPortion 2)] [ none]
-                        ]
+                        )
                     
                 (Desktop, _) ->
-                    El.row [] 
-                        [ El.column [El.width (fillPortion 1)] [ none]
-                        , textColumn [El.width (fillPortion 3)] 
-                            [ paragraph titleStyle titleText
-                            , paragraph subtitleStyle subtitleText
+                    El.layout 
+                        bodyStyle   
+                        (El.column []
+                            [ El.row [] 
+                                [ El.column [El.width (fillPortion 1)] [ none]
+                                , textColumn [El.width (fillPortion 3)] 
+                                    [ paragraph titleStyle titleText
+                                    , paragraph subtitleStyle subtitleText
+                                    ]
+                                , El.column [El.width (fillPortion 1)] [ none]
+                                ]
+                            , El.row [] 
+                                [ El.column [El.width (fillPortion 1)] [none]
+                                , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
+                                , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
+                                , El.column [El.width (fillPortion 1)] [none]
+                                ]
                             ]
-                        , El.column [El.width (fillPortion 1)] [ none]
-                        ]
+                        )
                     
                 (_, _) ->
-                    El.row [] 
-                        [ El.column [El.width (fillPortion 1)] [ none]
-                        , textColumn [El.width (fillPortion 3)] 
-                            [ paragraph titleStyle titleText
-                            , paragraph subtitleStyle subtitleText
+                    El.layout 
+                        bodyStyle   
+                        (El.column []
+                            [ El.row [] 
+                                [ El.column [El.width (fillPortion 1)] [ none]
+                                , textColumn [El.width (fillPortion 3)] 
+                                    [ paragraph titleStyle titleText
+                                    , paragraph subtitleStyle subtitleText
+                                    ]
+                                , El.column [El.width (fillPortion 1)] [ none]
+                                ]
+                            , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
+                            , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
                             ]
-                        , El.column [El.width (fillPortion 1)] [ none]
-                        ]
+                        ) --}
                     
 
 
     in 
         { title = "NJE"
-        , body =
-            [El.layout 
-                []
-                body
-            ]
+        , body = [body]
         }
 
 
