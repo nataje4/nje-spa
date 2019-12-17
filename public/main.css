@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Work+Sans&display=swap');
 
 body {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Georgia', serif;
 }
 
 .title {
-	font-family: 'Work Sans', sans-serif;
+	font-family: 'Arial', sans-serif;
 	font-size: 3.25em; 
 	text-align: center;
 }
@@ -19,8 +19,16 @@ body {
 
 }
 
+.main-text {
+	width:65%;
+	font-size: 1em;
+	margin: auto; 
+	text-align: center
+	padding-bottom: 50px;
+}
+
 .bottom-text {
-	font-family: 'Work Sans', sans-serif;
+	font-family: 'Arial', sans-serif;
 	font-size: 2em; 
 	float: bottom;
 	text-align: center;
@@ -46,6 +54,10 @@ body {
 	width: 50%;
 }
 
+.three-per-row{
+	width: 33%;
+}
+
 .row::after {
   content: "";
   clear: both;
@@ -61,4 +73,8 @@ body {
   .picture-link {
     width: 100%;
   }
+}
+
+.italic {
+  font-style: italic;
 }

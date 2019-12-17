@@ -6173,8 +6173,8 @@ var $author$project$Home$view = function (model) {
 							]),
 						_List_fromArray(
 							[
-								A4($author$project$ViewHelpers$pictureLink, 'two-per-row', '/#/code', 'assets/cat.gif', 'CODE'),
-								A4($author$project$ViewHelpers$pictureLink, 'two-per-row', '/#/poetry', 'assets/ocean-square.gif', 'POETRY')
+								A4($author$project$ViewHelpers$pictureLink, 'two-per-row', '#/code', 'assets/cat.gif', 'CODE'),
+								A4($author$project$ViewHelpers$pictureLink, 'two-per-row', '#/poetry', 'assets/ocean-square.gif', 'POETRY')
 							]))
 					]))
 			]),
@@ -6187,22 +6187,60 @@ var $author$project$Poetry$view = function (model) {
 			[
 				A2(
 				$elm$html$Html$div,
-				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('body-div')
+					]),
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$img,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$src('/logo.svg')
-							]),
-						_List_Nil),
-						A2(
 						$elm$html$Html$h1,
-						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('You\'re POETRY!')
+								$elm$html$Html$Attributes$class('title')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('POETRY')
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('main-text')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$p,
+								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$text('\n                            Natalie is a poet, educator, and artist based in Portland, Oregon. She self-published\n                            her debut chapboook,\n                        '),
+										A2(
+										$elm$html$Html$span,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$class('italic')
+											]),
+										_List_fromArray(
+											[
+												$elm$html$Html$text('BALACLAVA')
+											])),
+										$elm$html$Html$text('\n                            , in June 2018 and is currently working on her full-length debut. Her written work focuses \n                            on mental health, love, and the mundane. She is also interested in the intersection of code and poetry and has written \n                            a number of tools to assist in her personal generative writing practice, all of \n                            which will be available on this website soon. \n                        ')
+									]))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('row')
+							]),
+						_List_fromArray(
+							[
+								A4($author$project$ViewHelpers$pictureLink, 'three-per-row', '#', 'assets/oceanwater.jpg', 'SHOP'),
+								A4($author$project$ViewHelpers$pictureLink, 'three-per-row', '#', 'assets/oceanwater.jpg', 'EVENTS'),
+								A4($author$project$ViewHelpers$pictureLink, 'three-per-row', '#', 'assets/oceanwater.jpg', 'TOOLS')
 							]))
 					]))
 			]),

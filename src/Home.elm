@@ -47,8 +47,8 @@ view model =
             [ h1 [class "title"] [ text "NATALIE JANE EDSON" ]
             , p [class "subtitle"] [text "is a poet, programmer, and aspiring polymath based in Portland, OR. She has a lot to say about her work—what do you want to know about?"]
             , div [class "row"]
-                [ pictureLink "two-per-row" "/#/code" "assets/cat.gif" "CODE" 
-                , pictureLink "two-per-row" "/#/poetry" "assets/ocean-square.gif" "POETRY" 
+                [ pictureLink "two-per-row" "#/code" "assets/cat.gif" "CODE" 
+                , pictureLink "two-per-row" "#/poetry" "assets/ocean-square.gif" "POETRY" 
                 ]
             ]
         ]
