@@ -6006,7 +6006,7 @@ var $author$project$Route$fromUrl = function (url) {
 };
 var $author$project$Main$initModel = function (flags) {
 	return $author$project$Main$Error(
-		{data: '', menuOpen: true, width: flags.width});
+		{data: '', menuOpen: false, width: flags.width});
 };
 var $author$project$Main$routeToModel = F2(
 	function (model, maybeRoute) {
