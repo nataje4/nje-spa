@@ -10,7 +10,9 @@ import Element.Font as EF exposing (italic)
 
 
 type alias Model =
-    { windowSize : Flags
+    { width : Int
+    , data : String
+    , menuOpen : Bool
     }
 
 
@@ -20,16 +22,17 @@ init flags =
     ( initModel flags, Cmd.none )
 
 initModel flags =
-    { windowSize = flags
+    { width = flags.width
+    , data = flags.data
+    , menuOpen = False 
     }
 
 type alias Flags = 
-    WindowSize
-
-type alias WindowSize =
-    { width: Int 
-    , height: Int
+    { width: Int
+    , data: String 
     }
+
+
 ---- UPDATE ----
 
 
@@ -83,7 +86,7 @@ view model =
     let 
         screenSize : ScreenSize
         screenSize = 
-            findScreenSize model.windowSize.width
+            findScreenSize model.width
 
         body : Html msg
         body = 

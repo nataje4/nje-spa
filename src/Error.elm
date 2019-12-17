@@ -10,9 +10,10 @@ import Element exposing (Device, DeviceClass(..), Orientation(..))
 
 
 type alias Model =
-    { windowSize : Flags
+    { width : Int
+    , data : String
+    , menuOpen : Bool
     }
-
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -20,16 +21,16 @@ init flags =
     ( initModel flags, Cmd.none )
 
 initModel flags =
-    { windowSize = flags
+    { width = flags.width
+    , data = flags.data
+    , menuOpen = False 
     }
 
 type alias Flags = 
-    WindowSize
-
-type alias WindowSize =
-    { width: Int 
-    , height: Int
+    { width: Int
+    , data: String 
     }
+
 
 ---- UPDATE ----
 

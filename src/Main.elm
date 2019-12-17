@@ -30,17 +30,24 @@ init flags url navKey =
     let 
         route = (Route.fromUrl url)
     in 
-        routeToModel route flags -- Model 
+        routeToModel (initModel flags) route 
             |> changeRouteTo route 
 
 
-type alias Flags = 
-    WindowSize
+initModel : Flags -> Model 
+initModel flags = 
+    --will flash to error page initially before init function finishes executing. TODO: fix this 
+    Error
+        { width = flags.width
+        , data = ""
+        , menuOpen = False
+        }
 
-type alias WindowSize =
-    { width: Int 
-    , height: Int
+type alias Flags = 
+    { width: Int
+    , data: String 
     }
+
 
 ---- UPDATE ----
 
@@ -82,79 +89,82 @@ update msg model =
         ChangedUrl url ->
             let 
                 route = (Route.fromUrl url)
-                windowSize = getWindowSize model 
             in 
-                changeRouteTo route (routeToModel route windowSize) 
+                changeRouteTo route (routeToModel model route ) 
         
-        ResizeWindow width height -> 
-            let 
-                windowSize : Flags
-                windowSize = 
-                    WindowSize width height
-
-            in 
-                ( updateWindowSize windowSize model  , Cmd.none )            
+        ResizeWindow width _ -> 
+            ( updateWidth width model  , Cmd.none )            
 
 
+routeChangeFlags : Model -> Flags 
+routeChangeFlags model = 
+    { width = getWidth model
+    , data = ""
+    }
 
 changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute model =
     let
-        windowSize : Flags
-        windowSize = 
-            getWindowSize model
+        newFlags : Flags 
+        newFlags = 
+            routeChangeFlags model
     in 
         case maybeRoute of
             Nothing ->
-                (Error (Error.initModel windowSize), Cmd.none)
+                (Error (Error.initModel newFlags), Cmd.none)
             Just Route.Poetry -> 
-                (Poetry (Poetry.initModel windowSize), Cmd.none)
+                (Poetry (Poetry.initModel newFlags), Cmd.none)
             Just Route.Code -> 
-                (Code (Code.initModel windowSize), Cmd.none)
+                (Code (Code.initModel newFlags), Cmd.none)
             Just Route.Home -> 
-                (Home (Home.initModel windowSize), Cmd.none)
+                (Home (Home.initModel newFlags), Cmd.none)
 
-routeToModel: Maybe Route -> Flags -> Model
-routeToModel maybeRoute flags =
-    case maybeRoute of
-        Just Route.Home -> 
-            Home (Home.initModel flags)
-        Just Route.Poetry -> 
-            Poetry (Poetry.initModel flags)
-        Just Route.Code  -> 
-            Code (Code.initModel flags)
-        Nothing -> 
-            Error (Error.initModel flags)
+routeToModel: Model -> Maybe Route -> Model
+routeToModel model maybeRoute =
+    let
+        newFlags : Flags 
+        newFlags = 
+            routeChangeFlags model
+    in     
+        case maybeRoute of
+            Just Route.Home -> 
+                Home (Home.initModel newFlags)
+            Just Route.Poetry -> 
+                Poetry (Poetry.initModel newFlags)
+            Just Route.Code  -> 
+                Code (Code.initModel newFlags)
+            Nothing -> 
+                Error (Error.initModel newFlags)
 
-updateWindowSize : Flags -> Model -> Model 
-updateWindowSize windowSize model = 
+updateWidth : Int -> Model -> Model 
+updateWidth width model = 
     case model of 
         Home homeModel -> 
-            Home { homeModel | windowSize = windowSize}
+            Home { homeModel | width = width}
 
         Poetry poetryModel -> 
-            Poetry { poetryModel | windowSize = windowSize}
+            Poetry { poetryModel | width = width}
 
         Code codeModel -> 
-            Code { codeModel | windowSize = windowSize}
+            Code { codeModel | width = width}
 
         Error errorModel -> 
-            Error { errorModel | windowSize = windowSize}
+            Error { errorModel | width = width}
 
-getWindowSize : Model -> WindowSize
-getWindowSize model = 
+getWidth : Model -> Int
+getWidth model = 
     case model of 
         Home homeModel -> 
-            homeModel.windowSize
+            homeModel.width
 
         Poetry poetryModel -> 
-            poetryModel.windowSize
+            poetryModel.width
 
         Code codeModel -> 
-            codeModel.windowSize
+            codeModel.width
 
         Error errorModel -> 
-            errorModel.windowSize
+            errorModel.width
 
 ---- VIEW ----
 

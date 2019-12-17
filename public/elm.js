@@ -5173,43 +5173,49 @@ var $author$project$Main$Home = function (a) {
 var $author$project$Main$Poetry = function (a) {
 	return {$: 'Poetry', a: a};
 };
-var $author$project$Main$getWindowSize = function (model) {
-	switch (model.$) {
-		case 'Home':
-			var homeModel = model.a;
-			return homeModel.windowSize;
-		case 'Poetry':
-			var poetryModel = model.a;
-			return poetryModel.windowSize;
-		case 'Code':
-			var codeModel = model.a;
-			return codeModel.windowSize;
-		default:
-			var errorModel = model.a;
-			return errorModel.windowSize;
-	}
-};
 var $author$project$Code$initModel = function (flags) {
-	return {windowSize: flags};
+	return {data: flags.data, menuOpen: false, width: flags.width};
 };
 var $author$project$Error$initModel = function (flags) {
-	return {windowSize: flags};
+	return {data: flags.data, menuOpen: false, width: flags.width};
 };
 var $author$project$Home$initModel = function (flags) {
-	return {windowSize: flags};
+	return {data: flags.data, menuOpen: false, width: flags.width};
 };
 var $author$project$Poetry$initModel = function (flags) {
-	return {windowSize: flags};
+	return {data: flags.data, menuOpen: false, width: flags.width};
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$Main$getWidth = function (model) {
+	switch (model.$) {
+		case 'Home':
+			var homeModel = model.a;
+			return homeModel.width;
+		case 'Poetry':
+			var poetryModel = model.a;
+			return poetryModel.width;
+		case 'Code':
+			var codeModel = model.a;
+			return codeModel.width;
+		default:
+			var errorModel = model.a;
+			return errorModel.width;
+	}
+};
+var $author$project$Main$routeChangeFlags = function (model) {
+	return {
+		data: '',
+		width: $author$project$Main$getWidth(model)
+	};
+};
 var $author$project$Main$changeRouteTo = F2(
 	function (maybeRoute, model) {
-		var windowSize = $author$project$Main$getWindowSize(model);
+		var newFlags = $author$project$Main$routeChangeFlags(model);
 		if (maybeRoute.$ === 'Nothing') {
 			return _Utils_Tuple2(
 				$author$project$Main$Error(
-					$author$project$Error$initModel(windowSize)),
+					$author$project$Error$initModel(newFlags)),
 				$elm$core$Platform$Cmd$none);
 		} else {
 			switch (maybeRoute.a.$) {
@@ -5217,19 +5223,19 @@ var $author$project$Main$changeRouteTo = F2(
 					var _v1 = maybeRoute.a;
 					return _Utils_Tuple2(
 						$author$project$Main$Poetry(
-							$author$project$Poetry$initModel(windowSize)),
+							$author$project$Poetry$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
 				case 'Code':
 					var _v2 = maybeRoute.a;
 					return _Utils_Tuple2(
 						$author$project$Main$Code(
-							$author$project$Code$initModel(windowSize)),
+							$author$project$Code$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
 				default:
 					var _v3 = maybeRoute.a;
 					return _Utils_Tuple2(
 						$author$project$Main$Home(
-							$author$project$Home$initModel(windowSize)),
+							$author$project$Home$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
 			}
 		}
@@ -5998,26 +6004,31 @@ var $author$project$Route$fromUrl = function (url) {
 				path: A2($elm$core$Maybe$withDefault, '', url.fragment)
 			}));
 };
+var $author$project$Main$initModel = function (flags) {
+	return $author$project$Main$Error(
+		{data: '', menuOpen: false, width: flags.width});
+};
 var $author$project$Main$routeToModel = F2(
-	function (maybeRoute, flags) {
+	function (model, maybeRoute) {
+		var newFlags = $author$project$Main$routeChangeFlags(model);
 		if (maybeRoute.$ === 'Just') {
 			switch (maybeRoute.a.$) {
 				case 'Home':
 					var _v1 = maybeRoute.a;
 					return $author$project$Main$Home(
-						$author$project$Home$initModel(flags));
+						$author$project$Home$initModel(newFlags));
 				case 'Poetry':
 					var _v2 = maybeRoute.a;
 					return $author$project$Main$Poetry(
-						$author$project$Poetry$initModel(flags));
+						$author$project$Poetry$initModel(newFlags));
 				default:
 					var _v3 = maybeRoute.a;
 					return $author$project$Main$Code(
-						$author$project$Code$initModel(flags));
+						$author$project$Code$initModel(newFlags));
 			}
 		} else {
 			return $author$project$Main$Error(
-				$author$project$Error$initModel(flags));
+				$author$project$Error$initModel(newFlags));
 		}
 	});
 var $author$project$Main$init = F3(
@@ -6026,9 +6037,13 @@ var $author$project$Main$init = F3(
 		return A2(
 			$author$project$Main$changeRouteTo,
 			route,
-			A2($author$project$Main$routeToModel, route, flags));
+			A2(
+				$author$project$Main$routeToModel,
+				$author$project$Main$initModel(flags),
+				route));
 	});
 var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Main$ResizeWindow = F2(
 	function (a, b) {
 		return {$: 'ResizeWindow', a: a, b: b};
@@ -6343,10 +6358,6 @@ var $author$project$Main$subscriptions = function (_v0) {
 				return A2($author$project$Main$ResizeWindow, w, h);
 			}));
 };
-var $author$project$Main$WindowSize = F2(
-	function (width, height) {
-		return {height: height, width: width};
-	});
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$url$Url$addPort = F2(
 	function (maybePort, starter) {
@@ -6392,33 +6403,33 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
-var $author$project$Main$updateWindowSize = F2(
-	function (windowSize, model) {
+var $author$project$Main$updateWidth = F2(
+	function (width, model) {
 		switch (model.$) {
 			case 'Home':
 				var homeModel = model.a;
 				return $author$project$Main$Home(
 					_Utils_update(
 						homeModel,
-						{windowSize: windowSize}));
+						{width: width}));
 			case 'Poetry':
 				var poetryModel = model.a;
 				return $author$project$Main$Poetry(
 					_Utils_update(
 						poetryModel,
-						{windowSize: windowSize}));
+						{width: width}));
 			case 'Code':
 				var codeModel = model.a;
 				return $author$project$Main$Code(
 					_Utils_update(
 						codeModel,
-						{windowSize: windowSize}));
+						{width: width}));
 			default:
 				var errorModel = model.a;
 				return $author$project$Main$Error(
 					_Utils_update(
 						errorModel,
-						{windowSize: windowSize}));
+						{width: width}));
 		}
 	});
 var $author$project$Main$update = F2(
@@ -6445,18 +6456,15 @@ var $author$project$Main$update = F2(
 				}
 			case 'ChangedUrl':
 				var url = msg.a;
-				var windowSize = $author$project$Main$getWindowSize(model);
 				var route = $author$project$Route$fromUrl(url);
 				return A2(
 					$author$project$Main$changeRouteTo,
 					route,
-					A2($author$project$Main$routeToModel, route, windowSize));
+					A2($author$project$Main$routeToModel, model, route));
 			default:
 				var width = msg.a;
-				var height = msg.b;
-				var windowSize = A2($author$project$Main$WindowSize, width, height);
 				return _Utils_Tuple2(
-					A2($author$project$Main$updateWindowSize, windowSize, model),
+					A2($author$project$Main$updateWidth, width, model),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -11937,7 +11945,7 @@ var $author$project$ViewHelpers$Large = {$: 'Large'};
 var $author$project$ViewHelpers$Medium = {$: 'Medium'};
 var $author$project$ViewHelpers$Small = {$: 'Small'};
 var $author$project$ViewHelpers$findScreenSize = function (width) {
-	return (width <= 600) ? $author$project$ViewHelpers$Small : ((width <= 900) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
+	return (width <= 450) ? $author$project$ViewHelpers$Small : ((width <= 800) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
 };
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
@@ -12551,7 +12559,7 @@ var $author$project$Code$titleText = _List_fromArray(
 		$mdgriffith$elm_ui$Element$text('CODE')
 	]);
 var $author$project$Code$view = function (model) {
-	var screenSize = $author$project$ViewHelpers$findScreenSize(model.windowSize.width);
+	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
 	var body = function () {
 		switch (screenSize.$) {
 			case 'ExtraLarge':
@@ -12822,7 +12830,7 @@ var $author$project$Home$titleText = _List_fromArray(
 		$mdgriffith$elm_ui$Element$text('NATALIE JANE EDSON')
 	]);
 var $author$project$Home$view = function (model) {
-	var screenSize = $author$project$ViewHelpers$findScreenSize(model.windowSize.width);
+	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
 	var body = function () {
 		switch (screenSize.$) {
 			case 'ExtraLarge':
@@ -13093,7 +13101,7 @@ var $author$project$Poetry$titleText = _List_fromArray(
 		$mdgriffith$elm_ui$Element$text('POETRY')
 	]);
 var $author$project$Poetry$view = function (model) {
-	var screenSize = $author$project$ViewHelpers$findScreenSize(model.windowSize.width);
+	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
 	var body = function () {
 		switch (screenSize.$) {
 			case 'ExtraLarge':
@@ -13349,10 +13357,10 @@ _Platform_export({'Main':{'init':$author$project$Main$main(
 		function (width) {
 			return A2(
 				$elm$json$Json$Decode$andThen,
-				function (height) {
+				function (data) {
 					return $elm$json$Json$Decode$succeed(
-						{height: height, width: width});
+						{data: data, width: width});
 				},
-				A2($elm$json$Json$Decode$field, 'height', $elm$json$Json$Decode$int));
+				A2($elm$json$Json$Decode$field, 'data', $elm$json$Json$Decode$string));
 		},
 		A2($elm$json$Json$Decode$field, 'width', $elm$json$Json$Decode$int)))(0)}});}(this));

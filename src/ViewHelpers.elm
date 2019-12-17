@@ -12,9 +12,9 @@ type ScreenSize
 
 findScreenSize : Int -> ScreenSize 
 findScreenSize width =  
-    if width <= 600 then 
+    if width <= 450 then 
         Small 
-    else if width <= 900 then 
+    else if width <= 800 then 
         Medium 
     else if width <= 1200 then 
         Large 
