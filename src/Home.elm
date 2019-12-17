@@ -74,7 +74,7 @@ view model =
                     El.layout 
                         bodyStyle 
                         (El.column []  
-                            [ El.row [] 
+                            [ El.row [centerX] 
                                 [ El.column [El.width (fillPortion 2)] [ none]
                                 , textColumn [El.width (fillPortion 3)] 
                                     [ paragraph titleStyle titleText
@@ -82,7 +82,7 @@ view model =
                                     ]
                                 , El.column [El.width (fillPortion 2)] [ none]
                                 ]
-                            , El.row [] 
+                            , El.row [centerX] 
                                 [ El.column [El.width (fillPortion 2)] [none]
                                 , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
                                 , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
@@ -91,24 +91,8 @@ view model =
                             ]
                         )
                     
-                Small ->
-                    El.layout 
-                        bodyStyle   
-                        (El.column []
-                            [ El.row [] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
-                                    [ paragraph titleStyle titleText
-                                    , paragraph subtitleStyle subtitleText
-                                    ]
-                                , El.column [El.width (fillPortion 1)] [ none]
-                                ]
-                            , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1
-                            , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
-                            ]
-                        ) --}                        )
-                    
-                _ ->
+
+                Large ->
                     El.layout 
                         bodyStyle   
                         (El.column []
@@ -129,6 +113,22 @@ view model =
                             ]
                         )
 
+                _ ->
+                    El.layout 
+                        bodyStyle   
+                        (El.column [centerX]
+                            [ El.row [] 
+                                [ El.column [El.width (fillPortion 1)] [ none]
+                                , textColumn [El.width (fillPortion 3)] 
+                                    [ paragraph titleStyle titleText
+                                    , paragraph subtitleStyle subtitleText
+                                    ]
+                                , El.column [El.width (fillPortion 1)] [ none]
+                                ]
+                            , El.row [centerX] [pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE"  1]
+                            , El.row [centerX] [pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1]
+                            ]
+                        ) --}                        )
                     
 
 

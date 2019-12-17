@@ -44,7 +44,7 @@ type alias WindowSize =
 
 ---- UPDATE ----
 
-
+--TODO: make it so only the width matters on resize 
 type Msg
     = ChangedUrl Url
     | ClickedLink Browser.UrlRequest

@@ -11155,70 +11155,6 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $author$project$Code$view = function (model) {
-	return {
-		body: _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$img,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$src('/logo.svg')
-							]),
-						_List_Nil),
-						A2(
-						$elm$html$Html$h1,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('You\'re CODE\'!')
-							]))
-					]))
-			]),
-		title: 'NJE: CODE'
-	};
-};
-var $author$project$Error$view = function (model) {
-	return {
-		body: _List_fromArray(
-			[
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$img,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$src('/logo.svg')
-							]),
-						_List_Nil),
-						A2(
-						$elm$html$Html$h1,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('You\'re ERROR!')
-							]))
-					]))
-			]),
-		title: 'NJE: POETRY'
-	};
-};
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
 	function (a, b) {
 		return {$: 'FontFamily', a: a, b: b};
@@ -16626,7 +16562,7 @@ var $author$project$ViewHelpers$Large = {$: 'Large'};
 var $author$project$ViewHelpers$Medium = {$: 'Medium'};
 var $author$project$ViewHelpers$Small = {$: 'Small'};
 var $author$project$ViewHelpers$findScreenSize = function (width) {
-	return (width <= 300) ? $author$project$ViewHelpers$Small : ((width <= 900) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
+	return (width <= 600) ? $author$project$ViewHelpers$Small : ((width <= 900) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
 };
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
@@ -16934,6 +16870,12 @@ var $author$project$ViewHelpers$bottomTextStyle = _List_fromArray(
 		$mdgriffith$elm_ui$Element$Font$bold
 	]);
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
 var $mdgriffith$elm_ui$Element$image = F2(
 	function (attrs, _v0) {
 		var src = _v0.src;
@@ -17116,7 +17058,7 @@ var $author$project$ViewHelpers$pictureLink = F5(
 									_List_fromArray(
 										[
 											$mdgriffith$elm_ui$Element$width(
-											A2($mdgriffith$elm_ui$Element$maximum, 300, $mdgriffith$elm_ui$Element$shrink)),
+											A2($mdgriffith$elm_ui$Element$maximum, 300, $mdgriffith$elm_ui$Element$fill)),
 											$mdgriffith$elm_ui$Element$centerX,
 											$mdgriffith$elm_ui$Element$alignTop,
 											$mdgriffith$elm_ui$Element$paddingEach(
@@ -17153,9 +17095,33 @@ var $author$project$ViewHelpers$subtitleStyle = _List_fromArray(
 			$author$project$ViewHelpers$noPadding,
 			{bottom: 50}))
 	]);
-var $author$project$Home$subtitleText = _List_fromArray(
+var $author$project$Code$subtitleText = _List_fromArray(
 	[
-		$mdgriffith$elm_ui$Element$text('is a poet, programmer, and aspiring polymath based in Portland, OR. She has a lot \n        to say about her work—what do you want to know about?\n        ')
+		$mdgriffith$elm_ui$Element$text(' \n            Natalie is a self-taught programmer based in Portland, Oregon. She earned her B.A. in Applied Mathematics \n            from the University of Oregon in 2014 and has been working as a web developer since 2016. She is an experienced \n            remote and freelance worker with a strong focus on Python and Elm. (This website is written as a single page application\n            in Elm and styled with mdgriffith\'s \n        '),
+		A2(
+		$mdgriffith$elm_ui$Element$link,
+		_List_Nil,
+		{
+			label: $mdgriffith$elm_ui$Element$text('elm-ui package'),
+			url: 'https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest'
+		}),
+		$mdgriffith$elm_ui$Element$text('\n            .) She has a burgeoning interest in Natural Language Processing and its potential uses in art. You can contact her \n            with programming-related inquiries \n        '),
+		A2(
+		$mdgriffith$elm_ui$Element$link,
+		_List_Nil,
+		{
+			label: $mdgriffith$elm_ui$Element$text('here'),
+			url: '#'
+		}),
+		$mdgriffith$elm_ui$Element$text(' or find her on twitter '),
+		A2(
+		$mdgriffith$elm_ui$Element$link,
+		_List_Nil,
+		{
+			label: $mdgriffith$elm_ui$Element$text('@nataje4'),
+			url: 'https://www.twitter.com/nataliejedson'
+		}),
+		$mdgriffith$elm_ui$Element$text('.')
 	]);
 var $mdgriffith$elm_ui$Internal$Model$AsTextColumn = {$: 'AsTextColumn'};
 var $mdgriffith$elm_ui$Internal$Model$asTextColumn = $mdgriffith$elm_ui$Internal$Model$AsTextColumn;
@@ -17194,11 +17160,11 @@ var $author$project$ViewHelpers$titleStyle = _List_fromArray(
 			{bottom: 20, top: 60})),
 		$mdgriffith$elm_ui$Element$Font$bold
 	]);
-var $author$project$Home$titleText = _List_fromArray(
+var $author$project$Code$titleText = _List_fromArray(
 	[
-		$mdgriffith$elm_ui$Element$text('NATALIE JANE EDSON')
+		$mdgriffith$elm_ui$Element$text('CODE')
 	]);
-var $author$project$Home$view = function (model) {
+var $author$project$Code$view = function (model) {
 	var screenSize = $author$project$ViewHelpers$findScreenSize(model.windowSize.width);
 	var body = function () {
 		switch (screenSize.$) {
@@ -17213,7 +17179,8 @@ var $author$project$Home$view = function (model) {
 							[
 								A2(
 								$mdgriffith$elm_ui$Element$row,
-								_List_Nil,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
 								_List_fromArray(
 									[
 										A2(
@@ -17221,7 +17188,7 @@ var $author$project$Home$view = function (model) {
 										_List_fromArray(
 											[
 												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(2))
+												$mdgriffith$elm_ui$Element$fillPortion(1))
 											]),
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none])),
@@ -17230,26 +17197,27 @@ var $author$project$Home$view = function (model) {
 										_List_fromArray(
 											[
 												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(3))
+												$mdgriffith$elm_ui$Element$fillPortion(2))
 											]),
 										_List_fromArray(
 											[
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Home$titleText),
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Home$subtitleText)
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Code$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Code$subtitleText)
 											])),
 										A2(
 										$mdgriffith$elm_ui$Element$column,
 										_List_fromArray(
 											[
 												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(2))
+												$mdgriffith$elm_ui$Element$fillPortion(1))
 											]),
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none]))
 									])),
 								A2(
 								$mdgriffith$elm_ui$Element$row,
-								_List_Nil,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
 								_List_fromArray(
 									[
 										A2(
@@ -17261,8 +17229,9 @@ var $author$project$Home$view = function (model) {
 											]),
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none])),
-										A5($author$project$ViewHelpers$pictureLink, '#/code', 'assets/cat.gif', 'gif of a cat typing furiously on a computer', 'CODE', 1),
-										A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1),
+										A5($author$project$ViewHelpers$pictureLink, 'https://www.github.com/nataje4', 'assets/oceanwater.jpg', 'click here to go to my github page', 'GITHUB', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see some samples of my work', 'DEMOS', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to view the latest version of my resume', 'RESUME', 1),
 										A2(
 										$mdgriffith$elm_ui$Element$column,
 										_List_fromArray(
@@ -17274,7 +17243,7 @@ var $author$project$Home$view = function (model) {
 											[$mdgriffith$elm_ui$Element$none]))
 									]))
 							])));
-			case 'Small':
+			case 'Large':
 				return A2(
 					$mdgriffith$elm_ui$Element$layout,
 					$author$project$ViewHelpers$bodyStyle,
@@ -17285,7 +17254,8 @@ var $author$project$Home$view = function (model) {
 							[
 								A2(
 								$mdgriffith$elm_ui$Element$row,
-								_List_Nil,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
 								_List_fromArray(
 									[
 										A2(
@@ -17306,8 +17276,8 @@ var $author$project$Home$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Home$titleText),
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Home$subtitleText)
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Code$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Code$subtitleText)
 											])),
 										A2(
 										$mdgriffith$elm_ui$Element$column,
@@ -17319,8 +17289,34 @@ var $author$project$Home$view = function (model) {
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none]))
 									])),
-								A5($author$project$ViewHelpers$pictureLink, '#/code', 'assets/cat.gif', 'gif of a cat typing furiously on a computer', 'CODE', 1),
-								A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1)
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A5($author$project$ViewHelpers$pictureLink, 'https://www.github.com/nataje4', 'assets/oceanwater.jpg', 'click here to go to my github page', 'GITHUB', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see some samples of my work', 'DEMOS', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to view the latest version of my resume', 'RESUME', 1),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									]))
 							])));
 			default:
 				return A2(
@@ -17328,13 +17324,13 @@ var $author$project$Home$view = function (model) {
 					$author$project$ViewHelpers$bodyStyle,
 					A2(
 						$mdgriffith$elm_ui$Element$column,
-						_List_Nil,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
 						_List_fromArray(
 							[
 								A2(
 								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_Nil,
 								_List_fromArray(
 									[
 										A2(
@@ -17355,8 +17351,8 @@ var $author$project$Home$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Home$titleText),
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Home$subtitleText)
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Code$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Code$subtitleText)
 											])),
 										A2(
 										$mdgriffith$elm_ui$Element$column,
@@ -17374,26 +17370,23 @@ var $author$project$Home$view = function (model) {
 									[$mdgriffith$elm_ui$Element$centerX]),
 								_List_fromArray(
 									[
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none])),
-										A5($author$project$ViewHelpers$pictureLink, '#/code', 'assets/cat.gif', 'gif of a cat typing furiously on a computer', 'CODE', 1),
-										A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1),
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none]))
+										A5($author$project$ViewHelpers$pictureLink, 'https://www.github.com/nataje4', 'assets/oceanwater.jpg', 'click here to bgo to my github page', 'GITHUB', 1)
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see asome samples of my work', 'DEMOS', 1)
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here tto view the latest version of my resume', 'RESUME', 1)
 									]))
 							])));
 		}
@@ -17401,10 +17394,12 @@ var $author$project$Home$view = function (model) {
 	return {
 		body: _List_fromArray(
 			[body]),
-		title: 'NJE'
+		title: 'NJE: CODE'
 	};
 };
-var $author$project$Poetry$view = function (model) {
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$img = _VirtualDom_node('img');
+var $author$project$Error$view = function (model) {
 	return {
 		body: _List_fromArray(
 			[
@@ -17425,10 +17420,506 @@ var $author$project$Poetry$view = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('You\'re POETRY!')
+								$elm$html$Html$text('You\'re ERROR!')
 							]))
 					]))
 			]),
+		title: 'NJE: POETRY'
+	};
+};
+var $author$project$Home$subtitleText = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$text('is a poet, programmer, and aspiring polymath based in Portland, OR. She has a lot \n        to say about her work—what do you want to know about?\n        ')
+	]);
+var $author$project$Home$titleText = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$text('NATALIE JANE EDSON')
+	]);
+var $author$project$Home$view = function (model) {
+	var screenSize = $author$project$ViewHelpers$findScreenSize(model.windowSize.width);
+	var body = function () {
+		switch (screenSize.$) {
+			case 'ExtraLarge':
+				return A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A2(
+										$mdgriffith$elm_ui$Element$textColumn,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(3))
+											]),
+										_List_fromArray(
+											[
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Home$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Home$subtitleText)
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A5($author$project$ViewHelpers$pictureLink, '#/code', 'assets/cat.gif', 'gif of a cat typing furiously on a computer', 'CODE', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									]))
+							])));
+			case 'Large':
+				return A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A2(
+										$mdgriffith$elm_ui$Element$textColumn,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(3))
+											]),
+										_List_fromArray(
+											[
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Home$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Home$subtitleText)
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A5($author$project$ViewHelpers$pictureLink, '#/code', 'assets/cat.gif', 'gif of a cat typing furiously on a computer', 'CODE', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									]))
+							])));
+			default:
+				return A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A2(
+										$mdgriffith$elm_ui$Element$textColumn,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(3))
+											]),
+										_List_fromArray(
+											[
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Home$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Home$subtitleText)
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#/code', 'assets/cat.gif', 'gif of a cat typing furiously on a computer', 'CODE', 1)
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1)
+									]))
+							])));
+		}
+	}();
+	return {
+		body: _List_fromArray(
+			[body]),
+		title: 'NJE'
+	};
+};
+var $mdgriffith$elm_ui$Element$el = F2(
+	function (attrs, child) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+					attrs)),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[child])));
+	});
+var $mdgriffith$elm_ui$Element$Font$italic = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.italic);
+var $author$project$Poetry$subtitleText = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$text(' \n            Natalie is a poet, educator, and artist based in Portland, Oregon. She self-published                \n            her debut chapboook,\n        '),
+		A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$Font$italic]),
+		$mdgriffith$elm_ui$Element$text('BALACLAVA')),
+		$mdgriffith$elm_ui$Element$text('\n            , in June 2018 and is currently working on her full-length debut. Her written work focuses \n            on mental health, love, and the mundane. She is also interested in the intersection of code and poetry \n            and has written a number of tools to assist in her personal generative writing practice, all of \n            which will be available on this website soon. \n        ')
+	]);
+var $author$project$Poetry$titleText = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$text('POETRY')
+	]);
+var $author$project$Poetry$view = function (model) {
+	var screenSize = $author$project$ViewHelpers$findScreenSize(model.windowSize.width);
+	var body = function () {
+		switch (screenSize.$) {
+			case 'ExtraLarge':
+				return A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A2(
+										$mdgriffith$elm_ui$Element$textColumn,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(3))
+											]),
+										_List_fromArray(
+											[
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(2))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									]))
+							])));
+			case 'Large':
+				return A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A2(
+										$mdgriffith$elm_ui$Element$textColumn,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(3))
+											]),
+										_List_fromArray(
+											[
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1),
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									]))
+							])));
+			default:
+				return A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_Nil,
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none])),
+										A2(
+										$mdgriffith$elm_ui$Element$textColumn,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(3))
+											]),
+										_List_fromArray(
+											[
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
+												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$column,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$width(
+												$mdgriffith$elm_ui$Element$fillPortion(1))
+											]),
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$none]))
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1)
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1)
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$centerX]),
+								_List_fromArray(
+									[
+										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1)
+									]))
+							])));
+		}
+	}();
+	return {
+		body: _List_fromArray(
+			[body]),
 		title: 'NJE: POETRY'
 	};
 };

@@ -13,7 +13,7 @@ type ScreenSize
 
 findScreenSize : Int -> ScreenSize 
 findScreenSize width =  
-    if width <= 300 then 
+    if width <= 600 then 
         Small 
     else if width <= 900 then 
         Medium 
@@ -104,7 +104,7 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
             El.column []
                 [ El.row []
                     [ image 
-                        [ width (shrink |> maximum 300)
+                        [ width (fill |> maximum 300)
                         , centerX 
                         , alignTop 
                         , paddingEach {noPadding | bottom = 10}
