@@ -67,7 +67,6 @@ titleStyle =
     , EF.bold
     ]
 
-
 subtitleStyle : List (El.Attribute msg)
 subtitleStyle = 
     [ mainFonts
@@ -85,6 +84,11 @@ bottomTextStyle =
     , EF.bold
     ]
 
+linkStyle : List (El.Attribute msg)
+linkStyle = 
+    [ EF.underline
+    ]
+
 noPadding =
     { top = 0
     , right = 0
@@ -96,9 +100,7 @@ noPadding =
 pictureLink: String -> String -> String -> String -> Int -> Element msg 
 pictureLink linkString imgSrc desc bottomText fillPortion_ = 
     link 
-        [width (fillPortion fillPortion_)
-        , padding 10
-        ]
+        ([width (fillPortion fillPortion_), padding 10 ] ++ linkStyle) 
         { url = linkString
         , label = 
             El.column []

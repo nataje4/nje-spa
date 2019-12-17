@@ -63,8 +63,18 @@ subtitleText =
             , in June 2018 and is currently working on her full-length debut. Her written work focuses 
             on mental health, love, and the mundane. She is also interested in the intersection of code and poetry 
             and has written a number of tools to assist in her personal generative writing practice, all of 
-            which will be available on this website soon. 
+            which will be available on this website soon. You can contact her with poetry-related inquiries  
         """
+    , link linkStyle 
+        { url = "#"
+        , label = text "here"
+        }
+    , text " or find her on twitter "
+    , link linkStyle 
+        { url = "https://www.twitter.com/nataliejedson"
+        , label = text "@nataliejedson"
+        }
+    , text "."
     ]
 
 
@@ -84,12 +94,12 @@ view model =
                         bodyStyle 
                         (El.column []  
                             [ El.row [centerX] 
-                                [ El.column [El.width (fillPortion 2)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
+                                [ El.column [El.width (fillPortion 1)] [ none]
+                                , textColumn [El.width (fillPortion 2)] 
                                     [ paragraph titleStyle titleText
                                     , paragraph subtitleStyle subtitleText
                                     ]
-                                , El.column [El.width (fillPortion 2)] [ none]
+                                , El.column [El.width (fillPortion 1)] [ none]
                                 ]
                             , El.row [centerX] 
                                 [ El.column [El.width (fillPortion 2)] [none]

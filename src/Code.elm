@@ -58,21 +58,21 @@ subtitleText =
             remote and freelance worker with a strong focus on Python and Elm. (This website is written as a single page application
             in Elm and styled with mdgriffith's 
         """
-    , link []
+    , link linkStyle
         { url = "https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest"
-        , label = text "elm-ui package"
+        , label = text "elm-ui"
         }
     , text 
         """
-            .) She has a burgeoning interest in Natural Language Processing and its potential uses in art. You can contact her 
+             package.) She has a burgeoning interest in Natural Language Processing and its potential uses in art. You can contact her 
             with programming-related inquiries 
         """
-    , link []
+    , link linkStyle
         { url = "#"
         , label = text "here"
         }
     , text " or find her on twitter "
-    , link []
+    , link linkStyle
         { url = "https://www.twitter.com/nataliejedson"
         , label = text "@nataje4"
         }
@@ -105,9 +105,9 @@ view model =
                                 ]
                             , El.row [centerX] 
                                 [ El.column [El.width (fillPortion 2)] [none]
-                                , pictureLink "https://www.github.com/nataje4" "assets/oceanwater.jpg" "click here to go to my github page" "GITHUB"  1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to see some samples of my work" "DEMOS" 1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to view the latest version of my resume" "RESUME" 1
+                                , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB"  1
+                                , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
+                                , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
                                 , El.column [El.width (fillPortion 2)] [none]
                                 ]
                             ]
@@ -129,9 +129,9 @@ view model =
                                 ]
                             , El.row [centerX] 
                                 [ El.column [El.width (fillPortion 1)] [none]
-                                , pictureLink "https://www.github.com/nataje4" "assets/oceanwater.jpg" "click here to go to my github page" "GITHUB"  1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to see some samples of my work" "DEMOS" 1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to view the latest version of my resume" "RESUME" 1
+                                , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB"  1
+                                , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
+                                , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
                                 , El.column [El.width (fillPortion 1)] [none]
                                 ]
                             ]
@@ -149,9 +149,9 @@ view model =
                                     ]
                                 , El.column [El.width (fillPortion 1)] [ none]
                                 ]
-                            , El.row [centerX] [pictureLink "https://www.github.com/nataje4" "assets/oceanwater.jpg" "click here to bgo to my github page" "GITHUB"  1]
-                            , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to see asome samples of my work" "DEMOS" 1]
-                            , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here tto view the latest version of my resume" "RESUME" 1]
+                            , El.row [centerX] [pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to bgo to my github page" "GITHUB"  1]
+                            , El.row [centerX] [pictureLink "#" "assets/blackcattyping2.png" "click here to see asome samples of my work" "DEMOS" 1]
+                            , El.row [centerX] [pictureLink "#" "assets/blackcattyping2.png" "click here tto view the latest version of my resume" "RESUME" 1]
                             ]
                         ) --}      
 
