@@ -40,7 +40,7 @@ initModel flags =
     Error
         { width = flags.width
         , data = ""
-        , menuOpen = False
+        , menuOpen = True
         }
 
 type alias Flags = 

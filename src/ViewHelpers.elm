@@ -1,8 +1,9 @@
 module ViewHelpers exposing (..)
 
-import Html.Attributes exposing (src, class, href)
 import Element as El exposing (..)
-import Element.Font as EF exposing (..)
+import Element.Font as Ef exposing (..)
+import Element.Background as Bg exposing (color)
+import Browser exposing (Document)
 
 type ScreenSize
     = Small
@@ -36,18 +37,18 @@ georgia =
 
 emphasisFonts : El.Attribute msg
 emphasisFonts = 
-    EF.family 
+    Ef.family 
         [ workSans
         , arial
-        , EF.sansSerif
+        , Ef.sansSerif
         ]
 
 mainFonts : El.Attribute msg
 mainFonts = 
-    EF.family 
+    Ef.family 
         [ lato
         , georgia
-        , EF.serif
+        , Ef.serif
         ]
 
 --to-do--Implement scaled 
@@ -61,16 +62,16 @@ titleStyle : List (El.Attribute msg)
 titleStyle = 
     [ emphasisFonts
     , center
-    , EF.size 48
+    , Ef.size 48
     , paddingEach {noPadding | top =60, bottom = 20}
-    , EF.bold
+    , Ef.bold
     ]
 
 subtitleStyle : List (El.Attribute msg)
 subtitleStyle = 
     [ mainFonts
     , center
-    , EF.size 20
+    , Ef.size 20
     , paddingEach {noPadding | bottom = 50}
     ]
 
@@ -78,14 +79,14 @@ bottomTextStyle : List (El.Attribute msg)
 bottomTextStyle = 
     [ emphasisFonts
     , center
-    , EF.size 32
+    , Ef.size 32
     , alignBottom
-    , EF.bold
+    , Ef.bold
     ]
 
 linkStyle : List (El.Attribute msg)
 linkStyle = 
-    [ EF.underline
+    [ Ef.underline
     ]
 
 noPadding =
@@ -95,6 +96,115 @@ noPadding =
     , left = 0
     }
 
+black : El.Color 
+black = 
+    rgb 0.0 0.0 0.0 
+
+topMenuItemStyle : List (Attribute msg)
+topMenuItemStyle = 
+    (titleStyle ++ [Ef.size 18]) 
+
+subMenuItemStyle : List (Attribute msg)
+subMenuItemStyle = 
+    [ Ef.size 16
+    , paddingEach {noPadding | left = 15 }
+    ]
+
+subSubMenuItemStyle : List (Attribute msg)
+subSubMenuItemStyle = 
+    [ Ef.size 15
+    , paddingEach {noPadding | left = 30 }
+    ]
+
+menuLink: List (Attribute msg) -> String -> String -> Element msg 
+menuLink style text_ url = 
+    paragraph 
+        style 
+        [ link []
+            { url = url 
+            , label = text text_
+            }
+        ]
+
+navMenu: Bool -> ScreenSize -> Element msg
+navMenu menuOpen screenSize= 
+    case (menuOpen, screenSize) of 
+        (True, Small) -> 
+            El.row 
+                [ Bg.color black
+                , width fill
+                , height fill
+                , spacing 10 
+                ]
+                [ El.column 
+                    [center]
+                    [ menuLink topMenuItemStyle "CODE" "#/code" 
+                    , menuLink subMenuItemStyle "Demos" "#"
+                    , menuLink subSubMenuItemStyle "foo" "#"
+                    , menuLink subSubMenuItemStyle "foo" "#"
+                    , menuLink topMenuItemStyle "POETRY" ""
+                    , menuLink subMenuItemStyle "Shop" "https://www.etsy.com/njepoetry"
+                    , menuLink subMenuItemStyle "Events" "#"
+                    , menuLink subMenuItemStyle "Tools" "#"
+                    , menuLink subSubMenuItemStyle "Erasure" "#"
+                    , menuLink subSubMenuItemStyle "Word Bank" "#"
+                    , menuLink subSubMenuItemStyle "Homolinguistic Translator" "#"
+                    ]
+                ]
+        (True, _) -> 
+            El.column 
+                [ Bg.color black
+                , width (fillPortion 1)
+                , spacing 10 
+                , height fill 
+                ]
+                [ El.row 
+                    [centerY]
+                    [ menuLink topMenuItemStyle "CODE" "#/code" 
+                    , menuLink subMenuItemStyle "Demos" "#"
+                    , menuLink subSubMenuItemStyle "foo" "#"
+                    , menuLink subSubMenuItemStyle "foo" "#"
+                    , menuLink topMenuItemStyle "POETRY" ""
+                    , menuLink subMenuItemStyle "Shop" "https://www.etsy.com/njepoetry"
+                    , menuLink subMenuItemStyle "Events" "#"
+                    , menuLink subMenuItemStyle "Tools" "#"
+                    , menuLink subSubMenuItemStyle "Erasure" "#"
+                    , menuLink subSubMenuItemStyle "Word Bank" "#"
+                    , menuLink subSubMenuItemStyle "Homolinguistic Translator" "#"
+                    ]
+                ]
+        (_,_) -> 
+            El.none -- menu icon or something like that 
+
+documentMsgHelper : Bool -> ScreenSize -> String -> List (Element msg) -> Browser.Document msg
+documentMsgHelper menuOpen screenSize title elements = 
+    --"elements" will always be a list of rows. 
+    if (screenSize == Small) || (screenSize == Medium) then 
+        { title = title
+        , body = 
+            [ El.layout 
+                bodyStyle 
+                (El.column 
+                    [centerX]
+                    ( navMenu menuOpen screenSize 
+                    :: elements
+                    )
+                )
+            ]
+        }
+    else 
+        { title = title
+        , body = 
+            [El.layout
+                bodyStyle
+               ( El.row 
+                    []
+                    [ El.column [] elements
+                    , navMenu menuOpen screenSize
+                    ]
+                )
+            ]
+        }
 
 pictureLink: String -> String -> String -> String -> Int -> Element msg 
 pictureLink linkString imgSrc desc bottomText fillPortion_ = 
@@ -108,7 +218,7 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                         [ width (fill |> maximum 300)
                         , centerX 
                         , alignTop 
-                        , paddingEach {noPadding | bottom = 10}
+                        , paddingEach {noPadding | bottom = 40}
                         ]
                         { src = imgSrc
                         , description = desc

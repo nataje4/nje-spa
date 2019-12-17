@@ -88,77 +88,61 @@ view model =
         screenSize = 
             findScreenSize model.width
 
-        body : Html msg
-        body = 
-            case screenSize of 
-
-                ExtraLarge ->
-                    El.layout 
-                        bodyStyle 
-                        (El.column []  
-                            [ El.row [centerX] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 2)] 
-                                    [ paragraph titleStyle titleText
-                                    , paragraph subtitleStyle subtitleText
-                                    ]
-                                , El.column [El.width (fillPortion 1)] [ none]
-                                ]
-                            , El.row [centerX] 
-                                [ El.column [El.width (fillPortion 2)] [none]
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP"  1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
-                                , El.column [El.width (fillPortion 2)] [none]
-                                ]
-                            ]
-                        )
-                    
-                  
-                    
-                Large ->
-                    El.layout 
-                        bodyStyle   
-                        (El.column []
-                            [ El.row [centerX] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
-                                    [ paragraph titleStyle titleText
-                                    , paragraph subtitleStyle subtitleText
-                                    ]
-                                , El.column [El.width (fillPortion 1)] [ none]
-                                ]
-                            , El.row [centerX] 
-                                [ El.column [El.width (fillPortion 1)] [none]
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP"  1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
-                                , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
-                                , El.column [El.width (fillPortion 1)] [none]
-                                ]
-                            ]
-                        )
-                    
-                _ ->
-                    El.layout 
-                        bodyStyle   
-                        (El.column [centerX]
-                            [ El.row [] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
-                                    [ paragraph titleStyle titleText
-                                    , paragraph subtitleStyle subtitleText
-                                    ]
-                                , El.column [El.width (fillPortion 1)] [ none]
-                                ]
-                            , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP"  1]
-                            , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1]
-                            , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1]
-                            ]
-                        ) --}      
+        viewHelper : List (Element msg ) -> Browser.Document msg 
+        viewHelper = 
+            documentMsgHelper model.menuOpen screenSize "NJE: POETRY" 
 
     in 
-        { title = "NJE: POETRY"
-        , body = [body]
-        }
-
+        case screenSize of 
+            ExtraLarge ->
+                viewHelper 
+                    [ El.row [centerX] 
+                        [ El.column [El.width (fillPortion 1)] [ none]
+                        , textColumn [El.width (fillPortion 2)] 
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
+                            ]
+                        , El.column [El.width (fillPortion 1)] [ none]
+                        ]
+                    , El.row [centerX] 
+                        [ El.column [El.width (fillPortion 2)] [none]
+                        , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP"  1
+                        , pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
+                        , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
+                        , El.column [El.width (fillPortion 2)] [none]
+                        ]
+                    ]
+                                                                            
+            Large ->
+                viewHelper
+                    [ El.row [centerX] 
+                        [ El.column [El.width (fillPortion 1)] [ none]
+                        , textColumn [El.width (fillPortion 3)] 
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
+                            ]
+                        , El.column [El.width (fillPortion 1)] [ none]
+                        ]
+                    , El.row [centerX] 
+                        [ El.column [El.width (fillPortion 1)] [none]
+                        , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP"  1
+                        , pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
+                        , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
+                        , El.column [El.width (fillPortion 1)] [none]
+                        ]
+                    ]                   
+            _ ->
+                viewHelper
+                    [ El.row [] 
+                        [ El.column [El.width (fillPortion 1)] [ none]
+                        , textColumn [El.width (fillPortion 3)] 
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
+                            ]
+                        , El.column [El.width (fillPortion 1)] [ none]
+                        ]
+                    , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP"  1]
+                    , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1]
+                    , El.row [centerX] [pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1]
+                    ]
         

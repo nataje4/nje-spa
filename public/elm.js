@@ -6006,7 +6006,7 @@ var $author$project$Route$fromUrl = function (url) {
 };
 var $author$project$Main$initModel = function (flags) {
 	return $author$project$Main$Error(
-		{data: '', menuOpen: false, width: flags.width});
+		{data: '', menuOpen: true, width: flags.width});
 };
 var $author$project$Main$routeToModel = F2(
 	function (model, maybeRoute) {
@@ -12458,7 +12458,7 @@ var $author$project$ViewHelpers$pictureLink = F5(
 											$mdgriffith$elm_ui$Element$paddingEach(
 											_Utils_update(
 												$author$project$ViewHelpers$noPadding,
-												{bottom: 10}))
+												{bottom: 40}))
 										]),
 									{description: desc, src: imgSrc})
 								])),
@@ -13052,6 +13052,170 @@ var $author$project$Home$view = function (model) {
 		title: 'NJE'
 	};
 };
+var $mdgriffith$elm_ui$Element$rgb = F3(
+	function (r, g, b) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
+	});
+var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb, 0.0, 0.0, 0.0);
+var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
+var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
+var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$bgColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'background-color',
+			clr));
+};
+var $author$project$ViewHelpers$menuLink = F3(
+	function (style, text_, url) {
+		return A2(
+			$mdgriffith$elm_ui$Element$paragraph,
+			style,
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$link,
+					_List_Nil,
+					{
+						label: $mdgriffith$elm_ui$Element$text(text_),
+						url: url
+					})
+				]));
+	});
+var $author$project$ViewHelpers$subMenuItemStyle = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$Font$size(16),
+		$mdgriffith$elm_ui$Element$paddingEach(
+		_Utils_update(
+			$author$project$ViewHelpers$noPadding,
+			{left: 15}))
+	]);
+var $author$project$ViewHelpers$subSubMenuItemStyle = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$Font$size(15),
+		$mdgriffith$elm_ui$Element$paddingEach(
+		_Utils_update(
+			$author$project$ViewHelpers$noPadding,
+			{left: 30}))
+	]);
+var $author$project$ViewHelpers$topMenuItemStyle = _Utils_ap(
+	$author$project$ViewHelpers$titleStyle,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$Font$size(18)
+		]));
+var $author$project$ViewHelpers$navMenu = F2(
+	function (menuOpen, screenSize) {
+		var _v0 = _Utils_Tuple2(menuOpen, screenSize);
+		if (_v0.a) {
+			if (_v0.b.$ === 'Small') {
+				var _v1 = _v0.b;
+				return A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Background$color($author$project$ViewHelpers$black),
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$spacing(10)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$column,
+							_List_fromArray(
+								[$mdgriffith$elm_ui$Element$Font$center]),
+							_List_fromArray(
+								[
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$topMenuItemStyle, 'CODE', '#/code'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Demos', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'foo', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'foo', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$topMenuItemStyle, 'POETRY', ''),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Shop', 'https://www.etsy.com/njepoetry'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Events', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Tools', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'Erasure', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'Word Bank', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'Homolinguistic Translator', '#')
+								]))
+						]));
+			} else {
+				return A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Background$color($author$project$ViewHelpers$black),
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(1)),
+							$mdgriffith$elm_ui$Element$spacing(10),
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[$mdgriffith$elm_ui$Element$centerY]),
+							_List_fromArray(
+								[
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$topMenuItemStyle, 'CODE', '#/code'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Demos', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'foo', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'foo', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$topMenuItemStyle, 'POETRY', ''),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Shop', 'https://www.etsy.com/njepoetry'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Events', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subMenuItemStyle, 'Tools', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'Erasure', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'Word Bank', '#'),
+									A3($author$project$ViewHelpers$menuLink, $author$project$ViewHelpers$subSubMenuItemStyle, 'Homolinguistic Translator', '#')
+								]))
+						]));
+			}
+		} else {
+			return $mdgriffith$elm_ui$Element$none;
+		}
+	});
+var $author$project$ViewHelpers$documentMsgHelper = F4(
+	function (menuOpen, screenSize, title, elements) {
+		return (_Utils_eq(screenSize, $author$project$ViewHelpers$Small) || _Utils_eq(screenSize, $author$project$ViewHelpers$Medium)) ? {
+			body: _List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						A2(
+							$elm$core$List$cons,
+							A2($author$project$ViewHelpers$navMenu, menuOpen, screenSize),
+							elements)))
+				]),
+			title: title
+		} : {
+			body: _List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2($mdgriffith$elm_ui$Element$column, _List_Nil, elements),
+								A2($author$project$ViewHelpers$navMenu, menuOpen, screenSize)
+							])))
+				]),
+			title: title
+		};
+	});
 var $mdgriffith$elm_ui$Element$el = F2(
 	function (attrs, child) {
 		return A4(
@@ -13102,236 +13266,214 @@ var $author$project$Poetry$titleText = _List_fromArray(
 	]);
 var $author$project$Poetry$view = function (model) {
 	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
-	var body = function () {
-		switch (screenSize.$) {
-			case 'ExtraLarge':
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
-								_List_fromArray(
-									[
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none])),
-										A2(
-										$mdgriffith$elm_ui$Element$textColumn,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(2))
-											]),
-										_List_fromArray(
-											[
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
-											])),
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none]))
-									])),
-								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
-								_List_fromArray(
-									[
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(2))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none])),
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1),
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1),
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1),
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(2))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none]))
-									]))
-							])));
-			case 'Large':
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
-								_List_fromArray(
-									[
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none])),
-										A2(
-										$mdgriffith$elm_ui$Element$textColumn,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(3))
-											]),
-										_List_fromArray(
-											[
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
-											])),
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none]))
-									])),
-								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
-								_List_fromArray(
-									[
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none])),
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1),
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1),
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1),
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none]))
-									]))
-							])));
-			default:
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
-						$mdgriffith$elm_ui$Element$column,
+	var viewHelper = A3($author$project$ViewHelpers$documentMsgHelper, model.menuOpen, screenSize, 'NJE: POETRY');
+	switch (screenSize.$) {
+		case 'ExtraLarge':
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$row,
 						_List_fromArray(
 							[$mdgriffith$elm_ui$Element$centerX]),
 						_List_fromArray(
 							[
 								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_Nil,
+								$mdgriffith$elm_ui$Element$column,
 								_List_fromArray(
 									[
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none])),
-										A2(
-										$mdgriffith$elm_ui$Element$textColumn,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(3))
-											]),
-										_List_fromArray(
-											[
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
-												A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
-											])),
-										A2(
-										$mdgriffith$elm_ui$Element$column,
-										_List_fromArray(
-											[
-												$mdgriffith$elm_ui$Element$width(
-												$mdgriffith$elm_ui$Element$fillPortion(1))
-											]),
-										_List_fromArray(
-											[$mdgriffith$elm_ui$Element$none]))
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none])),
+								A2(
+								$mdgriffith$elm_ui$Element$textColumn,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(2))
+									]),
+								_List_fromArray(
+									[
+										A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
+										A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
 									])),
 								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
+								$mdgriffith$elm_ui$Element$column,
 								_List_fromArray(
 									[
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1)
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none]))
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(2))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none])),
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1),
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1),
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1),
+								A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(2))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none]))
+							]))
+					]));
+		case 'Large':
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none])),
+								A2(
+								$mdgriffith$elm_ui$Element$textColumn,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(3))
+									]),
+								_List_fromArray(
+									[
+										A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
+										A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
 									])),
 								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
+								$mdgriffith$elm_ui$Element$column,
 								_List_fromArray(
 									[
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1)
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none]))
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none])),
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1),
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1),
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1),
+								A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none]))
+							]))
+					]));
+		default:
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_Nil,
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$column,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none])),
+								A2(
+								$mdgriffith$elm_ui$Element$textColumn,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(3))
+									]),
+								_List_fromArray(
+									[
+										A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$titleStyle, $author$project$Poetry$titleText),
+										A2($mdgriffith$elm_ui$Element$paragraph, $author$project$ViewHelpers$subtitleStyle, $author$project$Poetry$subtitleText)
 									])),
 								A2(
-								$mdgriffith$elm_ui$Element$row,
-								_List_fromArray(
-									[$mdgriffith$elm_ui$Element$centerX]),
+								$mdgriffith$elm_ui$Element$column,
 								_List_fromArray(
 									[
-										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1)
-									]))
-							])));
-		}
-	}();
-	return {
-		body: _List_fromArray(
-			[body]),
-		title: 'NJE: POETRY'
-	};
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$fillPortion(1))
+									]),
+								_List_fromArray(
+									[$mdgriffith$elm_ui$Element$none]))
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1)
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1)
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX]),
+						_List_fromArray(
+							[
+								A5($author$project$ViewHelpers$pictureLink, '#', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1)
+							]))
+					]));
+	}
 };
 var $author$project$Main$view = function (model) {
 	switch (model.$) {
