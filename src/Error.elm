@@ -1,9 +1,10 @@
 module Error exposing (..)
 
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src, href)
 import Browser
 import Element exposing (Device, DeviceClass(..), Orientation(..))
+import Html exposing (Html, div, h1, img, text)
+import Html.Attributes exposing (href, src)
+
 
 
 ---- MODEL ----
@@ -20,16 +21,19 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( initModel flags, Cmd.none )
 
+
 initModel flags =
     { width = flags.width
     , data = flags.data
-    , menuOpen = False 
+    , menuOpen = False
     }
 
-type alias Flags = 
-    { width: Int
-    , data: String 
+
+type alias Flags =
+    { width : Int
+    , data : String
     }
+
 
 
 ---- UPDATE ----
@@ -39,7 +43,7 @@ type Msg
     = NoOp
 
 
-update :  Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     ( model, Cmd.none )
 
@@ -48,7 +52,7 @@ update msg model =
 ---- VIEW ----
 
 
-view : Model  -> Browser.Document msg
+view : Model -> Browser.Document msg
 view model =
     { title = "NJE: POETRY"
     , body =
@@ -58,6 +62,3 @@ view model =
             ]
         ]
     }
-
-
-

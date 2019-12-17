@@ -1,9 +1,10 @@
 module Code exposing (..)
 
-import Html exposing (Html)
 import Browser
 import Element as El exposing (..)
+import Html exposing (Html)
 import ViewHelpers exposing (..)
+
 
 
 ---- MODEL ----
@@ -20,16 +21,19 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( initModel flags, Cmd.none )
 
+
 initModel flags =
     { width = flags.width
     , data = flags.data
-    , menuOpen = False 
+    , menuOpen = False
     }
 
-type alias Flags = 
-    { width: Int
-    , data: String 
+
+type alias Flags =
+    { width : Int
+    , data : String
     }
+
 
 
 ---- UPDATE ----
@@ -38,17 +42,21 @@ type alias Flags =
 type Msg
     = NoOp
 
-update :  Msg -> Model -> ( Model, Cmd Msg )
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     ( model, Cmd.none )
 
 
+
 ---- VIEW ----
+
 
 titleText : List (Element msg)
 titleText =
     [ text "CODE"
     ]
+
 
 subtitleText : List (Element msg)
 subtitleText =
@@ -77,82 +85,80 @@ subtitleText =
     ]
 
 
-view : Model  -> Browser.Document msg
+view : Model -> Browser.Document msg
 view model =
-    let 
+    let
         screenSize : ScreenSize
-        screenSize = 
+        screenSize =
             findScreenSize model.width
 
         body : Html msg
-        body = 
-            case screenSize of 
-
+        body =
+            case screenSize of
                 ExtraLarge ->
-                    El.layout 
-                        bodyStyle 
-                        (El.column []  
-                            [ El.row [centerX] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 2)] 
-                                    [ paragraph titleStyle titleText
-                                    , paragraph subtitleStyle subtitleText
-                                    ]
-                                , El.column [El.width (fillPortion 1)] [ none]
-                                ]
-                            , El.row [centerX] 
-                                [ El.column [El.width (fillPortion 2)] [none]
-                                , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB"  1
-                                , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
-                                , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
-                                , El.column [El.width (fillPortion 2)] [none]
-                                ]
-                            ]
-                        )
-                    
-                  
-                    
-                Large ->
-                    El.layout 
-                        bodyStyle   
+                    El.layout
+                        bodyStyle
                         (El.column []
-                            [ El.row [centerX] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
+                            [ El.row [ centerX ]
+                                [ El.column [ El.width (fillPortion 1) ] [ none ]
+                                , textColumn [ El.width (fillPortion 2) ]
                                     [ paragraph titleStyle titleText
                                     , paragraph subtitleStyle subtitleText
                                     ]
-                                , El.column [El.width (fillPortion 1)] [ none]
+                                , El.column [ El.width (fillPortion 1) ] [ none ]
                                 ]
-                            , El.row [centerX] 
-                                [ El.column [El.width (fillPortion 1)] [none]
-                                , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB"  1
+                            , El.row [ centerX ]
+                                [ El.column [ El.width (fillPortion 2) ] [ none ]
+                                , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
                                 , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
                                 , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
-                                , El.column [El.width (fillPortion 1)] [none]
+                                , El.column [ El.width (fillPortion 2) ] [ none ]
                                 ]
                             ]
                         )
-                    
-                _ ->
-                    El.layout 
-                        bodyStyle   
-                        (El.column [centerX]
-                            [ El.row [] 
-                                [ El.column [El.width (fillPortion 1)] [ none]
-                                , textColumn [El.width (fillPortion 3)] 
+
+                Large ->
+                    El.layout
+                        bodyStyle
+                        (El.column []
+                            [ El.row [ centerX ]
+                                [ El.column [ El.width (fillPortion 1) ] [ none ]
+                                , textColumn [ El.width (fillPortion 3) ]
                                     [ paragraph titleStyle titleText
                                     , paragraph subtitleStyle subtitleText
                                     ]
-                                , El.column [El.width (fillPortion 1)] [ none]
+                                , El.column [ El.width (fillPortion 1) ] [ none ]
                                 ]
-                            , El.row [centerX] [pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to bgo to my github page" "GITHUB"  1]
-                            , El.row [centerX] [pictureLink "#" "assets/blackcattyping2.png" "click here to see asome samples of my work" "DEMOS" 1]
-                            , El.row [centerX] [pictureLink "#" "assets/blackcattyping2.png" "click here tto view the latest version of my resume" "RESUME" 1]
+                            , El.row [ centerX ]
+                                [ El.column [ El.width (fillPortion 1) ] [ none ]
+                                , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
+                                , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
+                                , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
+                                , El.column [ El.width (fillPortion 1) ] [ none ]
+                                ]
                             ]
-                        ) --}      
+                        )
 
-    in 
-        { title = "NJE: CODE"
-        , body = [body]
-        }
+                _ ->
+                    El.layout
+                        bodyStyle
+                        (El.column [ centerX ]
+                            [ El.row []
+                                [ El.column [ El.width (fillPortion 1) ] [ none ]
+                                , textColumn [ El.width (fillPortion 3) ]
+                                    [ paragraph titleStyle titleText
+                                    , paragraph subtitleStyle subtitleText
+                                    ]
+                                , El.column [ El.width (fillPortion 1) ] [ none ]
+                                ]
+                            , El.row [ centerX ] [ pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to bgo to my github page" "GITHUB" 1 ]
+                            , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here to see asome samples of my work" "DEMOS" 1 ]
+                            , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here tto view the latest version of my resume" "RESUME" 1 ]
+                            ]
+                        )
+
+        --}
+    in
+    { title = "NJE: CODE"
+    , body = [ body ]
+    }

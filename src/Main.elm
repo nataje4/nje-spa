@@ -1,66 +1,74 @@
 module Main exposing (..)
 
-
 import Browser
+import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
-import Browser.Dom exposing (getViewport, Viewport)
 import Browser.Navigation as Nav exposing (Key, load, pushUrl)
+import Code exposing (Model, initModel, view)
+import Element exposing (Device, DeviceClass(..), Orientation(..), classifyDevice)
+import Error exposing (Model, initModel, view)
 import Home exposing (Model, initModel, view)
 import Poetry exposing (Model, initModel, view)
-import Code exposing (Model, initModel, view)
-import Error exposing (Model, initModel, view)
 import Route exposing (Route(..))
-import Url exposing (..)
-import Element exposing (Device, DeviceClass(..), Orientation(..), classifyDevice)
 import Task
+import Url exposing (..)
+
+
 
 ---- MODEL ----
 
 
-type Model 
+type Model
     = Home Home.Model
-    | Poetry Poetry.Model 
-    | Code Code.Model 
+    | Poetry Poetry.Model
+    | Code Code.Model
     | Error Error.Model
 
 
+
 --Flags are required by the Browser.application function
+
+
 init : Flags -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url navKey =
-    let 
-        route = (Route.fromUrl url)
-    in 
-        routeToModel (initModel flags) route 
-            |> changeRouteTo route 
+    let
+        route =
+            Route.fromUrl url
+    in
+    routeToModel (initModel flags) route
+        |> changeRouteTo route
 
 
-initModel : Flags -> Model 
-initModel flags = 
-    --will flash to error page initially before init function finishes executing. TODO: fix this 
+initModel : Flags -> Model
+initModel flags =
+    --will flash to error page initially before init function finishes executing. TODO: fix this
     Error
         { width = flags.width
         , data = ""
         , menuOpen = False
         }
 
-type alias Flags = 
-    { width: Int
-    , data: String 
+
+type alias Flags =
+    { width : Int
+    , data : String
     }
 
 
----- UPDATE ----
 
---TODO: make it so only the width matters on resize 
+---- UPDATE ----
+--TODO: make it so only the width matters on resize
+
+
 type Msg
     = ChangedUrl Url
     | ClickedLink Browser.UrlRequest
-    | ResizeWindow Int Int 
+    | ResizeWindow Int Int
 
 
-update :  Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of 
+    case msg of
         ClickedLink urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
@@ -87,110 +95,125 @@ update msg model =
                     )
 
         ChangedUrl url ->
-            let 
-                route = (Route.fromUrl url)
-            in 
-                changeRouteTo route (routeToModel model route ) 
-        
-        ResizeWindow width _ -> 
-            ( updateWidth width model  , Cmd.none )            
+            let
+                route =
+                    Route.fromUrl url
+            in
+            changeRouteTo route (routeToModel model route)
+
+        ResizeWindow width _ ->
+            ( updateWidth width model, Cmd.none )
 
 
-routeChangeFlags : Model -> Flags 
-routeChangeFlags model = 
+routeChangeFlags : Model -> Flags
+routeChangeFlags model =
     { width = getWidth model
     , data = ""
     }
 
+
 changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
 changeRouteTo maybeRoute model =
     let
-        newFlags : Flags 
-        newFlags = 
+        newFlags : Flags
+        newFlags =
             routeChangeFlags model
-    in 
-        case maybeRoute of
-            Nothing ->
-                (Error (Error.initModel newFlags), Cmd.none)
-            Just Route.Poetry -> 
-                (Poetry (Poetry.initModel newFlags), Cmd.none)
-            Just Route.Code -> 
-                (Code (Code.initModel newFlags), Cmd.none)
-            Just Route.Home -> 
-                (Home (Home.initModel newFlags), Cmd.none)
+    in
+    case maybeRoute of
+        Nothing ->
+            ( Error (Error.initModel newFlags), Cmd.none )
 
-routeToModel: Model -> Maybe Route -> Model
+        Just Route.Poetry ->
+            ( Poetry (Poetry.initModel newFlags), Cmd.none )
+
+        Just Route.Code ->
+            ( Code (Code.initModel newFlags), Cmd.none )
+
+        Just Route.Home ->
+            ( Home (Home.initModel newFlags), Cmd.none )
+
+
+routeToModel : Model -> Maybe Route -> Model
 routeToModel model maybeRoute =
     let
-        newFlags : Flags 
-        newFlags = 
+        newFlags : Flags
+        newFlags =
             routeChangeFlags model
-    in     
-        case maybeRoute of
-            Just Route.Home -> 
-                Home (Home.initModel newFlags)
-            Just Route.Poetry -> 
-                Poetry (Poetry.initModel newFlags)
-            Just Route.Code  -> 
-                Code (Code.initModel newFlags)
-            Nothing -> 
-                Error (Error.initModel newFlags)
+    in
+    case maybeRoute of
+        Just Route.Home ->
+            Home (Home.initModel newFlags)
 
-updateWidth : Int -> Model -> Model 
-updateWidth width model = 
-    case model of 
-        Home homeModel -> 
-            Home { homeModel | width = width}
+        Just Route.Poetry ->
+            Poetry (Poetry.initModel newFlags)
 
-        Poetry poetryModel -> 
-            Poetry { poetryModel | width = width}
+        Just Route.Code ->
+            Code (Code.initModel newFlags)
 
-        Code codeModel -> 
-            Code { codeModel | width = width}
+        Nothing ->
+            Error (Error.initModel newFlags)
 
-        Error errorModel -> 
-            Error { errorModel | width = width}
+
+updateWidth : Int -> Model -> Model
+updateWidth width model =
+    case model of
+        Home homeModel ->
+            Home { homeModel | width = width }
+
+        Poetry poetryModel ->
+            Poetry { poetryModel | width = width }
+
+        Code codeModel ->
+            Code { codeModel | width = width }
+
+        Error errorModel ->
+            Error { errorModel | width = width }
+
 
 getWidth : Model -> Int
-getWidth model = 
-    case model of 
-        Home homeModel -> 
+getWidth model =
+    case model of
+        Home homeModel ->
             homeModel.width
 
-        Poetry poetryModel -> 
+        Poetry poetryModel ->
             poetryModel.width
 
-        Code codeModel -> 
+        Code codeModel ->
             codeModel.width
 
-        Error errorModel -> 
+        Error errorModel ->
             errorModel.width
+
+
 
 ---- VIEW ----
 
 
-view : Model  -> Browser.Document msg
+view : Model -> Browser.Document msg
 view model =
-    case model of 
-        Home home -> 
+    case model of
+        Home home ->
             Home.view home
 
-        Poetry poetry -> 
+        Poetry poetry ->
             Poetry.view poetry
-        
-        Code code -> 
+
+        Code code ->
             Code.view code
-        
-        Error error -> 
-            Error.view error 
+
+        Error error ->
+            Error.view error
 
 
 
 ---- SUBSCRIPTIONS ----
 
+
 subscriptions : model -> Sub Msg
 subscriptions _ =
-  onResize (\w h -> ResizeWindow w h)
+    onResize (\w h -> ResizeWindow w h)
+
 
 
 ---- PROGRAM ----
@@ -200,9 +223,9 @@ main : Program Flags Model Msg
 main =
     Browser.application
         { view = view
-        , init = init 
+        , init = init
         , update = update
         , subscriptions = subscriptions
         , onUrlChange = ChangedUrl
-        , onUrlRequest = ClickedLink        
+        , onUrlRequest = ClickedLink
         }
