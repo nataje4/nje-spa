@@ -1,6 +1,5 @@
 module ViewHelpers exposing (..)
 
---import Html exposing (a, img, span, div, text, Html)
 import Html.Attributes exposing (src, class, href)
 import Element as El exposing (..)
 import Element.Font as EF exposing (..)
@@ -120,12 +119,3 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
         }
     
 
-{--.square-image {
-    width: 90%;
-    max-width: 300px;
-    max-height: 300px;
-    margin: auto;
-    float: top;
-    display: block;
-    object-fit: contain;
---}

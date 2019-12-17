@@ -62,18 +62,14 @@ subtitleText =
         { url = "https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest"
         , label = text "elm-ui"
         }
-    , text 
-        """
-             package.) She has a burgeoning interest in Natural Language Processing and its potential uses in art. You can contact her 
-            with programming-related inquiries 
-        """
+    , text " package.) You can contact her with programming-related inquiries"
     , link linkStyle
         { url = "#"
         , label = text "here"
         }
     , text " or find her on twitter "
     , link linkStyle
-        { url = "https://www.twitter.com/nataliejedson"
+        { url = "https://www.twitter.com/nataje4"
         , label = text "@nataje4"
         }
     , text "."

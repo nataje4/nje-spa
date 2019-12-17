@@ -12491,7 +12491,7 @@ var $author$project$Code$subtitleText = _List_fromArray(
 			label: $mdgriffith$elm_ui$Element$text('elm-ui'),
 			url: 'https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest'
 		}),
-		$mdgriffith$elm_ui$Element$text('\n             package.) She has a burgeoning interest in Natural Language Processing and its potential uses in art. You can contact her \n            with programming-related inquiries \n        '),
+		$mdgriffith$elm_ui$Element$text(' package.) You can contact her with programming-related inquiries'),
 		A2(
 		$mdgriffith$elm_ui$Element$link,
 		$author$project$ViewHelpers$linkStyle,
@@ -12505,7 +12505,7 @@ var $author$project$Code$subtitleText = _List_fromArray(
 		$author$project$ViewHelpers$linkStyle,
 		{
 			label: $mdgriffith$elm_ui$Element$text('@nataje4'),
-			url: 'https://www.twitter.com/nataliejedson'
+			url: 'https://www.twitter.com/nataje4'
 		}),
 		$mdgriffith$elm_ui$Element$text('.')
 	]);
