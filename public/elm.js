@@ -11162,85 +11162,6 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
-	function (a, b) {
-		return {$: 'FontFamily', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
-	function (a, b) {
-		return {$: 'StyleClass', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
-	return {$: 'Flag', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
-	return {$: 'Second', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
-	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
-};
-var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
-var $elm$core$String$toLower = _String_toLower;
-var $elm$core$String$words = _String_words;
-var $mdgriffith$elm_ui$Internal$Model$renderFontClassName = F2(
-	function (font, current) {
-		return _Utils_ap(
-			current,
-			function () {
-				switch (font.$) {
-					case 'Serif':
-						return 'serif';
-					case 'SansSerif':
-						return 'sans-serif';
-					case 'Monospace':
-						return 'monospace';
-					case 'Typeface':
-						var name = font.a;
-						return A2(
-							$elm$core$String$join,
-							'-',
-							$elm$core$String$words(
-								$elm$core$String$toLower(name)));
-					case 'ImportFont':
-						var name = font.a;
-						var url = font.b;
-						return A2(
-							$elm$core$String$join,
-							'-',
-							$elm$core$String$words(
-								$elm$core$String$toLower(name)));
-					default:
-						var name = font.a.name;
-						return A2(
-							$elm$core$String$join,
-							'-',
-							$elm$core$String$words(
-								$elm$core$String$toLower(name)));
-				}
-			}());
-	});
-var $mdgriffith$elm_ui$Element$Font$family = function (families) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontFamily,
-		A2(
-			$mdgriffith$elm_ui$Internal$Model$FontFamily,
-			A3($elm$core$List$foldl, $mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
-			families));
-};
-var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
-	return {$: 'Typeface', a: a};
-};
-var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
-var $author$project$ViewHelpers$georgia = $mdgriffith$elm_ui$Element$Font$typeface('Georgia');
-var $author$project$ViewHelpers$lato = $mdgriffith$elm_ui$Element$Font$typeface('Lato');
-var $mdgriffith$elm_ui$Internal$Model$Serif = {$: 'Serif'};
-var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
-var $author$project$ViewHelpers$mainFonts = $mdgriffith$elm_ui$Element$Font$family(
-	_List_fromArray(
-		[$author$project$ViewHelpers$lato, $author$project$ViewHelpers$georgia, $mdgriffith$elm_ui$Element$Font$serif]));
-var $author$project$ViewHelpers$bodyStyle = _List_fromArray(
-	[$author$project$ViewHelpers$mainFonts]);
 var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
 	return {$: 'AlignX', a: a};
 };
@@ -11355,6 +11276,15 @@ var $mdgriffith$elm_ui$Internal$Model$AsEl = {$: 'AsEl'};
 var $mdgriffith$elm_ui$Internal$Model$asEl = $mdgriffith$elm_ui$Internal$Model$AsEl;
 var $mdgriffith$elm_ui$Internal$Model$AsParagraph = {$: 'AsParagraph'};
 var $mdgriffith$elm_ui$Internal$Model$asParagraph = $mdgriffith$elm_ui$Internal$Model$AsParagraph;
+var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
+	return {$: 'Flag', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
+	return {$: 'Second', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
+	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
+};
 var $mdgriffith$elm_ui$Internal$Flag$alignBottom = $mdgriffith$elm_ui$Internal$Flag$flag(41);
 var $mdgriffith$elm_ui$Internal$Flag$alignRight = $mdgriffith$elm_ui$Internal$Flag$flag(40);
 var $mdgriffith$elm_ui$Internal$Flag$centerX = $mdgriffith$elm_ui$Internal$Flag$flag(42);
@@ -16560,17 +16490,76 @@ var $mdgriffith$elm_ui$Element$column = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
-var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
-	return {$: 'Fill', a: a};
+var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
+	function (a, b) {
+		return {$: 'FontFamily', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
+	function (a, b) {
+		return {$: 'StyleClass', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
+var $elm$core$String$toLower = _String_toLower;
+var $elm$core$String$words = _String_words;
+var $mdgriffith$elm_ui$Internal$Model$renderFontClassName = F2(
+	function (font, current) {
+		return _Utils_ap(
+			current,
+			function () {
+				switch (font.$) {
+					case 'Serif':
+						return 'serif';
+					case 'SansSerif':
+						return 'sans-serif';
+					case 'Monospace':
+						return 'monospace';
+					case 'Typeface':
+						var name = font.a;
+						return A2(
+							$elm$core$String$join,
+							'-',
+							$elm$core$String$words(
+								$elm$core$String$toLower(name)));
+					case 'ImportFont':
+						var name = font.a;
+						var url = font.b;
+						return A2(
+							$elm$core$String$join,
+							'-',
+							$elm$core$String$words(
+								$elm$core$String$toLower(name)));
+					default:
+						var name = font.a.name;
+						return A2(
+							$elm$core$String$join,
+							'-',
+							$elm$core$String$words(
+								$elm$core$String$toLower(name)));
+				}
+			}());
+	});
+var $mdgriffith$elm_ui$Element$Font$family = function (families) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontFamily,
+		A2(
+			$mdgriffith$elm_ui$Internal$Model$FontFamily,
+			A3($elm$core$List$foldl, $mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
+			families));
 };
-var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
-var $author$project$ViewHelpers$ExtraLarge = {$: 'ExtraLarge'};
-var $author$project$ViewHelpers$Large = {$: 'Large'};
-var $author$project$ViewHelpers$Medium = {$: 'Medium'};
-var $author$project$ViewHelpers$Small = {$: 'Small'};
-var $author$project$ViewHelpers$findScreenSize = function (width) {
-	return (width <= 450) ? $author$project$ViewHelpers$Small : ((width <= 800) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
+var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
+	return {$: 'Typeface', a: a};
 };
+var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
+var $author$project$ViewHelpers$georgia = $mdgriffith$elm_ui$Element$Font$typeface('Georgia');
+var $author$project$ViewHelpers$lato = $mdgriffith$elm_ui$Element$Font$typeface('Lato');
+var $mdgriffith$elm_ui$Internal$Model$Serif = {$: 'Serif'};
+var $mdgriffith$elm_ui$Element$Font$serif = $mdgriffith$elm_ui$Internal$Model$Serif;
+var $author$project$ViewHelpers$mainFonts = $mdgriffith$elm_ui$Element$Font$family(
+	_List_fromArray(
+		[$author$project$ViewHelpers$lato, $author$project$ViewHelpers$georgia, $mdgriffith$elm_ui$Element$Font$serif]));
+var $author$project$ViewHelpers$bodyStyle = _List_fromArray(
+	[$author$project$ViewHelpers$mainFonts]);
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -16797,13 +16786,161 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
+var $mdgriffith$elm_ui$Element$rgb = F3(
+	function (r, g, b) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
+	});
+var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb, 0.0, 0.0, 0.0);
+var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$bgColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'background-color',
+			clr));
+};
+var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
+var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
+var $mdgriffith$elm_ui$Element$link = F2(
+	function (attrs, _v0) {
+		var url = _v0.url;
+		var label = _v0.label;
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$Attr(
+					$elm$html$Html$Attributes$href(url)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Internal$Model$Attr(
+						$elm$html$Html$Attributes$rel('noopener noreferrer')),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+						A2(
+							$elm$core$List$cons,
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+							A2(
+								$elm$core$List$cons,
+								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
+								attrs))))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[label])));
+	});
+var $mdgriffith$elm_ui$Internal$Model$Class = F2(
+	function (a, b) {
+		return {$: 'Class', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$fontAlignment = $mdgriffith$elm_ui$Internal$Flag$flag(12);
+var $mdgriffith$elm_ui$Element$Font$center = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textCenter);
+var $mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'fc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(fontColor),
+			'color',
+			fontColor));
+};
+var $author$project$ViewHelpers$arial = $mdgriffith$elm_ui$Element$Font$typeface('Arial');
+var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
+var $author$project$ViewHelpers$workSans = $mdgriffith$elm_ui$Element$Font$typeface('Work Sans');
+var $author$project$ViewHelpers$emphasisFonts = $mdgriffith$elm_ui$Element$Font$family(
+	_List_fromArray(
+		[$author$project$ViewHelpers$workSans, $author$project$ViewHelpers$arial, $mdgriffith$elm_ui$Element$Font$sansSerif]));
+var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
+	function (a, b, c, d, e) {
+		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
+var $mdgriffith$elm_ui$Element$padding = function (x) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			'p-' + $elm$core$String$fromInt(x),
+			x,
+			x,
+			x,
+			x));
+};
+var $mdgriffith$elm_ui$Element$Font$size = function (i) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$fontSize,
+		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
+};
+var $author$project$ViewHelpers$white = A3($mdgriffith$elm_ui$Element$rgb, 255.0, 255.0, 255.0);
+var $author$project$ViewHelpers$menuItemStyle = _List_fromArray(
+	[
+		$author$project$ViewHelpers$emphasisFonts,
+		$mdgriffith$elm_ui$Element$padding(20),
+		$mdgriffith$elm_ui$Element$Font$size(18),
+		$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$white),
+		$mdgriffith$elm_ui$Element$Font$center,
+		$mdgriffith$elm_ui$Element$width(
+		$mdgriffith$elm_ui$Element$fillPortion(1))
+	]);
+var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
+	return {$: 'Text', a: a};
+};
+var $mdgriffith$elm_ui$Element$text = function (content) {
+	return $mdgriffith$elm_ui$Internal$Model$Text(content);
+};
+var $author$project$ViewHelpers$menuLink = F2(
+	function (text_, url) {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			$author$project$ViewHelpers$menuItemStyle,
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$link,
+					_List_Nil,
+					{
+						label: $mdgriffith$elm_ui$Element$text(text_),
+						url: url
+					})
+				]));
+	});
 var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
 var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
-var $mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
-	return {$: 'Describe', a: a};
+var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
+	return {$: 'Px', a: a};
 };
-var $mdgriffith$elm_ui$Internal$Model$Paragraph = {$: 'Paragraph'};
-var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
+var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
+var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
+var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
+var $mdgriffith$elm_ui$Element$row = F2(
+	function (attrs, children) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asRow,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+						attrs))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
 var $mdgriffith$elm_ui$Internal$Model$SpacingStyle = F3(
 	function (a, b, c) {
 		return {$: 'SpacingStyle', a: a, b: b, c: c};
@@ -16823,6 +16960,62 @@ var $mdgriffith$elm_ui$Element$spacing = function (x) {
 			x,
 			x));
 };
+var $author$project$ViewHelpers$navMenu = function () {
+	var spacingEl = A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$fillPortion(3))
+			]),
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$none]));
+	return A2(
+		$mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Background$color($author$project$ViewHelpers$black),
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$height(
+				$mdgriffith$elm_ui$Element$px(60)),
+				$mdgriffith$elm_ui$Element$spacing(10)
+			]),
+		_List_fromArray(
+			[
+				spacingEl,
+				A2($author$project$ViewHelpers$menuLink, 'HOME', '#'),
+				A2($author$project$ViewHelpers$menuLink, 'CODE', '#/code'),
+				A2($author$project$ViewHelpers$menuLink, 'POETRY', '#/poetry'),
+				spacingEl
+			]));
+}();
+var $author$project$ViewHelpers$documentMsgHelper = F2(
+	function (title, elements) {
+		return {
+			body: _List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$layout,
+					$author$project$ViewHelpers$bodyStyle,
+					A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_Nil,
+						A2($elm$core$List$cons, $author$project$ViewHelpers$navMenu, elements)))
+				]),
+			title: title
+		};
+	});
+var $author$project$ViewHelpers$ExtraLarge = {$: 'ExtraLarge'};
+var $author$project$ViewHelpers$Large = {$: 'Large'};
+var $author$project$ViewHelpers$Medium = {$: 'Medium'};
+var $author$project$ViewHelpers$Small = {$: 'Small'};
+var $author$project$ViewHelpers$findScreenSize = function (width) {
+	return (width <= 450) ? $author$project$ViewHelpers$Small : ((width <= 800) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
+};
+var $mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
+	return {$: 'Describe', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$Paragraph = {$: 'Paragraph'};
 var $mdgriffith$elm_ui$Element$paragraph = F2(
 	function (attrs, children) {
 		return A4(
@@ -16848,26 +17041,8 @@ var $mdgriffith$elm_ui$Internal$Model$Top = {$: 'Top'};
 var $mdgriffith$elm_ui$Element$alignTop = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$Top);
 var $mdgriffith$elm_ui$Internal$Model$Bottom = {$: 'Bottom'};
 var $mdgriffith$elm_ui$Element$alignBottom = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$Bottom);
-var $mdgriffith$elm_ui$Internal$Model$Class = F2(
-	function (a, b) {
-		return {$: 'Class', a: a, b: b};
-	});
 var $mdgriffith$elm_ui$Internal$Flag$fontWeight = $mdgriffith$elm_ui$Internal$Flag$flag(13);
 var $mdgriffith$elm_ui$Element$Font$bold = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.bold);
-var $mdgriffith$elm_ui$Internal$Flag$fontAlignment = $mdgriffith$elm_ui$Internal$Flag$flag(12);
-var $mdgriffith$elm_ui$Element$Font$center = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textCenter);
-var $author$project$ViewHelpers$arial = $mdgriffith$elm_ui$Element$Font$typeface('Arial');
-var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
-var $author$project$ViewHelpers$workSans = $mdgriffith$elm_ui$Element$Font$typeface('Work Sans');
-var $author$project$ViewHelpers$emphasisFonts = $mdgriffith$elm_ui$Element$Font$family(
-	_List_fromArray(
-		[$author$project$ViewHelpers$workSans, $author$project$ViewHelpers$arial, $mdgriffith$elm_ui$Element$Font$sansSerif]));
-var $mdgriffith$elm_ui$Element$Font$size = function (i) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontSize,
-		$mdgriffith$elm_ui$Internal$Model$FontSize(i));
-};
 var $author$project$ViewHelpers$bottomTextStyle = _List_fromArray(
 	[
 		$author$project$ViewHelpers$emphasisFonts,
@@ -16927,37 +17102,6 @@ var $mdgriffith$elm_ui$Element$image = F2(
 						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
 					])));
 	});
-var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
-var $mdgriffith$elm_ui$Element$link = F2(
-	function (attrs, _v0) {
-		var url = _v0.url;
-		var label = _v0.label;
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$Attr(
-					$elm$html$Html$Attributes$href(url)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Internal$Model$Attr(
-						$elm$html$Html$Attributes$rel('noopener noreferrer')),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-						A2(
-							$elm$core$List$cons,
-							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-							A2(
-								$elm$core$List$cons,
-								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
-								attrs))))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[label])));
-	});
 var $mdgriffith$elm_ui$Element$Font$underline = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.underline);
 var $author$project$ViewHelpers$linkStyle = _List_fromArray(
 	[$mdgriffith$elm_ui$Element$Font$underline]);
@@ -16970,23 +17114,6 @@ var $mdgriffith$elm_ui$Element$maximum = F2(
 		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
 	});
 var $author$project$ViewHelpers$noPadding = {bottom: 0, left: 0, right: 0, top: 0};
-var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
-	function (a, b, c, d, e) {
-		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$padding = $mdgriffith$elm_ui$Internal$Flag$flag(2);
-var $mdgriffith$elm_ui$Element$padding = function (x) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$padding,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-			'p-' + $elm$core$String$fromInt(x),
-			x,
-			x,
-			x,
-			x));
-};
 var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
 	function (top, right, bottom, left) {
 		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
@@ -17015,32 +17142,6 @@ var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
 			right,
 			bottom,
 			left));
-};
-var $mdgriffith$elm_ui$Internal$Model$AsRow = {$: 'AsRow'};
-var $mdgriffith$elm_ui$Internal$Model$asRow = $mdgriffith$elm_ui$Internal$Model$AsRow;
-var $mdgriffith$elm_ui$Element$row = F2(
-	function (attrs, children) {
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asRow,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentLeft + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.contentCenterY)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-						attrs))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
-	});
-var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
-	return {$: 'Text', a: a};
-};
-var $mdgriffith$elm_ui$Element$text = function (content) {
-	return $mdgriffith$elm_ui$Internal$Model$Text(content);
 };
 var $author$project$ViewHelpers$pictureLink = F5(
 	function (linkString, imgSrc, desc, bottomText, fillPortion_) {
@@ -17117,7 +17218,7 @@ var $author$project$Code$subtitleText = _List_fromArray(
 			label: $mdgriffith$elm_ui$Element$text('elm-ui'),
 			url: 'https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest'
 		}),
-		$mdgriffith$elm_ui$Element$text(' package.) You can contact her with programming-related inquiries'),
+		$mdgriffith$elm_ui$Element$text(' package.) You can contact her with programming-related inquiries '),
 		A2(
 		$mdgriffith$elm_ui$Element$link,
 		$author$project$ViewHelpers$linkStyle,
@@ -17177,14 +17278,14 @@ var $author$project$Code$titleText = _List_fromArray(
 		$mdgriffith$elm_ui$Element$text('CODE')
 	]);
 var $author$project$Code$view = function (model) {
+	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: CODE');
 	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
-	var body = function () {
-		switch (screenSize.$) {
-			case 'ExtraLarge':
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
+	switch (screenSize.$) {
+		case 'ExtraLarge':
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
 						$mdgriffith$elm_ui$Element$column,
 						_List_Nil,
 						_List_fromArray(
@@ -17254,12 +17355,13 @@ var $author$project$Code$view = function (model) {
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none]))
 									]))
-							])));
-			case 'Large':
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
+							]))
+					]));
+		case 'Large':
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
 						$mdgriffith$elm_ui$Element$column,
 						_List_Nil,
 						_List_fromArray(
@@ -17329,12 +17431,13 @@ var $author$project$Code$view = function (model) {
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none]))
 									]))
-							])));
-			default:
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
+							]))
+					]));
+		default:
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
 						$mdgriffith$elm_ui$Element$column,
 						_List_fromArray(
 							[$mdgriffith$elm_ui$Element$centerX]),
@@ -17400,14 +17503,9 @@ var $author$project$Code$view = function (model) {
 									[
 										A5($author$project$ViewHelpers$pictureLink, '#', 'assets/blackcattyping2.png', 'click here tto view the latest version of my resume', 'RESUME', 1)
 									]))
-							])));
-		}
-	}();
-	return {
-		body: _List_fromArray(
-			[body]),
-		title: 'NJE: CODE'
-	};
+							]))
+					]));
+	}
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$img = _VirtualDom_node('img');
@@ -17448,14 +17546,14 @@ var $author$project$Home$titleText = _List_fromArray(
 		$mdgriffith$elm_ui$Element$text('NATALIE JANE EDSON')
 	]);
 var $author$project$Home$view = function (model) {
+	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE');
 	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
-	var body = function () {
-		switch (screenSize.$) {
-			case 'ExtraLarge':
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
+	switch (screenSize.$) {
+		case 'ExtraLarge':
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
 						$mdgriffith$elm_ui$Element$column,
 						_List_Nil,
 						_List_fromArray(
@@ -17524,12 +17622,13 @@ var $author$project$Home$view = function (model) {
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none]))
 									]))
-							])));
-			case 'Large':
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
+							]))
+					]));
+		case 'Large':
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
 						$mdgriffith$elm_ui$Element$column,
 						_List_Nil,
 						_List_fromArray(
@@ -17598,12 +17697,13 @@ var $author$project$Home$view = function (model) {
 										_List_fromArray(
 											[$mdgriffith$elm_ui$Element$none]))
 									]))
-							])));
-			default:
-				return A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
+							]))
+					]));
+		default:
+			return viewHelper(
+				_List_fromArray(
+					[
+						A2(
 						$mdgriffith$elm_ui$Element$column,
 						_List_fromArray(
 							[$mdgriffith$elm_ui$Element$centerX]),
@@ -17661,116 +17761,10 @@ var $author$project$Home$view = function (model) {
 									[
 										A5($author$project$ViewHelpers$pictureLink, '#/poetry', 'assets/ocean-square.gif', 'gif of the surface of the ocean', 'POETRY', 1)
 									]))
-							])));
-		}
-	}();
-	return {
-		body: _List_fromArray(
-			[body]),
-		title: 'NJE'
-	};
+							]))
+					]));
+	}
 };
-var $mdgriffith$elm_ui$Element$rgb = F3(
-	function (r, g, b) {
-		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
-	});
-var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb, 0.0, 0.0, 0.0);
-var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$bgColor,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Colored,
-			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
-			'background-color',
-			clr));
-};
-var $mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$fontColor,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Colored,
-			'fc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(fontColor),
-			'color',
-			fontColor));
-};
-var $author$project$ViewHelpers$white = A3($mdgriffith$elm_ui$Element$rgb, 255.0, 255.0, 255.0);
-var $author$project$ViewHelpers$menuItemStyle = _List_fromArray(
-	[
-		$author$project$ViewHelpers$emphasisFonts,
-		$mdgriffith$elm_ui$Element$padding(20),
-		$mdgriffith$elm_ui$Element$Font$size(18),
-		$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$white),
-		$mdgriffith$elm_ui$Element$Font$center,
-		$mdgriffith$elm_ui$Element$width(
-		$mdgriffith$elm_ui$Element$fillPortion(1))
-	]);
-var $author$project$ViewHelpers$menuLink = F2(
-	function (text_, url) {
-		return A2(
-			$mdgriffith$elm_ui$Element$column,
-			$author$project$ViewHelpers$menuItemStyle,
-			_List_fromArray(
-				[
-					A2(
-					$mdgriffith$elm_ui$Element$link,
-					_List_Nil,
-					{
-						label: $mdgriffith$elm_ui$Element$text(text_),
-						url: url
-					})
-				]));
-	});
-var $mdgriffith$elm_ui$Internal$Model$Px = function (a) {
-	return {$: 'Px', a: a};
-};
-var $mdgriffith$elm_ui$Element$px = $mdgriffith$elm_ui$Internal$Model$Px;
-var $author$project$ViewHelpers$navMenu = function () {
-	var spacingEl = A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width(
-				$mdgriffith$elm_ui$Element$fillPortion(3))
-			]),
-		_List_fromArray(
-			[$mdgriffith$elm_ui$Element$none]));
-	return A2(
-		$mdgriffith$elm_ui$Element$row,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$Background$color($author$project$ViewHelpers$black),
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-				$mdgriffith$elm_ui$Element$height(
-				$mdgriffith$elm_ui$Element$px(60)),
-				$mdgriffith$elm_ui$Element$spacing(10)
-			]),
-		_List_fromArray(
-			[
-				spacingEl,
-				A2($author$project$ViewHelpers$menuLink, 'HOME', '#'),
-				A2($author$project$ViewHelpers$menuLink, 'CODE', '#/code'),
-				A2($author$project$ViewHelpers$menuLink, 'POETRY', '#/poetry'),
-				spacingEl
-			]));
-}();
-var $author$project$ViewHelpers$documentMsgHelper = F2(
-	function (title, elements) {
-		return {
-			body: _List_fromArray(
-				[
-					A2(
-					$mdgriffith$elm_ui$Element$layout,
-					$author$project$ViewHelpers$bodyStyle,
-					A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_Nil,
-						A2($elm$core$List$cons, $author$project$ViewHelpers$navMenu, elements)))
-				]),
-			title: title
-		};
-	});
 var $mdgriffith$elm_ui$Element$el = F2(
 	function (attrs, child) {
 		return A4(
