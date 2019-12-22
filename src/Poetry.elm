@@ -96,7 +96,7 @@ view model =
 
         viewHelper : List (Element msg) -> Browser.Document msg
         viewHelper =
-            documentMsgHelper model.menuOpen screenSize "NJE: POETRY"
+            documentMsgHelper "NJE: POETRY"
     in
     case screenSize of
         ExtraLarge ->
