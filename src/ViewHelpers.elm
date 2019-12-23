@@ -94,7 +94,7 @@ subtitleStyle =
 bottomTextStyle : List (El.Attribute msg)
 bottomTextStyle =
     [ emphasisFonts
-    , center
+    , Ef.center
     , Ef.size 32
     , alignBottom
     , Ef.bold
@@ -123,10 +123,14 @@ white : El.Color
 white =
     rgb 255.0 255.0 255.0
 
+darkGrey : El.Color
+darkGrey =
+    rgb 60.0 60.0 60.0
+
 
 menuItemStyle : List (Attribute msg)
 menuItemStyle =
-    [emphasisFonts , padding 20, Ef.size 18, Ef.color white, center, width (fillPortion 1)]
+    [emphasisFonts , padding 20, Ef.size 18, Ef.color white, Ef.center, width (fillPortion 1)]
 
 menuLink : String -> String -> Element msg
 menuLink text_ url =
@@ -163,8 +167,31 @@ navMenu  =
             , spacingEl
             ]
         
-
-
+footer : Element msg 
+footer = 
+    let
+        spacingEl : Element msg
+        spacingEl = 
+            column 
+                [ width (fillPortion 3)
+                ]
+                [ none ]
+    in
+        El.row
+            [ width fill
+            , height (px 60)
+            , spacing 10
+            , paddingEach {noPadding | top = 100, bottom = 50}
+            ]
+            [ paragraph
+                [ emphasisFonts
+                , Ef.size 12
+                , Ef.color black
+                , center
+                ]
+                [ text "COPYRIGHT 2020 NATALIEJANEEDSON.COM"
+                ]
+            ]
 
 -- menu icon or something like that
 
@@ -178,7 +205,9 @@ documentMsgHelper title elements =
             bodyStyle
             (El.column
                 []
-                (navMenu :: elements)
+                (elements ++ [footer]
+                    |> (++) [navMenu]
+                )
             )
         ]
     }
@@ -198,12 +227,12 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                         [ width (fill |> maximum 300)
                         , centerX
                         , alignTop
-                        , paddingEach { noPadding | bottom = 40 }
+                        , paddingEach { noPadding | bottom = 30 }
                         ]
                         { src = imgSrc
                         , description = desc
                         }
                     ]
-                , El.row [] [ El.paragraph bottomTextStyle [ text bottomText ] ]
+                , El.row [width (fill |> maximum 300)] [ El.paragraph bottomTextStyle [ text bottomText ] ]
                 ]
         }
