@@ -72,10 +72,7 @@ subtitleText =
         , label = text "elm-ui"
         }
     , text " package.) You can contact her with programming-related inquiries "
-    , link linkStyle
-        { url = "#"
-        , label = text "here"
-        }
+    , emailLink "here" "code@nataliejaneedson.com"
     , text " or find her on twitter "
     , link linkStyle
         { url = "https://www.twitter.com/nataje4"

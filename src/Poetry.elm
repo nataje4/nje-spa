@@ -74,10 +74,7 @@ subtitleText =
             and has written a number of tools to assist in her personal generative writing practice, all of 
             which will be available on this website soon. You can contact her with poetry-related inquiries  
         """
-    , link linkStyle
-        { url = "#"
-        , label = text "here"
-        }
+    , emailLink "here" "poetry@nataliejaneedson.com"
     , text " or find her on twitter "
     , link linkStyle
         { url = "https://www.twitter.com/nataliejedson"
@@ -97,6 +94,10 @@ view model =
         viewHelper : List (Element msg) -> Browser.Document msg
         viewHelper =
             documentMsgHelper "NJE: POETRY"
+
+        shopLink : Element msg 
+        shopLink = 
+            pictureLink "https://www.etsy.com/shop/NJEpoetry" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1
     in
     case screenSize of
         ExtraLarge ->
@@ -111,7 +112,7 @@ view model =
                     ]
                 , El.row [ centerX ]
                     [ El.column [ El.width (fillPortion 2) ] [ none ]
-                    , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1
+                    , shopLink
                     , pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
                     , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
                     , El.column [ El.width (fillPortion 2) ] [ none ]
@@ -130,7 +131,7 @@ view model =
                     ]
                 , El.row [ centerX ]
                     [ El.column [ El.width (fillPortion 1) ] [ none ]
-                    , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1
+                    , shopLink
                     , pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
                     , pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
                     , El.column [ El.width (fillPortion 1) ] [ none ]
@@ -147,7 +148,7 @@ view model =
                         ]
                     , El.column [ El.width (fillPortion 1) ] [ none ]
                     ]
-                , El.row [ centerX ] [ pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1 ]
+                , El.row [ centerX ] [ shopLink ]
                 , El.row [ centerX ] [ pictureLink "#" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1 ]
                 , El.row [ centerX ] [ pictureLink "#" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1 ]
                 ]

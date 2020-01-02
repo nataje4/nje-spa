@@ -4,6 +4,9 @@ import Browser exposing (Document)
 import Element as El exposing (..)
 import Element.Background as Bg exposing (color)
 import Element.Font as Ef exposing (..)
+import Html exposing (a, text)
+import Html.Attributes exposing (href, style)
+import Markdown exposing (toHtml)
 
 
 type ScreenSize
@@ -26,7 +29,6 @@ findScreenSize width =
 
     else
         ExtraLarge
-
 
 workSans =
     typeface "Work Sans"
@@ -98,6 +100,7 @@ bottomTextStyle =
     , Ef.size 32
     , alignBottom
     , Ef.bold
+    , paddingEach { noPadding | top = 30, bottom = 40 }
     ]
 
 
@@ -130,19 +133,17 @@ darkGrey =
 
 menuItemStyle : List (Attribute msg)
 menuItemStyle =
-    [emphasisFonts , padding 20, Ef.size 18, Ef.color white, Ef.center, width (fillPortion 1)]
+    [emphasisFonts , padding 20, Ef.size 18, Ef.color white, width (fillPortion 1)]
 
 menuLink : String -> String -> Element msg
 menuLink text_ url =
     column
         menuItemStyle
-        [link []
+        [link [El.centerX, El.centerY]
             { url = url
-            , label = text text_
+            , label = paragraph [Ef.center] [El.text text_]
             }
         ]
-        
-
 
 navMenu : Element msg
 navMenu  =
@@ -189,7 +190,7 @@ footer =
                 , Ef.color black
                 , center
                 ]
-                [ text "COPYRIGHT 2020 NATALIEJANEEDSON.COM"
+                [ El.text "COPYRIGHT 2020 NATALIEJANEEDSON.COM"
                 ]
             ]
 
@@ -221,18 +222,23 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
         ([ width (fillPortion fillPortion_), padding 10 ] ++ linkStyle)
         { url = linkString
         , label =
-            El.column []
+            El.column [width (fill |> maximum 300)]
                 [ El.row []
                     [ image
-                        [ width (fill |> maximum 300)
+                        [ width fill
                         , centerX
                         , alignTop
-                        , paddingEach { noPadding | bottom = 30 }
                         ]
                         { src = imgSrc
                         , description = desc
                         }
                     ]
-                , El.row [width (fill |> maximum 300)] [ El.paragraph bottomTextStyle [ text bottomText ] ]
+                , El.row [width (fill |> maximum 300)] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
                 ]
         }
+
+emailLink : String -> String -> Element msg 
+emailLink text_ email = 
+    El.html (a [href ("mailto:" ++ email), style "color" "black"] [Html.text text_])
+
+
