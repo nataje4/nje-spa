@@ -213,7 +213,60 @@ documentMsgHelper title elements =
         ]
     }
 
-   
+titleSideSpacer :  Element
+titleSideSpacer = 
+    El.column [ El.width (fillPortion 1) ] [ none ]
+
+titleEl : Model -> List Element -> Element
+titleEl model textElements = 
+    case (findScreenSize model.width) of 
+        ExtraLarge -> 
+            textColumn [ El.width (fillPortion 2) ] textElements
+        _ -> 
+            textColumn [ El.width (fillPortion 3) ] textElements
+
+bodySideSpacer : Model -> Element
+bodySideSpacer model = 
+    case (findScreenSize model.width) of 
+        ExtraLarge -> 
+            El.column [ El.width (fillPortion 2) ] [ none ]
+        _ -> 
+            El.column [ El.width (fillPortion 1) ] [ none ]
+
+bodyEl : List Element -> Element
+bodyEl textElements = 
+    textColumn [ El.width (fillPortion 3) ] textElements
+
+
+markdownPageHelper : Model -> String -> String -> Browser.Document msg 
+markdownPageHelper model title markdownString = 
+    let
+        markdownElement : Element 
+        markdownElement = 
+            Markdown.toHtml markdownString
+                |> html [width fill]
+
+        browserTitle : String 
+        browserTitle = 
+            "NJE: " ++ title
+    in 
+        documentMsgHelper browserTitle
+            [El.column []
+                [ El.row [ centerX ]
+                    [ titleSideSpacer
+                    , titleEl
+                        [ paragraph titleStyle title]
+                    , titleSideSpacer
+                    ]
+                , El.row [ centerX ]
+                    [ bodySideSpacer model
+                    , bodyEl [markdownElement]
+                    , bodySideSpacer model
+                    ]
+                ]
+            ]
+            
+
 
 
 pictureLink : String -> String -> String -> String -> Int -> Element msg
