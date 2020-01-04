@@ -82,59 +82,60 @@ view model =
         viewHelper : List (Element msg) -> Browser.Document msg
         viewHelper =
             documentMsgHelper "NJE"
-
     in
-        case screenSize of
-            ExtraLarge ->
-                viewHelper
-                    [El.column []
-                        [ El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 2) ] [ none ]
-                            , textColumn [ El.width (fillPortion 3) ]
-                                [ paragraph titleStyle titleText
-                                , paragraph subtitleStyle subtitleText
-                                ]
-                            , El.column [ El.width (fillPortion 2) ] [ none ]
+    case screenSize of
+        ExtraLarge ->
+            viewHelper
+                [ El.column []
+                    [ El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 2) ] [ none ]
+                        , textColumn [ El.width (fillPortion 3) ]
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
                             ]
-                        , El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 2) ] [ none ]
-                            , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE" 1
-                            , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
-                            , El.column [ El.width (fillPortion 2) ] [ none ]
-                            ]
+                        , El.column [ El.width (fillPortion 2) ] [ none ]
+                        ]
+                    , El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 2) ] [ none ]
+                        , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE" 1
+                        , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
+                        , El.column [ El.width (fillPortion 2) ] [ none ]
                         ]
                     ]
-            Large ->
-                viewHelper
-                    [El.column []
-                        [ El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , textColumn [ El.width (fillPortion 3) ]
-                                [ paragraph titleStyle titleText
-                                , paragraph subtitleStyle subtitleText
-                                ]
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
+                ]
+
+        Large ->
+            viewHelper
+                [ El.column []
+                    [ El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , textColumn [ El.width (fillPortion 3) ]
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
                             ]
-                        , El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE" 1
-                            , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
-                            ]
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
+                        ]
+                    , El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE" 1
+                        , pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
                         ]
                     ]
-            _ ->
-                viewHelper
-                    [El.column [ centerX ]
-                        [ El.row []
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , textColumn [ El.width (fillPortion 3) ]
-                                [ paragraph titleStyle titleText
-                                , paragraph subtitleStyle subtitleText
-                                ]
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
+                ]
+
+        _ ->
+            viewHelper
+                [ El.column [ centerX ]
+                    [ El.row []
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , textColumn [ El.width (fillPortion 3) ]
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
                             ]
-                        , El.row [ centerX ] [ pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE" 1 ]
-                        , El.row [ centerX ] [ pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1 ]
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
                         ]
+                    , El.row [ centerX ] [ pictureLink "#/code" "assets/cat.gif" "gif of a cat typing furiously on a computer" "CODE" 1 ]
+                    , El.row [ centerX ] [ pictureLink "#/poetry" "assets/ocean-square.gif" "gif of the surface of the ocean" "POETRY" 1 ]
                     ]
+                ]

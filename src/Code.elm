@@ -13,7 +13,6 @@ import ViewHelpers exposing (..)
 type alias Model =
     { width : Int
     , data : String
-    , menuOpen : Bool
     }
 
 
@@ -25,7 +24,6 @@ init flags =
 initModel flags =
     { width = flags.width
     , data = flags.data
-    , menuOpen = False
     }
 
 
@@ -92,62 +90,63 @@ view model =
         viewHelper : List (Element msg) -> Browser.Document msg
         viewHelper =
             documentMsgHelper "NJE: CODE"
-
     in
-        case screenSize of
-            ExtraLarge ->
-                viewHelper
-                    [El.column []
-                        [ El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , textColumn [ El.width (fillPortion 2) ]
-                                [ paragraph titleStyle titleText
-                                , paragraph subtitleStyle subtitleText
-                                ]
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
+    case screenSize of
+        ExtraLarge ->
+            viewHelper
+                [ El.column []
+                    [ El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , textColumn [ El.width (fillPortion 2) ]
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
                             ]
-                        , El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 2) ] [ none ]
-                            , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
-                            , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
-                            , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
-                            , El.column [ El.width (fillPortion 2) ] [ none ]
-                            ]
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
+                        ]
+                    , El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 2) ] [ none ]
+                        , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
+                        , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
+                        , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
+                        , El.column [ El.width (fillPortion 2) ] [ none ]
                         ]
                     ]
-            Large ->
-                viewHelper
-                    [El.column []
-                        [ El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , textColumn [ El.width (fillPortion 3) ]
-                                [ paragraph titleStyle titleText
-                                , paragraph subtitleStyle subtitleText
-                                ]
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
+                ]
+
+        Large ->
+            viewHelper
+                [ El.column []
+                    [ El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , textColumn [ El.width (fillPortion 3) ]
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
                             ]
-                        , El.row [ centerX ]
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
-                            , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
-                            , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
-                            ]
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
+                        ]
+                    , El.row [ centerX ]
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
+                        , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
+                        , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
                         ]
                     ]
-            _ ->
-                viewHelper
-                    [El.column [ centerX ]
-                        [ El.row []
-                            [ El.column [ El.width (fillPortion 1) ] [ none ]
-                            , textColumn [ El.width (fillPortion 3) ]
-                                [ paragraph titleStyle titleText
-                                , paragraph subtitleStyle subtitleText
-                                ]
-                            , El.column [ El.width (fillPortion 1) ] [ none ]
+                ]
+
+        _ ->
+            viewHelper
+                [ El.column [ centerX ]
+                    [ El.row []
+                        [ El.column [ El.width (fillPortion 1) ] [ none ]
+                        , textColumn [ El.width (fillPortion 3) ]
+                            [ paragraph titleStyle titleText
+                            , paragraph subtitleStyle subtitleText
                             ]
-                        , El.row [ centerX ] [ pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to bgo to my github page" "GITHUB" 1 ]
-                        , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here to see asome samples of my work" "DEMOS" 1 ]
-                        , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here tto view the latest version of my resume" "RESUME" 1 ]
+                        , El.column [ El.width (fillPortion 1) ] [ none ]
                         ]
+                    , El.row [ centerX ] [ pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to bgo to my github page" "GITHUB" 1 ]
+                    , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here to see asome samples of my work" "DEMOS" 1 ]
+                    , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here tto view the latest version of my resume" "RESUME" 1 ]
                     ]
+                ]

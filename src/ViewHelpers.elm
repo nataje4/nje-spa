@@ -5,7 +5,7 @@ import Element as El exposing (..)
 import Element.Background as Bg exposing (color)
 import Element.Font as Ef exposing (..)
 import Html exposing (a, text)
-import Html.Attributes exposing (href, style)
+import Html.Attributes exposing (class, href, style)
 import Markdown exposing (toHtml)
 
 
@@ -29,6 +29,7 @@ findScreenSize width =
 
     else
         ExtraLarge
+
 
 workSans =
     typeface "Work Sans"
@@ -122,9 +123,11 @@ black : El.Color
 black =
     rgb 0.0 0.0 0.0
 
+
 white : El.Color
 white =
     rgb 255.0 255.0 255.0
+
 
 darkGrey : El.Color
 darkGrey =
@@ -133,66 +136,71 @@ darkGrey =
 
 menuItemStyle : List (Attribute msg)
 menuItemStyle =
-    [emphasisFonts , padding 20, Ef.size 18, Ef.color white, width (fillPortion 1)]
+    [ emphasisFonts, padding 20, Ef.size 18, Ef.color white, width (fillPortion 1) ]
+
 
 menuLink : String -> String -> Element msg
 menuLink text_ url =
     column
         menuItemStyle
-        [link [El.centerX, El.centerY]
+        [ link [ El.centerX, El.centerY ]
             { url = url
-            , label = paragraph [Ef.center] [El.text text_]
+            , label = paragraph [ Ef.center ] [ El.text text_ ]
             }
         ]
 
+
 navMenu : Element msg
-navMenu  =
+navMenu =
     let
         spacingEl : Element msg
-        spacingEl = 
-            column 
+        spacingEl =
+            column
                 [ width (fillPortion 3)
                 ]
                 [ none ]
     in
-        El.row
-            [ Bg.color black
-            , width fill
-            , height (px 60)
-            , spacing 10
-            ]
-            [ spacingEl
-            , menuLink "HOME" "#"
-            , menuLink "CODE" "#/code"
-            , menuLink "POETRY" "#/poetry"
-            , spacingEl
-            ]
-        
-footer : Element msg 
-footer = 
+    El.row
+        [ Bg.color black
+        , width fill
+        , height (px 60)
+        , spacing 10
+        ]
+        [ spacingEl
+        , menuLink "HOME" "#"
+        , menuLink "CODE" "#/code"
+        , menuLink "POETRY" "#/poetry"
+        , spacingEl
+        ]
+
+
+footer : Element msg
+footer =
     let
         spacingEl : Element msg
-        spacingEl = 
-            column 
+        spacingEl =
+            column
                 [ width (fillPortion 3)
                 ]
                 [ none ]
     in
-        El.row
-            [ width fill
-            , height (px 60)
-            , spacing 10
-            , paddingEach {noPadding | top = 100, bottom = 50}
+    El.row
+        [ width fill
+        , height (px 60)
+        , spacing 10
+        , paddingEach { noPadding | top = 100, bottom = 50 }
+        ]
+        [ paragraph
+            [ emphasisFonts
+            , Ef.size 12
+            , Ef.color black
+            , center
             ]
-            [ paragraph
-                [ emphasisFonts
-                , Ef.size 12
-                , Ef.color black
-                , center
-                ]
-                [ El.text "COPYRIGHT 2020 NATALIEJANEEDSON.COM"
-                ]
+            [ El.text "COPYRIGHT 2020 NATALIEJANEEDSON.COM"
             ]
+        ]
+
+
 
 -- menu icon or something like that
 
@@ -206,67 +214,72 @@ documentMsgHelper title elements =
             bodyStyle
             (El.column
                 []
-                (elements ++ [footer]
-                    |> (++) [navMenu]
+                (elements
+                    ++ [ footer ]
+                    |> (++) [ navMenu ]
                 )
             )
         ]
     }
 
-titleSideSpacer :  Element
-titleSideSpacer = 
+
+titleSideSpacer : Element msg
+titleSideSpacer =
     El.column [ El.width (fillPortion 1) ] [ none ]
 
-titleEl : Model -> List Element -> Element
-titleEl model textElements = 
-    case (findScreenSize model.width) of 
-        ExtraLarge -> 
+
+titleEl : ScreenSize -> List (Element msg) -> Element msg
+titleEl screenSize textElements =
+    case screenSize of
+        ExtraLarge ->
             textColumn [ El.width (fillPortion 2) ] textElements
-        _ -> 
+
+        _ ->
             textColumn [ El.width (fillPortion 3) ] textElements
 
-bodySideSpacer : Model -> Element
-bodySideSpacer model = 
-    case (findScreenSize model.width) of 
-        ExtraLarge -> 
+
+bodySideSpacer : ScreenSize -> Element msg
+bodySideSpacer screenSize =
+    case screenSize of
+        ExtraLarge ->
             El.column [ El.width (fillPortion 2) ] [ none ]
-        _ -> 
+
+        _ ->
             El.column [ El.width (fillPortion 1) ] [ none ]
 
-bodyEl : List Element -> Element
-bodyEl textElements = 
+
+bodyEl : List (Element msg) -> Element msg
+bodyEl textElements =
     textColumn [ El.width (fillPortion 3) ] textElements
 
 
-markdownPageHelper : Model -> String -> String -> Browser.Document msg 
-markdownPageHelper model title markdownString = 
+markdownPageHelper : ScreenSize -> String -> String -> Browser.Document msg
+markdownPageHelper screenSize title markdownString =
     let
-        markdownElement : Element 
-        markdownElement = 
-            Markdown.toHtml markdownString
-                |> html [width fill]
+        markdownElement : Element msg
+        markdownElement =
+            Markdown.toHtml [ class "markdown-body" ] markdownString
+                |> html
 
-        browserTitle : String 
-        browserTitle = 
+        browserTitle : String
+        browserTitle =
             "NJE: " ++ title
-    in 
-        documentMsgHelper browserTitle
-            [El.column []
-                [ El.row [ centerX ]
-                    [ titleSideSpacer
-                    , titleEl
-                        [ paragraph titleStyle title]
-                    , titleSideSpacer
-                    ]
-                , El.row [ centerX ]
-                    [ bodySideSpacer model
-                    , bodyEl [markdownElement]
-                    , bodySideSpacer model
-                    ]
+    in
+    documentMsgHelper browserTitle
+        [ El.column []
+            [ El.row [ centerX ]
+                [ titleSideSpacer
+                , titleEl screenSize
+                    [ paragraph titleStyle [ El.text title ] ]
+                , titleSideSpacer
+                ]
+            , El.row [ centerX ]
+                [ bodySideSpacer screenSize
+                , bodyEl [ markdownElement ]
+                , bodySideSpacer screenSize
                 ]
             ]
-            
-
+        ]
 
 
 pictureLink : String -> String -> String -> String -> Int -> Element msg
@@ -275,7 +288,7 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
         ([ width (fillPortion fillPortion_), padding 10 ] ++ linkStyle)
         { url = linkString
         , label =
-            El.column [width (fill |> maximum 300)]
+            El.column [ width (fill |> maximum 300) ]
                 [ El.row []
                     [ image
                         [ width fill
@@ -286,12 +299,11 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                         , description = desc
                         }
                     ]
-                , El.row [width (fill |> maximum 300)] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
+                , El.row [ width (fill |> maximum 300) ] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
                 ]
         }
 
-emailLink : String -> String -> Element msg 
-emailLink text_ email = 
-    El.html (a [href ("mailto:" ++ email), style "color" "black"] [Html.text text_])
 
-
+emailLink : String -> String -> Element msg
+emailLink text_ email =
+    El.html (a [ href ("mailto:" ++ email), style "color" "black" ] [ Html.text text_ ])

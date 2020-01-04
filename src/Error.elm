@@ -14,7 +14,6 @@ import ViewHelpers exposing (..)
 type alias Model =
     { width : Int
     , data : String
-    , menuOpen : Bool
     }
 
 
@@ -26,7 +25,6 @@ init flags =
 initModel flags =
     { width = flags.width
     , data = flags.data
-    , menuOpen = False
     }
 
 
@@ -56,17 +54,16 @@ update msg model =
 view : Model -> Browser.Document msg
 view model =
     let
-        viewHelper = 
+        viewHelper =
             documentMsgHelper "NJE: ERROR"
     in
-
-        viewHelper
-            [ El.row [ centerX ]
-                [ El.column [ El.width (fillPortion 1) ] [ El.none ]
-                , textColumn [ El.width (fillPortion 2) ]
-                    [ paragraph titleStyle [ El.text "PAGE NOT FOUND"]
-                    , paragraph subtitleStyle [ El.text "Looks like the page you're looking for does not exist. Are you sure you typed in the right URL?"]
-                    ]
-                , El.column [ El.width (fillPortion 1) ] [ none ]
+    viewHelper
+        [ El.row [ centerX ]
+            [ El.column [ El.width (fillPortion 1) ] [ El.none ]
+            , textColumn [ El.width (fillPortion 2) ]
+                [ paragraph titleStyle [ El.text "PAGE NOT FOUND" ]
+                , paragraph subtitleStyle [ El.text "Looks like the page you're looking for does not exist. Are you sure you typed in the right URL?" ]
                 ]
+            , El.column [ El.width (fillPortion 1) ] [ none ]
             ]
+        ]

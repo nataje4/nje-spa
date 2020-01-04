@@ -95,8 +95,8 @@ view model =
         viewHelper =
             documentMsgHelper "NJE: POETRY"
 
-        shopLink : Element msg 
-        shopLink = 
+        shopLink : Element msg
+        shopLink =
             pictureLink "https://www.etsy.com/shop/NJEpoetry" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1
     in
     case screenSize of

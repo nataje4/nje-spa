@@ -5,10 +5,13 @@ import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Browser.Navigation as Nav exposing (Key, load, pushUrl)
 import Code exposing (Model, initModel, view)
+import Code.Demos exposing (Model, initModel, view)
 import Element exposing (Device, DeviceClass(..), Orientation(..), classifyDevice)
 import Error exposing (Model, initModel, view)
 import Home exposing (Model, initModel, view)
 import Poetry exposing (Model, initModel, view)
+import Poetry.Events exposing (Model, initModel, view)
+import Poetry.Tools exposing (Model, initModel, view)
 import Route exposing (Route(..))
 import Task
 import Url exposing (..)
@@ -21,7 +24,10 @@ import Url exposing (..)
 type Model
     = Home Home.Model
     | Poetry Poetry.Model
+    | PoetryEvents Poetry.Events.Model
+    | PoetryTools Poetry.Tools.Model
     | Code Code.Model
+    | CodeDemos Code.Demos.Model
     | Error Error.Model
 
 
@@ -45,7 +51,6 @@ initModel flags =
     Error
         { width = flags.width
         , data = ""
-        , menuOpen = False
         }
 
 
@@ -126,8 +131,17 @@ changeRouteTo maybeRoute model =
         Just Route.Poetry ->
             ( Poetry (Poetry.initModel newFlags), Cmd.none )
 
+        Just Route.PoetryEvents ->
+            ( PoetryEvents (Poetry.Events.initModel newFlags), Cmd.none )
+
+        Just Route.PoetryTools ->
+            ( PoetryTools (Poetry.Tools.initModel newFlags), Cmd.none )
+
         Just Route.Code ->
             ( Code (Code.initModel newFlags), Cmd.none )
+
+        Just Route.CodeDemos ->
+            ( CodeDemos (Code.Demos.initModel newFlags), Cmd.none )
 
         Just Route.Home ->
             ( Home (Home.initModel newFlags), Cmd.none )
@@ -146,9 +160,17 @@ routeToModel model maybeRoute =
 
         Just Route.Poetry ->
             Poetry (Poetry.initModel newFlags)
+        Just Route.PoetryEvents ->
+            PoetryEvents (Poetry.Events.initModel newFlags)
+
+        Just Route.PoetryTools ->
+            PoetryTools (Poetry.Tools.initModel newFlags)
 
         Just Route.Code ->
             Code (Code.initModel newFlags)
+        
+        Just Route.CodeDemos ->
+            CodeDemos (Code.Demos.initModel newFlags)
 
         Nothing ->
             Error (Error.initModel newFlags)
@@ -157,34 +179,51 @@ routeToModel model maybeRoute =
 updateWidth : Int -> Model -> Model
 updateWidth width model =
     case model of
-        Home homeModel ->
-            Home { homeModel | width = width }
+        Home mod3l ->
+            Home { mod3l | width = width }
 
-        Poetry poetryModel ->
-            Poetry { poetryModel | width = width }
+        Poetry mod3l ->
+            Poetry { mod3l | width = width }
 
-        Code codeModel ->
-            Code { codeModel | width = width }
+        PoetryEvents mod3l ->
+            PoetryEvents { mod3l | width = width }
+        
+        PoetryTools mod3l ->
+            PoetryTools { mod3l | width = width }
 
-        Error errorModel ->
-            Error { errorModel | width = width }
+        Code mod3l ->
+            Code { mod3l | width = width }
+
+        CodeDemos mod3l ->
+            CodeDemos { mod3l | width = width }
+
+        Error mod3l ->
+            Error { mod3l | width = width }
 
 
 getWidth : Model -> Int
 getWidth model =
     case model of
-        Home homeModel ->
-            homeModel.width
+        Home mod3l ->
+            mod3l.width
 
-        Poetry poetryModel ->
-            poetryModel.width
+        Poetry mod3l ->
+            mod3l.width
 
-        Code codeModel ->
-            codeModel.width
+        PoetryEvents mod3l ->
+            mod3l.width
 
-        Error errorModel ->
-            errorModel.width
+        PoetryTools mod3l ->
+            mod3l.width
 
+        Code mod3l ->
+            mod3l.width
+
+        CodeDemos mod3l ->
+            mod3l.width
+
+        Error mod3l ->
+            mod3l.width
 
 
 ---- VIEW ----
@@ -193,17 +232,20 @@ getWidth model =
 view : Model -> Browser.Document msg
 view model =
     case model of
-        Home home ->
-            Home.view home
-
-        Poetry poetry ->
-            Poetry.view poetry
-
-        Code code ->
-            Code.view code
-
-        Error error ->
-            Error.view error
+        Home mod3l ->
+            Home.view mod3l
+        Poetry mod3l ->
+            Poetry.view mod3l
+        PoetryEvents mod3l ->
+            Poetry.Events.view mod3l
+        PoetryTools mod3l ->
+            Poetry.Tools.view mod3l
+        Code mod3l ->
+            Code.view mod3l
+        CodeDemos mod3l ->
+            Code.Demos.view mod3l
+        Error mod3l ->
+            Error.view mod3l
 
 
 
