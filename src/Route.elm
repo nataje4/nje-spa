@@ -14,14 +14,21 @@ import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
 type Route
     = Home
     | Poetry
-    | Code 
-    
+    | PoetryEvents
+    | PoetryTools
+    | Code
+    | CodeDemos
+
+
 parser : Parser (Route -> a) a
 parser =
     oneOf
         [ Parser.map Home Parser.top
         , Parser.map Poetry (s "poetry")
+        , Parser.map PoetryTools (s "poetry" </> s "tools")
+        , Parser.map PoetryEvents (s "poetry" </> s "events")
         , Parser.map Code (s "code")
+        , Parser.map CodeDemos (s "code" </> s "demos")
         ]
 
 
@@ -33,11 +40,15 @@ href : Route -> Attribute msg
 href targetRoute =
     Attr.href (routeToString targetRoute)
 
+
+
 {--
 replaceUrl : Nav.Key -> Route -> Cmd msg
 replaceUrl key route =
     Nav.replaceUrl key (routeToString route)
 --}
+
+
 fromUrl : Url -> Maybe Route
 fromUrl url =
     -- The RealWorld spec treats the fragment like a path.
@@ -45,6 +56,8 @@ fromUrl url =
     -- with parsing as if it had been a normal path all along.
     { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing }
         |> Parser.parse parser
+
+
 
 -- INTERNAL
 
@@ -60,10 +73,18 @@ routeToPieces page =
         Home ->
             []
 
-        Poetry -> 
-            ["poetry"]
+        Poetry ->
+            [ "poetry" ]
 
-        Code -> 
-            ["code"]
+        PoetryEvents ->
+            [ "poetry", "events" ]
 
+        PoetryTools ->
+            [ "poetry", "tools" ]
+
+        Code ->
+            [ "code" ]
+
+        CodeDemos ->
+            [ "code", "demos" ]
 --}

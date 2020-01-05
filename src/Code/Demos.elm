@@ -1,9 +1,7 @@
-module Error exposing (..)
+module Code.Demos exposing (..)
 
-import Browser
+import Browser exposing (Document)
 import Element as El exposing (..)
-import Html exposing (Html, div, h1, img, text)
-import Html.Attributes exposing (href, src)
 import ViewHelpers exposing (..)
 
 
@@ -55,14 +53,14 @@ view : Model -> Browser.Document msg
 view model =
     let
         viewHelper =
-            documentMsgHelper "NJE: ERROR"
+            documentMsgHelper "NJE: DEMOS"
     in
     viewHelper
         [ El.row [ centerX ]
             [ El.column [ El.width (fillPortion 1) ] [ El.none ]
             , textColumn [ El.width (fillPortion 2) ]
-                [ paragraph titleStyle [ El.text "PAGE NOT FOUND" ]
-                , paragraph subtitleStyle [ El.text "Looks like the page you're looking for does not exist. Are you sure you typed in the right URL?" ]
+                [ paragraph titleStyle [ El.text "CODE DEMOS" ]
+                , paragraph subtitleStyle [ El.text "This page is under construction. Please check back soon!" ]
                 ]
             , El.column [ El.width (fillPortion 1) ] [ none ]
             ]
