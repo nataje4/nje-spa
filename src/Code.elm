@@ -69,8 +69,8 @@ subtitleText =
         { url = "https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest"
         , label = text "elm-ui"
         }
-    , text " package.) You can contact her with programming-related inquiries "
-    , emailLink "here" "code@nataliejaneedson.com"
+    , text " package.) You can contact her with programming-related inquiries at "
+    , emailLink "code@nataliejaneedson.com"
     , text " or find her on twitter "
     , link linkStyle
         { url = "https://www.twitter.com/nataje4"
@@ -90,6 +90,18 @@ view model =
         viewHelper : List (Element msg) -> Browser.Document msg
         viewHelper =
             documentMsgHelper "NJE: CODE"
+
+        githubLink : Element msg
+        githubLink = 
+            pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
+    
+        demosLink : Element msg 
+        demosLink = 
+            pictureLink "#/code/demos" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
+    
+        resumeLink : Element msg 
+        resumeLink = 
+            pictureDownloadLink "/assets/NatalieJaneEdsonResume2020.pdf" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
     in
     case screenSize of
         ExtraLarge ->
@@ -105,9 +117,9 @@ view model =
                         ]
                     , El.row [ centerX ]
                         [ El.column [ El.width (fillPortion 2) ] [ none ]
-                        , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
-                        , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
-                        , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
+                        , githubLink
+                        , demosLink
+                        , resumeLink
                         , El.column [ El.width (fillPortion 2) ] [ none ]
                         ]
                     ]
@@ -126,9 +138,9 @@ view model =
                         ]
                     , El.row [ centerX ]
                         [ El.column [ El.width (fillPortion 1) ] [ none ]
-                        , pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
-                        , pictureLink "#" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
-                        , pictureLink "#" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
+                        , githubLink
+                        , demosLink
+                        , resumeLink
                         , El.column [ El.width (fillPortion 1) ] [ none ]
                         ]
                     ]
@@ -145,8 +157,8 @@ view model =
                             ]
                         , El.column [ El.width (fillPortion 1) ] [ none ]
                         ]
-                    , El.row [ centerX ] [ pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to bgo to my github page" "GITHUB" 1 ]
-                    , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here to see asome samples of my work" "DEMOS" 1 ]
-                    , El.row [ centerX ] [ pictureLink "#" "assets/blackcattyping2.png" "click here tto view the latest version of my resume" "RESUME" 1 ]
+                    , El.row [ centerX ] [ githubLink ]
+                    , El.row [ centerX ] [ demosLink ]
+                    , El.row [ centerX ] [ resumeLink ]
                     ]
                 ]

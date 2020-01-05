@@ -303,7 +303,28 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                 ]
         }
 
+pictureDownloadLink : String -> String -> String -> String -> Int -> Element msg
+pictureDownloadLink downloadLinkString imgSrc desc bottomText fillPortion_ =
+    download
+        ([ width (fillPortion fillPortion_), padding 10 ] ++ linkStyle)
+        { url = downloadLinkString
+        , label =
+            El.column [ width (fill |> maximum 300) ]
+                [ El.row []
+                    [ image
+                        [ width fill
+                        , centerX
+                        , alignTop
+                        ]
+                        { src = imgSrc
+                        , description = desc
+                        }
+                    ]
+                , El.row [ width (fill |> maximum 300) ] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
+                ]
+        }
 
-emailLink : String -> String -> Element msg
-emailLink text_ email =
-    El.html (a [ href ("mailto:" ++ email), style "color" "black" ] [ Html.text text_ ])
+
+emailLink : String -> Element msg
+emailLink email =
+    El.html (a [ href ("mailto:" ++ email), style "color" "black" ] [ Html.text email ])
