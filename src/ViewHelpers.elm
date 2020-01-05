@@ -176,14 +176,7 @@ navMenu =
 
 footer : Element msg
 footer =
-    let
-        spacingEl : Element msg
-        spacingEl =
-            column
-                [ width (fillPortion 3)
-                ]
-                [ none ]
-    in
+
     El.row
         [ width fill
         , height (px 60)
@@ -306,27 +299,6 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                 ]
         }
 
-
-pictureDownloadLink : String -> String -> String -> String -> Int -> Element msg
-pictureDownloadLink downloadLinkString imgSrc desc bottomText fillPortion_ =
-    download
-        ([ width (fillPortion fillPortion_), padding 10 ] ++ linkStyle)
-        { url = downloadLinkString
-        , label =
-            El.column [ width (fill |> maximum 300) ]
-                [ El.row []
-                    [ image
-                        [ width fill
-                        , centerX
-                        , alignTop
-                        ]
-                        { src = imgSrc
-                        , description = desc
-                        }
-                    ]
-                , El.row [ width (fill |> maximum 300) ] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
-                ]
-        }
 
 
 emailLink : String -> Element msg

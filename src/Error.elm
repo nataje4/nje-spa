@@ -56,14 +56,17 @@ view model =
     let
         viewHelper =
             documentMsgHelper "NJE: ERROR"
+
+        screensize = 
+            findScreenSize model.width
     in
     viewHelper
         [ El.row [ centerX ]
-            [ El.column [ El.width (fillPortion 1) ] [ El.none ]
-            , textColumn [ El.width (fillPortion 2) ]
+            [ titleSideSpacer
+            , titleEl screensize
                 [ paragraph titleStyle [ El.text "PAGE NOT FOUND" ]
                 , paragraph subtitleStyle [ El.text "Looks like the page you're looking for does not exist. Are you sure you typed in the right URL?" ]
                 ]
-            , El.column [ El.width (fillPortion 1) ] [ none ]
+            , titleSideSpacer
             ]
         ]

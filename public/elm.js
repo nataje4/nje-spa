@@ -12095,10 +12095,7 @@ var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
 	return {$: 'Fill', a: a};
 };
 var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
-var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
 var $author$project$ViewHelpers$noPadding = {bottom: 0, left: 0, right: 0, top: 0};
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
 	function (a, b, c, d, e) {
 		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
@@ -12214,46 +12211,35 @@ var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
 var $mdgriffith$elm_ui$Element$text = function (content) {
 	return $mdgriffith$elm_ui$Internal$Model$Text(content);
 };
-var $author$project$ViewHelpers$footer = function () {
-	var spacingEl = A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width(
-				$mdgriffith$elm_ui$Element$fillPortion(3))
-			]),
-		_List_fromArray(
-			[$mdgriffith$elm_ui$Element$none]));
-	return A2(
-		$mdgriffith$elm_ui$Element$row,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-				$mdgriffith$elm_ui$Element$height(
-				$mdgriffith$elm_ui$Element$px(60)),
-				$mdgriffith$elm_ui$Element$spacing(10),
-				$mdgriffith$elm_ui$Element$paddingEach(
-				_Utils_update(
-					$author$project$ViewHelpers$noPadding,
-					{bottom: 50, top: 100}))
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$mdgriffith$elm_ui$Element$paragraph,
-				_List_fromArray(
-					[
-						$author$project$ViewHelpers$emphasisFonts,
-						$mdgriffith$elm_ui$Element$Font$size(12),
-						$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$black),
-						$mdgriffith$elm_ui$Element$Font$center
-					]),
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$text('COPYRIGHT 2020 NATALIEJANEEDSON.COM')
-					]))
-			]));
-}();
+var $author$project$ViewHelpers$footer = A2(
+	$mdgriffith$elm_ui$Element$row,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+			$mdgriffith$elm_ui$Element$height(
+			$mdgriffith$elm_ui$Element$px(60)),
+			$mdgriffith$elm_ui$Element$spacing(10),
+			$mdgriffith$elm_ui$Element$paddingEach(
+			_Utils_update(
+				$author$project$ViewHelpers$noPadding,
+				{bottom: 50, top: 100}))
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$paragraph,
+			_List_fromArray(
+				[
+					$author$project$ViewHelpers$emphasisFonts,
+					$mdgriffith$elm_ui$Element$Font$size(12),
+					$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$black),
+					$mdgriffith$elm_ui$Element$Font$center
+				]),
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$text('COPYRIGHT 2020 NATALIEJANEEDSON.COM')
+				]))
+		]));
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -12469,6 +12455,7 @@ var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
 			'background-color',
 			clr));
 };
+var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
 var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
 	return {$: 'AlignY', a: a};
 };
@@ -12557,6 +12544,8 @@ var $author$project$ViewHelpers$menuLink = F2(
 					})
 				]));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $author$project$ViewHelpers$navMenu = function () {
 	var spacingEl = A2(
 		$mdgriffith$elm_ui$Element$column,
@@ -12633,42 +12622,6 @@ var $author$project$ViewHelpers$bottomTextStyle = _List_fromArray(
 			$author$project$ViewHelpers$noPadding,
 			{bottom: 40, top: 30}))
 	]);
-var $elm$html$Html$Attributes$download = function (fileName) {
-	return A2($elm$html$Html$Attributes$stringProperty, 'download', fileName);
-};
-var $mdgriffith$elm_ui$Element$download = F2(
-	function (attrs, _v0) {
-		var url = _v0.url;
-		var label = _v0.label;
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$Attr(
-					$elm$html$Html$Attributes$href(url)),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Internal$Model$Attr(
-						$elm$html$Html$Attributes$download('')),
-					A2(
-						$elm$core$List$cons,
-						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-						A2(
-							$elm$core$List$cons,
-							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-							A2(
-								$elm$core$List$cons,
-								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX),
-								A2(
-									$elm$core$List$cons,
-									$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY),
-									attrs)))))),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[label])));
-	});
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
@@ -12730,64 +12683,6 @@ var $mdgriffith$elm_ui$Internal$Model$Max = F2(
 var $mdgriffith$elm_ui$Element$maximum = F2(
 	function (i, l) {
 		return A2($mdgriffith$elm_ui$Internal$Model$Max, i, l);
-	});
-var $author$project$ViewHelpers$pictureDownloadLink = F5(
-	function (downloadLinkString, imgSrc, desc, bottomText, fillPortion_) {
-		return A2(
-			$mdgriffith$elm_ui$Element$download,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$width(
-						$mdgriffith$elm_ui$Element$fillPortion(fillPortion_)),
-						$mdgriffith$elm_ui$Element$padding(10)
-					]),
-				$author$project$ViewHelpers$linkStyle),
-			{
-				label: A2(
-					$mdgriffith$elm_ui$Element$column,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$width(
-							A2($mdgriffith$elm_ui$Element$maximum, 300, $mdgriffith$elm_ui$Element$fill))
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$mdgriffith$elm_ui$Element$row,
-							_List_Nil,
-							_List_fromArray(
-								[
-									A2(
-									$mdgriffith$elm_ui$Element$image,
-									_List_fromArray(
-										[
-											$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-											$mdgriffith$elm_ui$Element$centerX,
-											$mdgriffith$elm_ui$Element$alignTop
-										]),
-									{description: desc, src: imgSrc})
-								])),
-							A2(
-							$mdgriffith$elm_ui$Element$row,
-							_List_fromArray(
-								[
-									$mdgriffith$elm_ui$Element$width(
-									A2($mdgriffith$elm_ui$Element$maximum, 300, $mdgriffith$elm_ui$Element$fill))
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$mdgriffith$elm_ui$Element$paragraph,
-									$author$project$ViewHelpers$bottomTextStyle,
-									_List_fromArray(
-										[
-											$mdgriffith$elm_ui$Element$text(bottomText)
-										]))
-								]))
-						])),
-				url: downloadLinkString
-			});
 	});
 var $author$project$ViewHelpers$pictureLink = F5(
 	function (linkString, imgSrc, desc, bottomText, fillPortion_) {
@@ -12951,7 +12846,7 @@ var $author$project$Code$titleText = _List_fromArray(
 var $author$project$Code$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: CODE');
 	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
-	var resumeLink = A5($author$project$ViewHelpers$pictureDownloadLink, '/assets/NatalieJaneEdsonResume2020.pdf', 'assets/blackcattyping2.png', 'click here to view the latest version of my resume', 'RESUME', 1);
+	var resumeLink = A5($author$project$ViewHelpers$pictureLink, '/assets/NatalieJaneEdsonResume2020.pdf', 'assets/blackcattyping2.png', 'click here to view the latest version of my resume', 'RESUME', 1);
 	var githubLink = A5($author$project$ViewHelpers$pictureLink, 'https://www.github.com/nataje4', 'assets/blackcattyping2.png', 'click here to go to my github page', 'GITHUB', 1);
 	var demosLink = A5($author$project$ViewHelpers$pictureLink, '#/code/demos', 'assets/blackcattyping2.png', 'click here to see some samples of my work', 'DEMOS', 1);
 	switch (screenSize.$) {
@@ -13175,8 +13070,40 @@ var $author$project$Code$view = function (model) {
 					]));
 	}
 };
+var $author$project$ViewHelpers$titleEl = F2(
+	function (screenSize, textElements) {
+		if (screenSize.$ === 'ExtraLarge') {
+			return A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$fillPortion(2))
+					]),
+				textElements);
+		} else {
+			return A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$fillPortion(3))
+					]),
+				textElements);
+		}
+	});
+var $author$project$ViewHelpers$titleSideSpacer = A2(
+	$mdgriffith$elm_ui$Element$column,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$width(
+			$mdgriffith$elm_ui$Element$fillPortion(1))
+		]),
+	_List_fromArray(
+		[$mdgriffith$elm_ui$Element$none]));
 var $author$project$Code$Demos$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: DEMOS');
+	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
 	return viewHelper(
 		_List_fromArray(
 			[
@@ -13186,22 +13113,10 @@ var $author$project$Code$Demos$view = function (model) {
 					[$mdgriffith$elm_ui$Element$centerX]),
 				_List_fromArray(
 					[
+						$author$project$ViewHelpers$titleSideSpacer,
 						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none])),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(2))
-							]),
+						$author$project$ViewHelpers$titleEl,
+						screensize,
 						_List_fromArray(
 							[
 								A2(
@@ -13219,20 +13134,13 @@ var $author$project$Code$Demos$view = function (model) {
 										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
 									]))
 							])),
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none]))
+						$author$project$ViewHelpers$titleSideSpacer
 					]))
 			]));
 };
 var $author$project$Error$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: ERROR');
+	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
 	return viewHelper(
 		_List_fromArray(
 			[
@@ -13242,22 +13150,10 @@ var $author$project$Error$view = function (model) {
 					[$mdgriffith$elm_ui$Element$centerX]),
 				_List_fromArray(
 					[
+						$author$project$ViewHelpers$titleSideSpacer,
 						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none])),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(2))
-							]),
+						$author$project$ViewHelpers$titleEl,
+						screensize,
 						_List_fromArray(
 							[
 								A2(
@@ -13275,15 +13171,7 @@ var $author$project$Error$view = function (model) {
 										$mdgriffith$elm_ui$Element$text('Looks like the page you\'re looking for does not exist. Are you sure you typed in the right URL?')
 									]))
 							])),
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none]))
+						$author$project$ViewHelpers$titleSideSpacer
 					]))
 			]));
 };
@@ -13767,6 +13655,7 @@ var $author$project$Poetry$view = function (model) {
 };
 var $author$project$Poetry$Events$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: EVENTS');
+	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
 	return viewHelper(
 		_List_fromArray(
 			[
@@ -13776,22 +13665,10 @@ var $author$project$Poetry$Events$view = function (model) {
 					[$mdgriffith$elm_ui$Element$centerX]),
 				_List_fromArray(
 					[
+						$author$project$ViewHelpers$titleSideSpacer,
 						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none])),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(2))
-							]),
+						$author$project$ViewHelpers$titleEl,
+						screensize,
 						_List_fromArray(
 							[
 								A2(
@@ -13809,20 +13686,13 @@ var $author$project$Poetry$Events$view = function (model) {
 										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
 									]))
 							])),
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none]))
+						$author$project$ViewHelpers$titleSideSpacer
 					]))
 			]));
 };
 var $author$project$Poetry$Tools$view = function (model) {
-	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: TOOLS');
+	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: POETRY TOOLS');
+	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
 	return viewHelper(
 		_List_fromArray(
 			[
@@ -13832,22 +13702,10 @@ var $author$project$Poetry$Tools$view = function (model) {
 					[$mdgriffith$elm_ui$Element$centerX]),
 				_List_fromArray(
 					[
+						$author$project$ViewHelpers$titleSideSpacer,
 						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none])),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(2))
-							]),
+						$author$project$ViewHelpers$titleEl,
+						screensize,
 						_List_fromArray(
 							[
 								A2(
@@ -13865,15 +13723,7 @@ var $author$project$Poetry$Tools$view = function (model) {
 										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
 									]))
 							])),
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none]))
+						$author$project$ViewHelpers$titleSideSpacer
 					]))
 			]));
 };

@@ -48,20 +48,22 @@ update msg model =
 
 ---- VIEW ----
 
-
 view : Model -> Browser.Document msg
 view model =
     let
         viewHelper =
-            documentMsgHelper "NJE: TOOLS"
+            documentMsgHelper "NJE: POETRY TOOLS"
+
+        screensize = 
+            findScreenSize model.width
     in
     viewHelper
         [ El.row [ centerX ]
-            [ El.column [ El.width (fillPortion 1) ] [ El.none ]
-            , textColumn [ El.width (fillPortion 2) ]
+            [ titleSideSpacer
+            , titleEl screensize
                 [ paragraph titleStyle [ El.text "POETRY TOOLS" ]
                 , paragraph subtitleStyle [ El.text "This page is under construction. Please check back soon!" ]
                 ]
-            , El.column [ El.width (fillPortion 1) ] [ none ]
+            , titleSideSpacer
             ]
         ]
