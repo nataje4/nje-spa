@@ -252,7 +252,7 @@ bodyEl : List (Element msg) -> Element msg
 bodyEl textElements =
     textColumn [ El.width (fillPortion 3) ] textElements
 
-
+{-- keep this for an idea of how to standardize basic layout 
 markdownPageHelper : ScreenSize -> String -> String -> Browser.Document msg
 markdownPageHelper screenSize title markdownString =
     let
@@ -280,6 +280,7 @@ markdownPageHelper screenSize title markdownString =
                 ]
             ]
         ]
+--}
 
 
 pictureLink : String -> String -> String -> String -> Int -> Element msg
