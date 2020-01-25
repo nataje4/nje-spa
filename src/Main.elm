@@ -12,6 +12,8 @@ import Home exposing (Model, initModel, view)
 import Poetry exposing (Model, initModel, view)
 import Poetry.Events exposing (Model, initModel, view)
 import Poetry.Tools exposing (Model, initModel, view)
+import Poetry.WordBank exposing (Model, initModel, view)
+import Poetry.Erasure exposing (Model, initModel, view)
 import Route exposing (Route(..))
 import Task
 import Url exposing (..)
@@ -26,9 +28,12 @@ type Model
     | Poetry Poetry.Model
     | PoetryEvents Poetry.Events.Model
     | PoetryTools Poetry.Tools.Model
+    | PoetryWordBank Poetry.WordBank.Model
+    | PoetryErasure Poetry.Erasure.Model
     | Code Code.Model
     | CodeDemos Code.Demos.Model
     | Error Error.Model
+
 
 
 
@@ -137,6 +142,12 @@ changeRouteTo maybeRoute model =
         Just Route.PoetryTools ->
             ( PoetryTools (Poetry.Tools.initModel newFlags), Cmd.none )
 
+        Just Route.PoetryWordBank ->
+            ( PoetryWordBank (Poetry.WordBank.initModel newFlags), Cmd.none )
+
+        Just Route.PoetryErasure ->
+            ( PoetryErasure (Poetry.Erasure.initModel newFlags), Cmd.none )
+
         Just Route.Code ->
             ( Code (Code.initModel newFlags), Cmd.none )
 
@@ -160,11 +171,18 @@ routeToModel model maybeRoute =
 
         Just Route.Poetry ->
             Poetry (Poetry.initModel newFlags)
+        
         Just Route.PoetryEvents ->
             PoetryEvents (Poetry.Events.initModel newFlags)
 
         Just Route.PoetryTools ->
             PoetryTools (Poetry.Tools.initModel newFlags)
+
+        Just Route.PoetryWordBank ->
+            PoetryWordBank (Poetry.WordBank.initModel newFlags)
+
+        Just Route.PoetryErasure ->
+            PoetryErasure (Poetry.Erasure.initModel newFlags)
 
         Just Route.Code ->
             Code (Code.initModel newFlags)
@@ -191,6 +209,9 @@ updateWidth width model =
         PoetryTools mod3l ->
             PoetryTools { mod3l | width = width }
 
+        PoetryErasure mod3l ->
+            PoetryErasure { mod3l | width = width }
+
         Code mod3l ->
             Code { mod3l | width = width }
 
@@ -214,6 +235,9 @@ getWidth model =
             mod3l.width
 
         PoetryTools mod3l ->
+            mod3l.width
+
+        PoetryErasure mod3l ->
             mod3l.width
 
         Code mod3l ->
@@ -240,6 +264,8 @@ view model =
             Poetry.Events.view mod3l
         PoetryTools mod3l ->
             Poetry.Tools.view mod3l
+        PoetryErasure mod3l ->
+            Poetry.Erasure.view mod3l
         Code mod3l ->
             Code.view mod3l
         CodeDemos mod3l ->
