@@ -87,11 +87,11 @@ routeToPieces page =
             [ "poetry", "tools" ]
 
         PoetryWordBank ->
-            [ "poetry", "tools", "wordbank"]
+            [ "poetry", "tools", "wordbank" ]
 
         PoetryErasure ->
-            [ "poetry", "tools", "erasure"]
-        
+            [ "poetry", "tools", "erasure" ]
+
         Code ->
             [ "code" ]
 

@@ -1,10 +1,10 @@
 module Poetry.WordBank exposing (..)
 
-import Browser exposing (document, Document)
+import Browser exposing (Document, document)
 import Element as El exposing (..)
-import ViewHelpers exposing (..)
-import Element.Font as Ef exposing (color, center)
+import Element.Font as Ef exposing (center, color)
 import Element.Input as Ei exposing (..)
+import ViewHelpers exposing (..)
 
 
 
@@ -39,11 +39,11 @@ init flags =
     ( initModel flags, Cmd.none )
 
 
-
 type alias Flags =
     { width : Int
     , data : String
     }
+
 
 initModel : Flags -> Model
 initModel flags =
@@ -105,7 +105,7 @@ update msg model =
             )
 
         Reset ->
-            ( initModel  { width =model.width, data = ""}, Cmd.none )
+            ( initModel { width = model.width, data = "" }, Cmd.none )
 
 
 
@@ -118,92 +118,102 @@ view model =
     basicLayoutHelper (findScreenSize model.width) "WORD BANK" "" (displayBody model)
 
 
+
 {--
 clickableWordBankWord : WordBankWord -> Html Msg
 clickableWordBankWord wbWord =
     span
         [ onClick ]
         [] --}
+-- We want the display body to be a list of rows
 
 
--- We want the display body to be a list of rows 
 displayBody : Model -> List (Element Msg)
-displayBody model = 
-    if model.enteringWordBank then       
-            [ displayWordBankInput model 
-            , row [width fill] [displayCreateWordBankButton model]
-            ]           
-    else if ( (findScreenSize model.width == Large) || (findScreenSize model.width == ExtraLarge) ) then 
-        [ row 
-            [width fill] 
+displayBody model =
+    if model.enteringWordBank then
+        [ displayWordBankInput model
+        , row [ width fill ] [ displayCreateWordBankButton model ]
+        ]
+
+    else if (findScreenSize model.width == Large) || (findScreenSize model.width == ExtraLarge) then
+        [ row
+            [ width fill ]
             [ displayWordBankWithExtraWords model
             , displayPoemInput model
-            ] 
-        ]    
+            ]
+        ]
 
-    else 
-        [ row [width fill] [ displayWordBankWithExtraWords model]
-        , row [width fill] [ displayPoemInput model]        
-        ]    
+    else
+        [ row [ width fill ] [ displayWordBankWithExtraWords model ]
+        , row [ width fill ] [ displayPoemInput model ]
+        ]
+
 
 displayCreateWordBankButton : Model -> Element Msg
-displayCreateWordBankButton model = 
+displayCreateWordBankButton model =
     button
-        [centerX] 
+        [ centerX ]
         { onPress = Just (CreateWordBank model.input)
         , label = El.text "ENTER"
         }
 
+
 displayResetButton : Model -> Element Msg
-displayResetButton model = 
+displayResetButton model =
     button
-        [centerX] 
+        [ centerX ]
         { onPress = Just Reset
         , label = El.text "RESET"
         }
 
+
 displayWordBankWord : WordBankWord -> Element Msg
 displayWordBankWord wbWord =
-    if wbWord.used then 
-        el [Ef.color lightGrey] ( El.text (wbWord.word ++ " ") )
-    else 
-        el [Ef.color black] ( El.text (wbWord.word ++ " ") )
+    if wbWord.used then
+        el [ Ef.color lightGrey ] (El.text (wbWord.word ++ " "))
+
+    else
+        el [ Ef.color black ] (El.text (wbWord.word ++ " "))
 
 
 displayWordBank : Model -> Element Msg
 displayWordBank model =
     El.textColumn
-        [width fill, Ef.center]
-        [ paragraph [] (List.map displayWordBankWord model.wordBank)] 
+        [ width fill, Ef.center ]
+        [ paragraph [] (List.map displayWordBankWord model.wordBank) ]
+
 
 displayExtraPoemWord : PoemWord -> Element Msg
 displayExtraPoemWord poemW =
-    el [Ef.color extraWordColor] ( El.text (poemW.word ++ " ") ) 
+    el [ Ef.color extraWordColor ] (El.text (poemW.word ++ " "))
 
 
-extraWordColor : El.Color 
-extraWordColor = 
+extraWordColor : El.Color
+extraWordColor =
     rgb255 93 153 186
+
 
 displayExtraWords : Model -> Element Msg
 displayExtraWords model =
     List.filter (\w -> w.inWordBank == False) model.poem
         |> List.map displayExtraPoemWord
-        |> paragraph [] 
-        |> List.singleton 
-        |> El.textColumn [width fill, paddingEach { noPadding | top = 20}, Ef.center]
+        |> paragraph []
+        |> List.singleton
+        |> El.textColumn [ width fill, paddingEach { noPadding | top = 20 }, Ef.center ]
+
 
 displayWordBankWithExtraWords : Model -> Element Msg
-displayWordBankWithExtraWords model = 
-    El.column 
-        [width (fillPortion 1), padding 30]
-        [row [width fill] [displayWordBank model], row [width fill] [displayExtraWords model]]
+displayWordBankWithExtraWords model =
+    El.column
+        [ width (fillPortion 1), padding 30 ]
+        [ row [ width fill ] [ displayWordBank model ], row [ width fill ] [ displayExtraWords model ] ]
+
 
 displayPoemInput : Model -> Element Msg
 displayPoemInput model =
     El.column
-        [width (fillPortion 1), padding 20, alignTop]
-        [ row [width fill] 
+        [ width (fillPortion 1), padding 20, alignTop ]
+        [ row [ width fill ]
             [ multiline []
                 { onChange = UpdatePoemInput
                 , text = model.input
@@ -212,13 +222,14 @@ displayPoemInput model =
                 , spellcheck = False
                 }
             ]
-        , row [ centerX, paddingEach {noPadding | top=20}] [displayResetButton model] 
+        , row [ centerX, paddingEach { noPadding | top = 20 } ] [ displayResetButton model ]
         ]
 
-displayWordBankInput : Model -> Element Msg 
+
+displayWordBankInput : Model -> Element Msg
 displayWordBankInput model =
     El.row
-        [width fill, padding 20]
+        [ width fill, padding 20 ]
         [ multiline []
             { onChange = UpdateWordBankInput
             , text = model.input
@@ -227,8 +238,6 @@ displayWordBankInput model =
             , spellcheck = False
             }
         ]
-
-
 
 
 
@@ -412,7 +421,3 @@ isNotExtraPunctuation : Char -> Bool
 isNotExtraPunctuation char =
     String.toList "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'1234567890"
         |> List.member char
-
-
-
-

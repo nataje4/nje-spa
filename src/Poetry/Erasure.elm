@@ -1,16 +1,18 @@
 module Poetry.Erasure exposing (..)
 
+import Browser exposing (..)
 import Debug exposing (log)
+import Element as El exposing (..)
+import Element.Events as Ee exposing (onClick)
+import Element.Font as Ef exposing (color)
+import Element.Input as Ei exposing (..)
 import Html exposing (Html, div, img, text)
-import Html.Attributes as Hattr exposing (..)
-import Html.Events exposing (onClick, onInput)
 import List.Extra as Lex exposing (..)
 import Random exposing (..)
 import Task exposing (..)
 import Time exposing (..)
-import Browser exposing (..)
 import ViewHelpers exposing (..)
-import Element as El exposing (row, html, text)
+
 
 type alias ClickableWord =
     { text : String
@@ -21,7 +23,7 @@ type alias ClickableWord =
 
 type alias Model =
     { clickableText : List ClickableWord
-    , textEntered : Bool
+    , enterTextScreen : Bool
     , inputText : String
     , percentRandom : Int
     , seed : Random.Seed
@@ -34,10 +36,11 @@ type alias Flags =
     , data : String
     }
 
+
 initModel : Flags -> Model
 initModel flags =
     { clickableText = []
-    , textEntered = False
+    , enterTextScreen = True
     , inputText = ""
     , percentRandom = 90
     , seed = Random.initialSeed 42
@@ -110,10 +113,8 @@ update msg model =
                 newText =
                     Lex.updateAt (word.position - 1) eraseOrBringBack model.clickableText
             in
-            
-                ( { model | clickableText = newText }, Cmd.none )
+            ( { model | clickableText = newText }, Cmd.none )
 
-                
         MakeTextClickable text ->
             let
                 clickableText =
@@ -121,7 +122,7 @@ update msg model =
             in
             ( { model
                 | clickableText = clickableText
-                , textEntered = True
+                , enterTextScreen = False
               }
             , Cmd.none
             )
@@ -130,7 +131,7 @@ update msg model =
             ( { model | inputText = text }, Cmd.none )
 
         GoBackToTextEntry ->
-            ( { model | textEntered = False }, Cmd.none )
+            ( { model | enterTextScreen = True }, Cmd.none )
 
         Randomize ->
             ( randomErasure model, Cmd.none )
@@ -326,56 +327,56 @@ isNotErased word =
 
 
 ---- VIEW ----
+--displayBody has to be a list of rows
 
 
-myStyles : List (Html.Attribute Msg)
-myStyles =
-    [ style "font-family" "Georgia" 
-    , style "font-size" "20px" 
-    , style "display" "inline-block" 
-    , style "margin" "auto" 
-    ]
-        
+displayBody : Model -> List (Element Msg)
+displayBody model =
+    if model.enterTextScreen then
+        [ displayEnterTextScreen model ]
 
-
-htmlLegacyView : Model -> Html Msg
-htmlLegacyView model =
-    case model.textEntered of
-        False ->
-            enterYourTextScreen model
-
-        True ->
-            div myStyles
-                [ div
-                    [ style "width" "75%"
-                    , style "display" "inline-block"
-                    , style "margin" "auto"
-                    , style "margin-top" "2em"
-                    , style "margin-bottom" "1em"
+    else if (findScreenSize model.width == Large) || (findScreenSize model.width == ExtraLarge) then
+        [ row [ width fill ]
+            [ column [ width (fillPortion 3), padding 20 ]
+                [ row [ width fill ]
+                    [ textColumn [ paddingEach { noPadding | bottom = 20 } ]
+                        [ paragraph [] (List.map displayClickableWord model.clickableText)
+                        ]
                     ]
-                    (List.map displayClickableWord model.clickableText)
-                , Html.br [] []
-                , Html.button (onClick GoBackToTextEntry :: appButtonStyle) [ Html.text "Enter different text" ]
-                , Html.br [] []
-                , Html.div
-                    [ style "font-family" "'Arial', sans-serif"
-                    , style "font-size" ".75em"
-                    , style "display" "inline"
-                    , style "width" "150px"
+                , row [ width fill ]
+                    [ el [ centerX ] (displayResetButton model)
                     ]
-                    [ Html.text "Erase "
-                    , percentRandomInput
-                    , Html.text "% of these words"
-                    ]
-                , Html.button (onClick Randomize :: appButtonStyle) [ Html.text "Go!" ]
                 ]
+            , column [ width (fillPortion 1), padding 20 ]
+                [ displayPercentRandomInput model
+                , el [ paddingEach { noPadding | top = 20 }, centerX ] (displayRandomizeButton model)
+                ]
+            ]
+        ]
+
+    else
+        [ row [ width fill, padding 20 ]
+            [ column [ width (fillPortion 1), centerX ] [ displayPercentRandomInput model ]
+            , column [ width (fillPortion 1), centerX ] [ displayRandomizeButton model ]
+            ]
+        , row [ width fill, padding 20 ]
+            [ textColumn [ width fill ]
+                [ paragraph [] (List.map displayClickableWord model.clickableText)
+                ]
+            ]
+        , row [ width fill ]
+            [ el [ centerX ] (displayResetButton model)
+            ]
+        ]
 
 
 view : Model -> Document Msg
 view model =
-    basicLayoutHelper (findScreenSize model.width) "ERASURE" "" [El.text "googoogaga"]
-        
+    basicLayoutHelper (findScreenSize model.width) "ERASURE" "" (displayBody model)
 
+
+
+{--
 appButtonStyle : List (Html.Attribute Msg)
 appButtonStyle =
     [ style "padding" "0 5px" 
@@ -390,58 +391,64 @@ appButtonStyle =
     , style "display" "inline-block" 
     , style "font-size" ".75em" 
     ]
-        
+--}
 
 
-enterYourTextScreen : Model -> Html Msg
-enterYourTextScreen model =
-    div myStyles
-        [ Html.br [] []
-        , Html.br [] []
-        , Html.textarea
-            [ placeholder "Enter your text here"
-            , onInput UpdateInputText
-            , style "width" "800px"
-            , style "height" "200px"
-            ]
-            []
-        , Html.br [] []
-        , Html.br [] []
-        , Html.button (onClick (MakeTextClickable model.inputText) :: appButtonStyle) [ Html.text "Let's erase stuff!" ]
+displayEnterTextScreen : Model -> Element Msg
+displayEnterTextScreen model =
+    row [ width fill ]
+        [ multiline []
+            { onChange = UpdateInputText
+            , text = model.inputText
+            , placeholder = Nothing
+            , label = labelAbove [] (El.text "Input source text here:")
+            , spellcheck = False
+            }
+        , button []
+            { onPress = Just (MakeTextClickable model.inputText)
+            , label = El.text "ENTER"
+            }
         ]
 
 
-percentRandomInput : Html Msg
-percentRandomInput =
-    div []
-        [ Html.input
-            [ type_ "text"
-            , size 3
-            , onInput UpdatePercentRandom
-            , style "display" "inline"
-            , style "float" "left"
-            , style "vertical-align" "middle"
-            , style "width" "50px"
-            ]
-            []
-        ]
+displayResetButton : Model -> Element Msg
+displayResetButton model =
+    button []
+        { onPress = Just GoBackToTextEntry
+        , label = El.text "RESET TEXT"
+        }
 
 
-displayClickableWord : ClickableWord -> Html Msg
+displayRandomizeButton : Model -> Element Msg
+displayRandomizeButton model =
+    button []
+        { onPress = Just Randomize
+        , label = El.text "RANDOMIZE"
+        }
+
+
+displayPercentRandomInput : Model -> Element Msg
+displayPercentRandomInput model =
+    Ei.text []
+        { onChange = UpdatePercentRandom
+        , text = String.fromInt model.percentRandom
+        , placeholder = Nothing
+        , label = labelLeft [] (El.text "Percent of words to erase: ")
+        }
+
+
+displayClickableWord : ClickableWord -> Element Msg
 displayClickableWord word =
-    Html.span
-        [ onClick (ToggleWord word), style "color" (wordColor word) ]
-        [ Html.text (word.text ++ " ") ]
+    El.el
+        [ onClick (ToggleWord word), Ef.color (wordColor word) ]
+        (El.text (word.text ++ " "))
 
 
-wordColor : ClickableWord -> String
+wordColor : ClickableWord -> El.Color
 wordColor word =
     case word.erased of
         True ->
-            "whitesmoke"
+            lightGrey
 
         False ->
-            "black"
-
-
-      
+            black

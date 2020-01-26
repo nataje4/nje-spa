@@ -5225,10 +5225,10 @@ var $elm$random$Random$initialSeed = function (x) {
 var $author$project$Poetry$Erasure$initModel = function (flags) {
 	return {
 		clickableText: _List_Nil,
+		enterTextScreen: true,
 		inputText: '',
 		percentRandom: 90,
 		seed: $elm$random$Random$initialSeed(42),
-		textEntered: false,
 		width: flags.width
 	};
 };
@@ -7041,7 +7041,7 @@ var $author$project$Poetry$Erasure$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{clickableText: clickableText, textEntered: true}),
+						{clickableText: clickableText, enterTextScreen: false}),
 					$elm$core$Platform$Cmd$none);
 			case 'UpdateInputText':
 				var text = msg.a;
@@ -7054,7 +7054,7 @@ var $author$project$Poetry$Erasure$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{textEntered: false}),
+						{enterTextScreen: true}),
 					$elm$core$Platform$Cmd$none);
 			case 'Randomize':
 				return _Utils_Tuple2(
@@ -14700,131 +14700,53 @@ var $author$project$ViewHelpers$basicLayoutHelper = F4(
 						]))
 				]));
 	});
-var $author$project$Poetry$Erasure$view = function (model) {
-	return A4(
-		$author$project$ViewHelpers$basicLayoutHelper,
-		$author$project$ViewHelpers$findScreenSize(model.width),
-		'ERASURE',
-		'',
+var $author$project$Poetry$Erasure$ToggleWord = function (a) {
+	return {$: 'ToggleWord', a: a};
+};
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
+var $author$project$ViewHelpers$lightGrey = A3($mdgriffith$elm_ui$Element$rgb255, 180, 180, 180);
+var $author$project$Poetry$Erasure$wordColor = function (word) {
+	var _v0 = word.erased;
+	if (_v0) {
+		return $author$project$ViewHelpers$lightGrey;
+	} else {
+		return $author$project$ViewHelpers$black;
+	}
+};
+var $author$project$Poetry$Erasure$displayClickableWord = function (word) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
 		_List_fromArray(
 			[
-				$mdgriffith$elm_ui$Element$text('googoogaga')
-			]));
+				$mdgriffith$elm_ui$Element$Events$onClick(
+				$author$project$Poetry$Erasure$ToggleWord(word)),
+				$mdgriffith$elm_ui$Element$Font$color(
+				$author$project$Poetry$Erasure$wordColor(word))
+			]),
+		$mdgriffith$elm_ui$Element$text(word.text + ' '));
 };
-var $author$project$Poetry$Events$view = function (model) {
-	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: EVENTS');
-	return viewHelper(
-		_List_fromArray(
-			[
-				A2(
-				$mdgriffith$elm_ui$Element$row,
-				_List_fromArray(
-					[$mdgriffith$elm_ui$Element$centerX]),
-				_List_fromArray(
-					[
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none])),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(2))
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$mdgriffith$elm_ui$Element$paragraph,
-								$author$project$ViewHelpers$titleStyle,
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('POETRY EVENTS')
-									])),
-								A2(
-								$mdgriffith$elm_ui$Element$paragraph,
-								$author$project$ViewHelpers$subtitleStyle,
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
-									]))
-							])),
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none]))
-					]))
-			]));
+var $author$project$Poetry$Erasure$MakeTextClickable = function (a) {
+	return {$: 'MakeTextClickable', a: a};
 };
-var $author$project$Poetry$Tools$view = function (model) {
-	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: TOOLS');
-	return viewHelper(
-		_List_fromArray(
-			[
-				A2(
-				$mdgriffith$elm_ui$Element$row,
-				_List_fromArray(
-					[$mdgriffith$elm_ui$Element$centerX]),
-				_List_fromArray(
-					[
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none])),
-						A2(
-						$mdgriffith$elm_ui$Element$textColumn,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(2))
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$mdgriffith$elm_ui$Element$paragraph,
-								$author$project$ViewHelpers$titleStyle,
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('POETRY TOOLS')
-									])),
-								A2(
-								$mdgriffith$elm_ui$Element$paragraph,
-								$author$project$ViewHelpers$subtitleStyle,
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
-									]))
-							])),
-						A2(
-						$mdgriffith$elm_ui$Element$column,
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$fillPortion(1))
-							]),
-						_List_fromArray(
-							[$mdgriffith$elm_ui$Element$none]))
-					]))
-			]));
-};
-var $author$project$Poetry$WordBank$CreateWordBank = function (a) {
-	return {$: 'CreateWordBank', a: a};
+var $author$project$Poetry$Erasure$UpdateInputText = function (a) {
+	return {$: 'UpdateInputText', a: a};
 };
 var $mdgriffith$elm_ui$Internal$Model$Button = {$: 'Button'};
 var $elm$json$Json$Encode$bool = _Json_wrap;
@@ -14849,24 +14771,6 @@ var $mdgriffith$elm_ui$Element$Input$hasFocusStyle = function (attr) {
 var $mdgriffith$elm_ui$Element$Input$focusDefault = function (attrs) {
 	return A2($elm$core$List$any, $mdgriffith$elm_ui$Element$Input$hasFocusStyle, attrs) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass('focusable');
 };
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 'Normal', a: a};
-};
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var $elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
-var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
 var $mdgriffith$elm_ui$Element$Input$enter = 'Enter';
 var $elm$json$Json$Decode$fail = _Json_fail;
 var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
@@ -14962,31 +14866,6 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 				_List_fromArray(
 					[label])));
 	});
-var $author$project$Poetry$WordBank$displayCreateWordBankButton = function (model) {
-	return A2(
-		$mdgriffith$elm_ui$Element$Input$button,
-		_List_fromArray(
-			[$mdgriffith$elm_ui$Element$centerX]),
-		{
-			label: $mdgriffith$elm_ui$Element$text('ENTER'),
-			onPress: $elm$core$Maybe$Just(
-				$author$project$Poetry$WordBank$CreateWordBank(model.input))
-		});
-};
-var $author$project$Poetry$WordBank$UpdatePoemInput = function (a) {
-	return {$: 'UpdatePoemInput', a: a};
-};
-var $author$project$Poetry$WordBank$Reset = {$: 'Reset'};
-var $author$project$Poetry$WordBank$displayResetButton = function (model) {
-	return A2(
-		$mdgriffith$elm_ui$Element$Input$button,
-		_List_fromArray(
-			[$mdgriffith$elm_ui$Element$centerX]),
-		{
-			label: $mdgriffith$elm_ui$Element$text('RESET'),
-			onPress: $elm$core$Maybe$Just($author$project$Poetry$WordBank$Reset)
-		});
-};
 var $mdgriffith$elm_ui$Element$Input$Above = {$: 'Above'};
 var $mdgriffith$elm_ui$Element$Input$Label = F3(
 	function (a, b, c) {
@@ -15866,6 +15745,401 @@ var $mdgriffith$elm_ui$Element$Input$multiline = F2(
 			attrs,
 			{label: multi.label, onChange: multi.onChange, placeholder: multi.placeholder, text: multi.text});
 	});
+var $author$project$Poetry$Erasure$displayEnterTextScreen = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$Input$multiline,
+				_List_Nil,
+				{
+					label: A2(
+						$mdgriffith$elm_ui$Element$Input$labelAbove,
+						_List_Nil,
+						$mdgriffith$elm_ui$Element$text('Input source text here:')),
+					onChange: $author$project$Poetry$Erasure$UpdateInputText,
+					placeholder: $elm$core$Maybe$Nothing,
+					spellcheck: false,
+					text: model.inputText
+				}),
+				A2(
+				$mdgriffith$elm_ui$Element$Input$button,
+				_List_Nil,
+				{
+					label: $mdgriffith$elm_ui$Element$text('ENTER'),
+					onPress: $elm$core$Maybe$Just(
+						$author$project$Poetry$Erasure$MakeTextClickable(model.inputText))
+				})
+			]));
+};
+var $author$project$Poetry$Erasure$UpdatePercentRandom = function (a) {
+	return {$: 'UpdatePercentRandom', a: a};
+};
+var $mdgriffith$elm_ui$Element$Input$OnLeft = {$: 'OnLeft'};
+var $mdgriffith$elm_ui$Element$Input$labelLeft = $mdgriffith$elm_ui$Element$Input$Label($mdgriffith$elm_ui$Element$Input$OnLeft);
+var $mdgriffith$elm_ui$Element$Input$TextInputNode = function (a) {
+	return {$: 'TextInputNode', a: a};
+};
+var $mdgriffith$elm_ui$Element$Input$text = $mdgriffith$elm_ui$Element$Input$textHelper(
+	{
+		autofill: $elm$core$Maybe$Nothing,
+		spellchecked: false,
+		type_: $mdgriffith$elm_ui$Element$Input$TextInputNode('text')
+	});
+var $author$project$Poetry$Erasure$displayPercentRandomInput = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$text,
+		_List_Nil,
+		{
+			label: A2(
+				$mdgriffith$elm_ui$Element$Input$labelLeft,
+				_List_Nil,
+				$mdgriffith$elm_ui$Element$text('Percent of words to erase: ')),
+			onChange: $author$project$Poetry$Erasure$UpdatePercentRandom,
+			placeholder: $elm$core$Maybe$Nothing,
+			text: $elm$core$String$fromInt(model.percentRandom)
+		});
+};
+var $author$project$Poetry$Erasure$Randomize = {$: 'Randomize'};
+var $author$project$Poetry$Erasure$displayRandomizeButton = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$button,
+		_List_Nil,
+		{
+			label: $mdgriffith$elm_ui$Element$text('RANDOMIZE'),
+			onPress: $elm$core$Maybe$Just($author$project$Poetry$Erasure$Randomize)
+		});
+};
+var $author$project$Poetry$Erasure$GoBackToTextEntry = {$: 'GoBackToTextEntry'};
+var $author$project$Poetry$Erasure$displayResetButton = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$button,
+		_List_Nil,
+		{
+			label: $mdgriffith$elm_ui$Element$text('RESET TEXT'),
+			onPress: $elm$core$Maybe$Just($author$project$Poetry$Erasure$GoBackToTextEntry)
+		});
+};
+var $author$project$Poetry$Erasure$displayBody = function (model) {
+	return model.enterTextScreen ? _List_fromArray(
+		[
+			$author$project$Poetry$Erasure$displayEnterTextScreen(model)
+		]) : ((_Utils_eq(
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		$author$project$ViewHelpers$Large) || _Utils_eq(
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		$author$project$ViewHelpers$ExtraLarge)) ? _List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(3)),
+							$mdgriffith$elm_ui$Element$padding(20)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$textColumn,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$paddingEach(
+											_Utils_update(
+												$author$project$ViewHelpers$noPadding,
+												{bottom: 20}))
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$mdgriffith$elm_ui$Element$paragraph,
+											_List_Nil,
+											A2($elm$core$List$map, $author$project$Poetry$Erasure$displayClickableWord, model.clickableText))
+										]))
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$el,
+									_List_fromArray(
+										[$mdgriffith$elm_ui$Element$centerX]),
+									$author$project$Poetry$Erasure$displayResetButton(model))
+								]))
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(1)),
+							$mdgriffith$elm_ui$Element$padding(20)
+						]),
+					_List_fromArray(
+						[
+							$author$project$Poetry$Erasure$displayPercentRandomInput(model),
+							A2(
+							$mdgriffith$elm_ui$Element$el,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$paddingEach(
+									_Utils_update(
+										$author$project$ViewHelpers$noPadding,
+										{top: 20})),
+									$mdgriffith$elm_ui$Element$centerX
+								]),
+							$author$project$Poetry$Erasure$displayRandomizeButton(model))
+						]))
+				]))
+		]) : _List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$padding(20)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(1)),
+							$mdgriffith$elm_ui$Element$centerX
+						]),
+					_List_fromArray(
+						[
+							$author$project$Poetry$Erasure$displayPercentRandomInput(model)
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(1)),
+							$mdgriffith$elm_ui$Element$centerX
+						]),
+					_List_fromArray(
+						[
+							$author$project$Poetry$Erasure$displayRandomizeButton(model)
+						]))
+				])),
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$padding(20)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$textColumn,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							A2($elm$core$List$map, $author$project$Poetry$Erasure$displayClickableWord, model.clickableText))
+						]))
+				])),
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[$mdgriffith$elm_ui$Element$centerX]),
+					$author$project$Poetry$Erasure$displayResetButton(model))
+				]))
+		]));
+};
+var $author$project$Poetry$Erasure$view = function (model) {
+	return A4(
+		$author$project$ViewHelpers$basicLayoutHelper,
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		'ERASURE',
+		'',
+		$author$project$Poetry$Erasure$displayBody(model));
+};
+var $author$project$Poetry$Events$view = function (model) {
+	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: EVENTS');
+	return viewHelper(
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[$mdgriffith$elm_ui$Element$centerX]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$fillPortion(1))
+							]),
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$none])),
+						A2(
+						$mdgriffith$elm_ui$Element$textColumn,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$fillPortion(2))
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$paragraph,
+								$author$project$ViewHelpers$titleStyle,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text('POETRY EVENTS')
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$paragraph,
+								$author$project$ViewHelpers$subtitleStyle,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
+									]))
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$fillPortion(1))
+							]),
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$none]))
+					]))
+			]));
+};
+var $author$project$Poetry$Tools$view = function (model) {
+	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: TOOLS');
+	return viewHelper(
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[$mdgriffith$elm_ui$Element$centerX]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$fillPortion(1))
+							]),
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$none])),
+						A2(
+						$mdgriffith$elm_ui$Element$textColumn,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$fillPortion(2))
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$mdgriffith$elm_ui$Element$paragraph,
+								$author$project$ViewHelpers$titleStyle,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text('POETRY TOOLS')
+									])),
+								A2(
+								$mdgriffith$elm_ui$Element$paragraph,
+								$author$project$ViewHelpers$subtitleStyle,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
+									]))
+							])),
+						A2(
+						$mdgriffith$elm_ui$Element$column,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width(
+								$mdgriffith$elm_ui$Element$fillPortion(1))
+							]),
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$none]))
+					]))
+			]));
+};
+var $author$project$Poetry$WordBank$CreateWordBank = function (a) {
+	return {$: 'CreateWordBank', a: a};
+};
+var $author$project$Poetry$WordBank$displayCreateWordBankButton = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$button,
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$centerX]),
+		{
+			label: $mdgriffith$elm_ui$Element$text('ENTER'),
+			onPress: $elm$core$Maybe$Just(
+				$author$project$Poetry$WordBank$CreateWordBank(model.input))
+		});
+};
+var $author$project$Poetry$WordBank$UpdatePoemInput = function (a) {
+	return {$: 'UpdatePoemInput', a: a};
+};
+var $author$project$Poetry$WordBank$Reset = {$: 'Reset'};
+var $author$project$Poetry$WordBank$displayResetButton = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$button,
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$centerX]),
+		{
+			label: $mdgriffith$elm_ui$Element$text('RESET'),
+			onPress: $elm$core$Maybe$Just($author$project$Poetry$WordBank$Reset)
+		});
+};
 var $author$project$Poetry$WordBank$displayPoemInput = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$column,
@@ -15984,7 +16258,6 @@ var $author$project$Poetry$WordBank$displayExtraWords = function (model) {
 						},
 						model.poem)))));
 };
-var $author$project$ViewHelpers$lightGrey = A3($mdgriffith$elm_ui$Element$rgb255, 180, 180, 180);
 var $author$project$Poetry$WordBank$displayWordBankWord = function (wbWord) {
 	return wbWord.used ? A2(
 		$mdgriffith$elm_ui$Element$el,

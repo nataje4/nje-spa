@@ -133,6 +133,7 @@ darkGrey : El.Color
 darkGrey =
     rgb255 60 60 60
 
+
 lightGrey : El.Color
 lightGrey =
     rgb255 180 180 180
@@ -256,7 +257,7 @@ bodySideSpacer screenSize =
 
 bodyEl : List (Element msg) -> Element msg
 bodyEl elements =
-    column[ El.width (fillPortion 5) ] elements
+    column [ El.width (fillPortion 5) ] elements
 
 
 basicLayoutHelper : ScreenSize -> String -> String -> List (El.Element msg) -> Browser.Document msg
@@ -267,18 +268,18 @@ basicLayoutHelper screenSize title subtitle bodyRows =
             "NJE: " ++ title
     in
     documentMsgHelper browserTitle
-        [ El.column [ width fill]
+        [ El.column [ width fill ]
             [ El.row [ centerX ]
                 [ titleSideSpacer
                 , titleEl screenSize
-                    [ paragraph titleStyle [ El.text title ] 
+                    [ paragraph titleStyle [ El.text title ]
                     , paragraph subtitleStyle [ El.text subtitle ]
                     ]
                 , titleSideSpacer
                 ]
             , El.row [ centerX ]
                 [ bodySideSpacer screenSize
-                , bodyEl  bodyRows
+                , bodyEl bodyRows
                 , bodySideSpacer screenSize
                 ]
             ]
@@ -305,6 +306,7 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
                 , El.row [ width (fill |> maximum 300) ] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
                 ]
         }
+
 
 pictureDownloadLink : String -> String -> String -> String -> Int -> Element msg
 pictureDownloadLink downloadLinkString imgSrc desc bottomText fillPortion_ =

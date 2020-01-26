@@ -1,8 +1,8 @@
 module Poetry.Tools exposing (..)
 
+import Browser exposing (Document)
 import Element as El exposing (..)
 import ViewHelpers exposing (..)
-import Browser exposing (Document)
 
 
 
@@ -47,6 +47,7 @@ update msg model =
 
 
 ---- VIEW ----
+
 
 view : Model -> Browser.Document msg
 view model =

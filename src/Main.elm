@@ -10,10 +10,10 @@ import Error exposing (Model, initModel, view)
 import Home exposing (Model, initModel, view)
 import Html exposing (map)
 import Poetry exposing (Model, initModel, view)
+import Poetry.Erasure exposing (Model, Msg, initModel, update, view)
 import Poetry.Events exposing (Model, initModel, view)
 import Poetry.Tools exposing (Model, initModel, view)
-import Poetry.WordBank exposing (Model, initModel, view, Msg, update)
-import Poetry.Erasure exposing (Model, initModel, view, Msg, update)
+import Poetry.WordBank exposing (Model, Msg, initModel, update, view)
 import Route exposing (Route(..))
 import Task
 import Url exposing (..)
@@ -33,7 +33,6 @@ type Model
     | Code Code.Model
     | CodeDemos Code.Demos.Model
     | Error Error.Model
-
 
 
 
@@ -81,8 +80,8 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case (msg, model)  of
-        ( ClickedLink urlRequest, _ )->
+    case ( msg, model ) of
+        ( ClickedLink urlRequest, _ ) ->
             case urlRequest of
                 Browser.Internal url ->
                     case url.fragment of
@@ -107,30 +106,30 @@ update msg model =
                     , Nav.load href
                     )
 
-        ( ChangedUrl url, _ )->
+        ( ChangedUrl url, _ ) ->
             let
                 route =
                     Route.fromUrl url
             in
             changeRouteTo route (routeToModel model route)
 
-        ( ResizeWindow width _, _ )->
+        ( ResizeWindow width _, _ ) ->
             ( updateWidth width model, Cmd.none )
 
-        (GotErasureMsg subMsg, PoetryErasure erasure) -> 
+        ( GotErasureMsg subMsg, PoetryErasure erasure ) ->
             Poetry.Erasure.update subMsg erasure
                 |> updateWith PoetryErasure GotErasureMsg model
 
-
-        (GotWordBankMsg subMsg, PoetryWordBank wordBank) -> 
+        ( GotWordBankMsg subMsg, PoetryWordBank wordBank ) ->
             Poetry.WordBank.update subMsg wordBank
                 |> updateWith PoetryWordBank GotWordBankMsg model
 
-        (GotPoetryMsg subMsg, Poetry poetry) -> 
+        ( GotPoetryMsg subMsg, Poetry poetry ) ->
             Poetry.update subMsg poetry
-                |> updateWith Poetry GotPoetryMsg model     
-        (_, _) -> 
-            (model, Cmd.none)   
+                |> updateWith Poetry GotPoetryMsg model
+
+        ( _, _ ) ->
+            ( model, Cmd.none )
 
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
@@ -138,7 +137,6 @@ updateWith toModel toMsg model ( subModel, subCmd ) =
     ( toModel subModel
     , Cmd.map toMsg subCmd
     )
-
 
 
 routeChangeFlags : Model -> Flags
@@ -197,7 +195,7 @@ routeToModel model maybeRoute =
 
         Just Route.Poetry ->
             Poetry (Poetry.initModel newFlags)
-        
+
         Just Route.PoetryEvents ->
             PoetryEvents (Poetry.Events.initModel newFlags)
 
@@ -212,7 +210,7 @@ routeToModel model maybeRoute =
 
         Just Route.Code ->
             Code (Code.initModel newFlags)
-        
+
         Just Route.CodeDemos ->
             CodeDemos (Code.Demos.initModel newFlags)
 
@@ -231,7 +229,7 @@ updateWidth width model =
 
         PoetryEvents mod3l ->
             PoetryEvents { mod3l | width = width }
-        
+
         PoetryTools mod3l ->
             PoetryTools { mod3l | width = width }
 
@@ -282,35 +280,44 @@ getWidth model =
             mod3l.width
 
 
+
 ---- VIEW ----
 
 
 view : Model -> Browser.Document Msg
 view model =
-    let 
+    let
         convertMsgType toMsg documentMsg =
-            { title = documentMsg.title, body = List.map (Html.map toMsg) documentMsg.body}
-    in 
+            { title = documentMsg.title, body = List.map (Html.map toMsg) documentMsg.body }
+    in
     case model of
         Home mod3l ->
             Home.view mod3l
+
         Poetry mod3l ->
             Poetry.view mod3l
-                |> convertMsgType GotPoetryMsg 
+                |> convertMsgType GotPoetryMsg
+
         PoetryEvents mod3l ->
             Poetry.Events.view mod3l
+
         PoetryTools mod3l ->
             Poetry.Tools.view mod3l
+
         PoetryWordBank mod3l ->
             Poetry.WordBank.view mod3l
-                |> convertMsgType GotWordBankMsg 
+                |> convertMsgType GotWordBankMsg
+
         PoetryErasure mod3l ->
             Poetry.Erasure.view mod3l
-                |> convertMsgType GotErasureMsg 
+                |> convertMsgType GotErasureMsg
+
         Code mod3l ->
             Code.view mod3l
+
         CodeDemos mod3l ->
             Code.Demos.view mod3l
+
         Error mod3l ->
             Error.view mod3l
 

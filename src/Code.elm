@@ -92,15 +92,15 @@ view model =
             documentMsgHelper "NJE: CODE"
 
         githubLink : Element msg
-        githubLink = 
+        githubLink =
             pictureLink "https://www.github.com/nataje4" "assets/blackcattyping2.png" "click here to go to my github page" "GITHUB" 1
-    
-        demosLink : Element msg 
-        demosLink = 
+
+        demosLink : Element msg
+        demosLink =
             pictureLink "#/code/demos" "assets/blackcattyping2.png" "click here to see some samples of my work" "DEMOS" 1
-    
-        resumeLink : Element msg 
-        resumeLink = 
+
+        resumeLink : Element msg
+        resumeLink =
             pictureDownloadLink "/assets/NatalieJaneEdsonResume2020.pdf" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
     in
     case screenSize of

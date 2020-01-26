@@ -96,14 +96,13 @@ view model =
         shopLink : Element msg
         shopLink =
             pictureLink "https://www.etsy.com/shop/NJEpoetry" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1
-        
+
         eventsLink : Element msg
-        eventsLink = 
+        eventsLink =
             pictureLink "#/poetry/events" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
 
-
-        toolsLink : Element msg 
-        toolsLink = 
+        toolsLink : Element msg
+        toolsLink =
             pictureLink "#/poetry/tools" "assets/oceanwater.jpg" "click here to be taken to a list of the tools I've created" "TOOLS" 1
     in
     case screenSize of
