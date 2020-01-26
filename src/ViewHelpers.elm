@@ -121,21 +121,21 @@ noPadding =
 
 black : El.Color
 black =
-    rgb 0.0 0.0 0.0
+    rgb255 0 0 0
 
 
 white : El.Color
 white =
-    rgb 255.0 255.0 255.0
+    rgb255 255 255 255
 
 
 darkGrey : El.Color
 darkGrey =
-    rgb 60.0 60.0 60.0
+    rgb255 60 60 60
 
 lightGrey : El.Color
 lightGrey =
-    rgb 180.0 180.0 180.0
+    rgb255 180 180 180
 
 
 menuItemStyle : List (Attribute msg)
@@ -217,7 +217,9 @@ documentMsgHelper title elements =
         [ El.layout
             bodyStyle
             (El.column
-                []
+                [ width fill
+                , height fill
+                ]
                 (elements
                     ++ [ footer ]
                     |> (++) [ navMenu ]
@@ -254,22 +256,24 @@ bodySideSpacer screenSize =
 
 bodyEl : List (Element msg) -> Element msg
 bodyEl elements =
-    column[ El.width (fillPortion 3) ] elements
+    column[ El.width (fillPortion 5) ] elements
 
 
-basicLayoutHelper : ScreenSize -> String -> List (El.Element msg) -> Browser.Document msg
-basicLayoutHelper screenSize title bodyRows =
+basicLayoutHelper : ScreenSize -> String -> String -> List (El.Element msg) -> Browser.Document msg
+basicLayoutHelper screenSize title subtitle bodyRows =
     let
         browserTitle : String
         browserTitle =
             "NJE: " ++ title
     in
     documentMsgHelper browserTitle
-        [ El.column []
+        [ El.column [ width fill]
             [ El.row [ centerX ]
                 [ titleSideSpacer
                 , titleEl screenSize
-                    [ paragraph titleStyle [ El.text title ] ]
+                    [ paragraph titleStyle [ El.text title ] 
+                    , paragraph subtitleStyle [ El.text subtitle ]
+                    ]
                 , titleSideSpacer
                 ]
             , El.row [ centerX ]

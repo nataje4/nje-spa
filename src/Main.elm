@@ -6,14 +6,14 @@ import Browser.Events exposing (onResize)
 import Browser.Navigation as Nav exposing (Key, load, pushUrl)
 import Code exposing (Model, initModel, view)
 import Code.Demos exposing (Model, initModel, view)
-import Element exposing (Device, DeviceClass(..), Orientation(..), classifyDevice)
 import Error exposing (Model, initModel, view)
 import Home exposing (Model, initModel, view)
+import Html exposing (map)
 import Poetry exposing (Model, initModel, view)
 import Poetry.Events exposing (Model, initModel, view)
 import Poetry.Tools exposing (Model, initModel, view)
-import Poetry.WordBank exposing (Model, initModel, view, Msg)
-import Poetry.Erasure exposing (Model, initModel, view, Msg)
+import Poetry.WordBank exposing (Model, initModel, view, Msg, update)
+import Poetry.Erasure exposing (Model, initModel, view, Msg, update)
 import Route exposing (Route(..))
 import Task
 import Url exposing (..)
@@ -74,12 +74,15 @@ type Msg
     = ChangedUrl Url
     | ClickedLink Browser.UrlRequest
     | ResizeWindow Int Int
+    | GotErasureMsg Poetry.Erasure.Msg
+    | GotWordBankMsg Poetry.WordBank.Msg
+    | GotPoetryMsg Poetry.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        ClickedLink urlRequest ->
+    case (msg, model)  of
+        ( ClickedLink urlRequest, _ )->
             case urlRequest of
                 Browser.Internal url ->
                     case url.fragment of
@@ -104,15 +107,38 @@ update msg model =
                     , Nav.load href
                     )
 
-        ChangedUrl url ->
+        ( ChangedUrl url, _ )->
             let
                 route =
                     Route.fromUrl url
             in
             changeRouteTo route (routeToModel model route)
 
-        ResizeWindow width _ ->
+        ( ResizeWindow width _, _ )->
             ( updateWidth width model, Cmd.none )
+
+        (GotErasureMsg subMsg, PoetryErasure erasure) -> 
+            Poetry.Erasure.update subMsg erasure
+                |> updateWith PoetryErasure GotErasureMsg model
+
+
+        (GotWordBankMsg subMsg, PoetryWordBank wordBank) -> 
+            Poetry.WordBank.update subMsg wordBank
+                |> updateWith PoetryWordBank GotWordBankMsg model
+
+        (GotPoetryMsg subMsg, Poetry poetry) -> 
+            Poetry.update subMsg poetry
+                |> updateWith Poetry GotPoetryMsg model     
+        (_, _) -> 
+            (model, Cmd.none)   
+
+
+updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWith toModel toMsg model ( subModel, subCmd ) =
+    ( toModel subModel
+    , Cmd.map toMsg subCmd
+    )
+
 
 
 routeChangeFlags : Model -> Flags
@@ -259,21 +285,28 @@ getWidth model =
 ---- VIEW ----
 
 
-view : Model -> Browser.Document msg
+view : Model -> Browser.Document Msg
 view model =
+    let 
+        convertMsgType toMsg documentMsg =
+            { title = documentMsg.title, body = List.map (Html.map toMsg) documentMsg.body}
+    in 
     case model of
         Home mod3l ->
             Home.view mod3l
         Poetry mod3l ->
             Poetry.view mod3l
+                |> convertMsgType GotPoetryMsg 
         PoetryEvents mod3l ->
             Poetry.Events.view mod3l
         PoetryTools mod3l ->
             Poetry.Tools.view mod3l
         PoetryWordBank mod3l ->
             Poetry.WordBank.view mod3l
+                |> convertMsgType GotWordBankMsg 
         PoetryErasure mod3l ->
             Poetry.Erasure.view mod3l
+                |> convertMsgType GotErasureMsg 
         Code mod3l ->
             Code.view mod3l
         CodeDemos mod3l ->

@@ -3,7 +3,7 @@ module Poetry.WordBank exposing (..)
 import Browser exposing (document, Document)
 import Element as El exposing (..)
 import ViewHelpers exposing (..)
-import Element.Font as Ef exposing (color)
+import Element.Font as Ef exposing (color, center)
 import Element.Input as Ei exposing (..)
 
 
@@ -115,7 +115,7 @@ update msg model =
 
 view : Model -> Document Msg
 view model =
-    basicLayoutHelper (findScreenSize model.width) "WORD BANK" (displayBody model)
+    basicLayoutHelper (findScreenSize model.width) "WORD BANK" "" (displayBody model)
 
 
 {--
@@ -167,14 +167,14 @@ displayWordBankWord wbWord =
     if wbWord.used then 
         el [Ef.color lightGrey] ( El.text (wbWord.word ++ " ") )
     else 
-        el [Ef.color lightGrey] ( El.text (wbWord.word ++ " ") )
+        el [Ef.color black] ( El.text (wbWord.word ++ " ") )
 
 
 displayWordBank : Model -> Element Msg
 displayWordBank model =
-    El.row
-        [width fill]
-        (List.map displayWordBankWord model.wordBank)
+    El.textColumn
+        [width fill, Ef.center]
+        [ paragraph [] (List.map displayWordBankWord model.wordBank)] 
 
 displayExtraPoemWord : PoemWord -> Element Msg
 displayExtraPoemWord poemW =
@@ -183,13 +183,15 @@ displayExtraPoemWord poemW =
 
 extraWordColor : El.Color 
 extraWordColor = 
-    rgb 93.0 153.0 186.0
+    rgb255 93 153 186
 
 displayExtraWords : Model -> Element Msg
 displayExtraWords model =
     List.filter (\w -> w.inWordBank == False) model.poem
         |> List.map displayExtraPoemWord
-        |> El.row [width fill, paddingEach { noPadding | top = 20}]
+        |> paragraph [] 
+        |> List.singleton 
+        |> El.textColumn [width fill, paddingEach { noPadding | top = 20}, Ef.center]
 
 displayWordBankWithExtraWords : Model -> Element Msg
 displayWordBankWithExtraWords model = 
@@ -200,7 +202,7 @@ displayWordBankWithExtraWords model =
 displayPoemInput : Model -> Element Msg
 displayPoemInput model =
     El.column
-        [width (fillPortion 1), padding 20]
+        [width (fillPortion 1), padding 20, alignTop]
         [ row [width fill] 
             [ multiline []
                 { onChange = UpdatePoemInput
@@ -210,7 +212,7 @@ displayPoemInput model =
                 , spellcheck = False
                 }
             ]
-        , row [] [displayResetButton model] 
+        , row [ centerX, paddingEach {noPadding | top=20}] [displayResetButton model] 
         ]
 
 displayWordBankInput : Model -> Element Msg 

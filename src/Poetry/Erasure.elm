@@ -45,7 +45,7 @@ initModel flags =
     }
 
 
-init : Flags -> ( Model, Cmd msg )
+init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( initModel flags, now )
 
@@ -87,7 +87,7 @@ hasPosition int word =
         False
 
 
-now : Cmd msg
+now : Cmd Msg
 now =
     Task.perform (Just >> GetSeed) Time.now
 
@@ -102,7 +102,7 @@ type Msg
     | GetSeed (Maybe Time.Posix)
 
 
-update : Msg -> Model -> ( Model, Cmd msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ToggleWord word ->
@@ -328,7 +328,7 @@ isNotErased word =
 ---- VIEW ----
 
 
-myStyles : List (Html.Attribute msg)
+myStyles : List (Html.Attribute Msg)
 myStyles =
     [ style "font-family" "Georgia" 
     , style "font-size" "20px" 
@@ -338,7 +338,7 @@ myStyles =
         
 
 
-htmlLegacyView : Model -> Html msg
+htmlLegacyView : Model -> Html Msg
 htmlLegacyView model =
     case model.textEntered of
         False ->
@@ -371,12 +371,12 @@ htmlLegacyView model =
                 ]
 
 
-view : Model -> Document msg
+view : Model -> Document Msg
 view model =
-    basicLayoutHelper (findScreenSize model.width) "ERASURE" [El.text "googoogaga"]
+    basicLayoutHelper (findScreenSize model.width) "ERASURE" "" [El.text "googoogaga"]
         
 
-appButtonStyle : List (Html.Attribute msg)
+appButtonStyle : List (Html.Attribute Msg)
 appButtonStyle =
     [ style "padding" "0 5px" 
     , style "border-radius" "0" 
@@ -393,7 +393,7 @@ appButtonStyle =
         
 
 
-enterYourTextScreen : Model -> Html msg
+enterYourTextScreen : Model -> Html Msg
 enterYourTextScreen model =
     div myStyles
         [ Html.br [] []
@@ -411,7 +411,7 @@ enterYourTextScreen model =
         ]
 
 
-percentRandomInput : Html msg
+percentRandomInput : Html Msg
 percentRandomInput =
     div []
         [ Html.input
@@ -427,7 +427,7 @@ percentRandomInput =
         ]
 
 
-displayClickableWord : ClickableWord -> Html msg
+displayClickableWord : ClickableWord -> Html Msg
 displayClickableWord word =
     Html.span
         [ onClick (ToggleWord word), style "color" (wordColor word) ]

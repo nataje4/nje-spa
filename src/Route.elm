@@ -28,7 +28,7 @@ parser =
         [ Parser.map Home Parser.top
         , Parser.map Poetry (s "poetry")
         , Parser.map PoetryTools (s "poetry" </> s "tools")
-        , Parser.map PoetryErasure (s "poetry" </> s "tools" </> s "wordbank")
+        , Parser.map PoetryWordBank (s "poetry" </> s "tools" </> s "wordbank")
         , Parser.map PoetryErasure (s "poetry" </> s "tools" </> s "erasure")
         , Parser.map PoetryEvents (s "poetry" </> s "events")
         , Parser.map Code (s "code")

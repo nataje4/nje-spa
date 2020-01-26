@@ -4312,23 +4312,6 @@ function _Browser_load(url)
 }
 
 
-function _Url_percentEncode(string)
-{
-	return encodeURIComponent(string);
-}
-
-function _Url_percentDecode(string)
-{
-	try
-	{
-		return $elm$core$Maybe$Just(decodeURIComponent(string));
-	}
-	catch (e)
-	{
-		return $elm$core$Maybe$Nothing;
-	}
-}
-
 
 var _Bitwise_and = F2(function(a, b)
 {
@@ -4364,7 +4347,24 @@ var _Bitwise_shiftRightZfBy = F2(function(offset, a)
 {
 	return a >>> offset;
 });
-var $author$project$Main$ChangedUrl = function (a) {
+
+
+function _Url_percentEncode(string)
+{
+	return encodeURIComponent(string);
+}
+
+function _Url_percentDecode(string)
+{
+	try
+	{
+		return $elm$core$Maybe$Just(decodeURIComponent(string));
+	}
+	catch (e)
+	{
+		return $elm$core$Maybe$Nothing;
+	}
+}var $author$project$Main$ChangedUrl = function (a) {
 	return {$: 'ChangedUrl', a: a};
 };
 var $author$project$Main$ClickedLink = function (a) {
@@ -5176,11 +5176,17 @@ var $author$project$Main$Home = function (a) {
 var $author$project$Main$Poetry = function (a) {
 	return {$: 'Poetry', a: a};
 };
+var $author$project$Main$PoetryErasure = function (a) {
+	return {$: 'PoetryErasure', a: a};
+};
 var $author$project$Main$PoetryEvents = function (a) {
 	return {$: 'PoetryEvents', a: a};
 };
 var $author$project$Main$PoetryTools = function (a) {
 	return {$: 'PoetryTools', a: a};
+};
+var $author$project$Main$PoetryWordBank = function (a) {
+	return {$: 'PoetryWordBank', a: a};
 };
 var $author$project$Code$initModel = function (flags) {
 	return {data: flags.data, width: flags.width};
@@ -5195,13 +5201,45 @@ var $author$project$Home$initModel = function (flags) {
 	return {data: flags.data, menuOpen: false, width: flags.width};
 };
 var $author$project$Poetry$initModel = function (flags) {
-	return {data: flags.data, menuOpen: false, width: flags.width};
+	return {data: flags.data, width: flags.width};
+};
+var $elm$random$Random$Seed = F2(
+	function (a, b) {
+		return {$: 'Seed', a: a, b: b};
+	});
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$random$Random$next = function (_v0) {
+	var state0 = _v0.a;
+	var incr = _v0.b;
+	return A2($elm$random$Random$Seed, ((state0 * 1664525) + incr) >>> 0, incr);
+};
+var $elm$random$Random$initialSeed = function (x) {
+	var _v0 = $elm$random$Random$next(
+		A2($elm$random$Random$Seed, 0, 1013904223));
+	var state1 = _v0.a;
+	var incr = _v0.b;
+	var state2 = (state1 + x) >>> 0;
+	return $elm$random$Random$next(
+		A2($elm$random$Random$Seed, state2, incr));
+};
+var $author$project$Poetry$Erasure$initModel = function (flags) {
+	return {
+		clickableText: _List_Nil,
+		inputText: '',
+		percentRandom: 90,
+		seed: $elm$random$Random$initialSeed(42),
+		textEntered: false,
+		width: flags.width
+	};
 };
 var $author$project$Poetry$Events$initModel = function (flags) {
 	return {data: flags.data, width: flags.width};
 };
 var $author$project$Poetry$Tools$initModel = function (flags) {
 	return {data: flags.data, width: flags.width};
+};
+var $author$project$Poetry$WordBank$initModel = function (flags) {
+	return {data: flags.data, enteringWordBank: true, input: '', poem: _List_Nil, width: flags.width, wordBank: _List_Nil};
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5217,6 +5255,12 @@ var $author$project$Main$getWidth = function (model) {
 			var mod3l = model.a;
 			return mod3l.width;
 		case 'PoetryTools':
+			var mod3l = model.a;
+			return mod3l.width;
+		case 'PoetryWordBank':
+			var mod3l = model.a;
+			return mod3l.width;
+		case 'PoetryErasure':
 			var mod3l = model.a;
 			return mod3l.width;
 		case 'Code':
@@ -5264,20 +5308,32 @@ var $author$project$Main$changeRouteTo = F2(
 						$author$project$Main$PoetryTools(
 							$author$project$Poetry$Tools$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
-				case 'Code':
+				case 'PoetryWordBank':
 					var _v4 = maybeRoute.a;
+					return _Utils_Tuple2(
+						$author$project$Main$PoetryWordBank(
+							$author$project$Poetry$WordBank$initModel(newFlags)),
+						$elm$core$Platform$Cmd$none);
+				case 'PoetryErasure':
+					var _v5 = maybeRoute.a;
+					return _Utils_Tuple2(
+						$author$project$Main$PoetryErasure(
+							$author$project$Poetry$Erasure$initModel(newFlags)),
+						$elm$core$Platform$Cmd$none);
+				case 'Code':
+					var _v6 = maybeRoute.a;
 					return _Utils_Tuple2(
 						$author$project$Main$Code(
 							$author$project$Code$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
 				case 'CodeDemos':
-					var _v5 = maybeRoute.a;
+					var _v7 = maybeRoute.a;
 					return _Utils_Tuple2(
 						$author$project$Main$CodeDemos(
 							$author$project$Code$Demos$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
 				default:
-					var _v6 = maybeRoute.a;
+					var _v8 = maybeRoute.a;
 					return _Utils_Tuple2(
 						$author$project$Main$Home(
 							$author$project$Home$initModel(newFlags)),
@@ -5923,8 +5979,10 @@ var $author$project$Route$Code = {$: 'Code'};
 var $author$project$Route$CodeDemos = {$: 'CodeDemos'};
 var $author$project$Route$Home = {$: 'Home'};
 var $author$project$Route$Poetry = {$: 'Poetry'};
+var $author$project$Route$PoetryErasure = {$: 'PoetryErasure'};
 var $author$project$Route$PoetryEvents = {$: 'PoetryEvents'};
 var $author$project$Route$PoetryTools = {$: 'PoetryTools'};
+var $author$project$Route$PoetryWordBank = {$: 'PoetryWordBank'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
@@ -6048,6 +6106,26 @@ var $author$project$Route$parser = $elm$url$Url$Parser$oneOf(
 				$elm$url$Url$Parser$s('tools'))),
 			A2(
 			$elm$url$Url$Parser$map,
+			$author$project$Route$PoetryWordBank,
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('poetry'),
+				A2(
+					$elm$url$Url$Parser$slash,
+					$elm$url$Url$Parser$s('tools'),
+					$elm$url$Url$Parser$s('wordbank')))),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Route$PoetryErasure,
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('poetry'),
+				A2(
+					$elm$url$Url$Parser$slash,
+					$elm$url$Url$Parser$s('tools'),
+					$elm$url$Url$Parser$s('erasure')))),
+			A2(
+			$elm$url$Url$Parser$map,
 			$author$project$Route$PoetryEvents,
 			A2(
 				$elm$url$Url$Parser$slash,
@@ -6110,12 +6188,20 @@ var $author$project$Main$routeToModel = F2(
 					var _v4 = maybeRoute.a;
 					return $author$project$Main$PoetryTools(
 						$author$project$Poetry$Tools$initModel(newFlags));
-				case 'Code':
+				case 'PoetryWordBank':
 					var _v5 = maybeRoute.a;
+					return $author$project$Main$PoetryWordBank(
+						$author$project$Poetry$WordBank$initModel(newFlags));
+				case 'PoetryErasure':
+					var _v6 = maybeRoute.a;
+					return $author$project$Main$PoetryErasure(
+						$author$project$Poetry$Erasure$initModel(newFlags));
+				case 'Code':
+					var _v7 = maybeRoute.a;
 					return $author$project$Main$Code(
 						$author$project$Code$initModel(newFlags));
 				default:
-					var _v6 = maybeRoute.a;
+					var _v8 = maybeRoute.a;
 					return $author$project$Main$CodeDemos(
 						$author$project$Code$Demos$initModel(newFlags));
 			}
@@ -6451,6 +6537,15 @@ var $author$project$Main$subscriptions = function (_v0) {
 				return A2($author$project$Main$ResizeWindow, w, h);
 			}));
 };
+var $author$project$Main$GotErasureMsg = function (a) {
+	return {$: 'GotErasureMsg', a: a};
+};
+var $author$project$Main$GotPoetryMsg = function (a) {
+	return {$: 'GotPoetryMsg', a: a};
+};
+var $author$project$Main$GotWordBankMsg = function (a) {
+	return {$: 'GotWordBankMsg', a: a};
+};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$url$Url$addPort = F2(
 	function (maybePort, starter) {
@@ -6496,6 +6591,698 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
+var $author$project$Poetry$update = F2(
+	function (msg, model) {
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	});
+var $author$project$Poetry$Erasure$ClickableWord = F3(
+	function (text, erased, position) {
+		return {erased: erased, position: position, text: text};
+	});
+var $author$project$Poetry$Erasure$eraseOrBringBack = function (word) {
+	var _v0 = word.erased;
+	if (_v0) {
+		return A3($author$project$Poetry$Erasure$ClickableWord, word.text, false, word.position);
+	} else {
+		return A3($author$project$Poetry$Erasure$ClickableWord, word.text, true, word.position);
+	}
+};
+var $elm$time$Time$posixToMillis = function (_v0) {
+	var millis = _v0.a;
+	return millis;
+};
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $elm_community$list_extra$List$Extra$getAt = F2(
+	function (idx, xs) {
+		return (idx < 0) ? $elm$core$Maybe$Nothing : $elm$core$List$head(
+			A2($elm$core$List$drop, idx, xs));
+	});
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
+var $elm$core$List$takeReverse = F3(
+	function (n, list, kept) {
+		takeReverse:
+		while (true) {
+			if (n <= 0) {
+				return kept;
+			} else {
+				if (!list.b) {
+					return kept;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs,
+						$temp$kept = A2($elm$core$List$cons, x, kept);
+					n = $temp$n;
+					list = $temp$list;
+					kept = $temp$kept;
+					continue takeReverse;
+				}
+			}
+		}
+	});
+var $elm$core$List$takeTailRec = F2(
+	function (n, list) {
+		return $elm$core$List$reverse(
+			A3($elm$core$List$takeReverse, n, list, _List_Nil));
+	});
+var $elm$core$List$takeFast = F3(
+	function (ctr, n, list) {
+		if (n <= 0) {
+			return _List_Nil;
+		} else {
+			var _v0 = _Utils_Tuple2(n, list);
+			_v0$1:
+			while (true) {
+				_v0$5:
+				while (true) {
+					if (!_v0.b.b) {
+						return list;
+					} else {
+						if (_v0.b.b.b) {
+							switch (_v0.a) {
+								case 1:
+									break _v0$1;
+								case 2:
+									var _v2 = _v0.b;
+									var x = _v2.a;
+									var _v3 = _v2.b;
+									var y = _v3.a;
+									return _List_fromArray(
+										[x, y]);
+								case 3:
+									if (_v0.b.b.b.b) {
+										var _v4 = _v0.b;
+										var x = _v4.a;
+										var _v5 = _v4.b;
+										var y = _v5.a;
+										var _v6 = _v5.b;
+										var z = _v6.a;
+										return _List_fromArray(
+											[x, y, z]);
+									} else {
+										break _v0$5;
+									}
+								default:
+									if (_v0.b.b.b.b && _v0.b.b.b.b.b) {
+										var _v7 = _v0.b;
+										var x = _v7.a;
+										var _v8 = _v7.b;
+										var y = _v8.a;
+										var _v9 = _v8.b;
+										var z = _v9.a;
+										var _v10 = _v9.b;
+										var w = _v10.a;
+										var tl = _v10.b;
+										return (ctr > 1000) ? A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A2($elm$core$List$takeTailRec, n - 4, tl))))) : A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A3($elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
+									} else {
+										break _v0$5;
+									}
+							}
+						} else {
+							if (_v0.a === 1) {
+								break _v0$1;
+							} else {
+								break _v0$5;
+							}
+						}
+					}
+				}
+				return list;
+			}
+			var _v1 = _v0.b;
+			var x = _v1.a;
+			return _List_fromArray(
+				[x]);
+		}
+	});
+var $elm$core$List$take = F2(
+	function (n, list) {
+		return A3($elm$core$List$takeFast, 0, n, list);
+	});
+var $elm_community$list_extra$List$Extra$updateAt = F3(
+	function (index, fn, list) {
+		if (index < 0) {
+			return list;
+		} else {
+			var tail = A2($elm$core$List$drop, index, list);
+			var head = A2($elm$core$List$take, index, list);
+			if (tail.b) {
+				var x = tail.a;
+				var xs = tail.b;
+				return _Utils_ap(
+					head,
+					A2(
+						$elm$core$List$cons,
+						fn(x),
+						xs));
+			} else {
+				return list;
+			}
+		}
+	});
+var $elm_community$list_extra$List$Extra$setAt = F2(
+	function (index, value) {
+		return A2(
+			$elm_community$list_extra$List$Extra$updateAt,
+			index,
+			$elm$core$Basics$always(value));
+	});
+var $author$project$Poetry$Erasure$bringBackAtIndex = F2(
+	function (index, words) {
+		var wordAtIndex = A2($elm_community$list_extra$List$Extra$getAt, index, words);
+		if (wordAtIndex.$ === 'Just') {
+			var word = wordAtIndex.a;
+			var _v1 = word.erased;
+			if (_v1) {
+				return $elm$core$Maybe$Just(
+					A3(
+						$elm_community$list_extra$List$Extra$setAt,
+						index,
+						$author$project$Poetry$Erasure$eraseOrBringBack(word),
+						words));
+			} else {
+				return $elm$core$Maybe$Just(words);
+			}
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $elm$random$Random$Generator = function (a) {
+	return {$: 'Generator', a: a};
+};
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$Bitwise$xor = _Bitwise_xor;
+var $elm$random$Random$peel = function (_v0) {
+	var state = _v0.a;
+	var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
+	return ((word >>> 22) ^ word) >>> 0;
+};
+var $elm$random$Random$int = F2(
+	function (a, b) {
+		return $elm$random$Random$Generator(
+			function (seed0) {
+				var _v0 = (_Utils_cmp(a, b) < 0) ? _Utils_Tuple2(a, b) : _Utils_Tuple2(b, a);
+				var lo = _v0.a;
+				var hi = _v0.b;
+				var range = (hi - lo) + 1;
+				if (!((range - 1) & range)) {
+					return _Utils_Tuple2(
+						(((range - 1) & $elm$random$Random$peel(seed0)) >>> 0) + lo,
+						$elm$random$Random$next(seed0));
+				} else {
+					var threshhold = (((-range) >>> 0) % range) >>> 0;
+					var accountForBias = function (seed) {
+						accountForBias:
+						while (true) {
+							var x = $elm$random$Random$peel(seed);
+							var seedN = $elm$random$Random$next(seed);
+							if (_Utils_cmp(x, threshhold) < 0) {
+								var $temp$seed = seedN;
+								seed = $temp$seed;
+								continue accountForBias;
+							} else {
+								return _Utils_Tuple2((x % range) + lo, seedN);
+							}
+						}
+					};
+					return accountForBias(seed0);
+				}
+			});
+	});
+var $elm$random$Random$step = F2(
+	function (_v0, seed) {
+		var generator = _v0.a;
+		return generator(seed);
+	});
+var $author$project$Poetry$Erasure$totalNumberOfWords = function (model) {
+	return $elm$core$List$length(model.clickableText);
+};
+var $author$project$Poetry$Erasure$randomIndexAndSeed = function (model) {
+	var total = $author$project$Poetry$Erasure$totalNumberOfWords(model);
+	var seed = model.seed;
+	return A2(
+		$elm$random$Random$step,
+		A2(
+			$elm$random$Random$int,
+			0,
+			$author$project$Poetry$Erasure$totalNumberOfWords(model) - 1),
+		seed);
+};
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $author$project$Poetry$Erasure$newSeed = function (model) {
+	return $author$project$Poetry$Erasure$randomIndexAndSeed(model).b;
+};
+var $author$project$Poetry$Erasure$randomIndex = function (model) {
+	return $author$project$Poetry$Erasure$randomIndexAndSeed(model).a;
+};
+var $author$project$Poetry$Erasure$bringBackAWord = function (model) {
+	var broughtBackWord = A2(
+		$author$project$Poetry$Erasure$bringBackAtIndex,
+		$author$project$Poetry$Erasure$randomIndex(model),
+		model.clickableText);
+	if (broughtBackWord.$ === 'Just') {
+		var newWords = broughtBackWord.a;
+		return _Utils_update(
+			model,
+			{
+				clickableText: newWords,
+				seed: $author$project$Poetry$Erasure$newSeed(model)
+			});
+	} else {
+		return _Utils_update(
+			model,
+			{
+				seed: $author$project$Poetry$Erasure$newSeed(model)
+			});
+	}
+};
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $author$project$Poetry$Erasure$currentErasedWords = function (model) {
+	return A2(
+		$elm$core$List$filter,
+		function ($) {
+			return $.erased;
+		},
+		model.clickableText);
+};
+var $author$project$Poetry$Erasure$currentAmountErased = function (model) {
+	return $elm$core$List$length(
+		$author$project$Poetry$Erasure$currentErasedWords(model));
+};
+var $author$project$Poetry$Erasure$desiredAmountErased = function (model) {
+	return (($author$project$Poetry$Erasure$totalNumberOfWords(model) * model.percentRandom) / 100) | 0;
+};
+var $author$project$Poetry$Erasure$eraseAtIndex = F2(
+	function (index, words) {
+		var wordAtIndex = A2($elm_community$list_extra$List$Extra$getAt, index, words);
+		if (wordAtIndex.$ === 'Just') {
+			var word = wordAtIndex.a;
+			var _v1 = word.erased;
+			if (_v1) {
+				return $elm$core$Maybe$Just(words);
+			} else {
+				return $elm$core$Maybe$Just(
+					A3(
+						$elm_community$list_extra$List$Extra$setAt,
+						index,
+						$author$project$Poetry$Erasure$eraseOrBringBack(word),
+						words));
+			}
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Poetry$Erasure$eraseAWord = function (model) {
+	var erasedWord = A2(
+		$author$project$Poetry$Erasure$eraseAtIndex,
+		$author$project$Poetry$Erasure$randomIndex(model),
+		model.clickableText);
+	if (erasedWord.$ === 'Just') {
+		var newWords = erasedWord.a;
+		return _Utils_update(
+			model,
+			{
+				clickableText: newWords,
+				seed: $author$project$Poetry$Erasure$newSeed(model)
+			});
+	} else {
+		return _Utils_update(
+			model,
+			{
+				seed: $author$project$Poetry$Erasure$newSeed(model)
+			});
+	}
+};
+var $author$project$Poetry$Erasure$randomErasure = function (model) {
+	randomErasure:
+	while (true) {
+		var words = model.clickableText;
+		var percent = model.percentRandom;
+		var newModel = model;
+		var desired = $author$project$Poetry$Erasure$desiredAmountErased(model);
+		var current = $author$project$Poetry$Erasure$currentAmountErased(model);
+		if (_Utils_cmp(current, desired) < 0) {
+			var $temp$model = $author$project$Poetry$Erasure$eraseAWord(model);
+			model = $temp$model;
+			continue randomErasure;
+		} else {
+			if (_Utils_eq(current, desired)) {
+				return model;
+			} else {
+				var $temp$model = $author$project$Poetry$Erasure$bringBackAWord(model);
+				model = $temp$model;
+				continue randomErasure;
+			}
+		}
+	}
+};
+var $author$project$Poetry$Erasure$createWord = F2(
+	function (string, _int) {
+		return A3($author$project$Poetry$Erasure$ClickableWord, string, false, _int);
+	});
+var $author$project$Poetry$Erasure$textToClickableWords = function (inputText) {
+	var rawWordsArray = A2($elm$core$String$split, ' ', inputText);
+	return A3(
+		$elm$core$List$map2,
+		$author$project$Poetry$Erasure$createWord,
+		rawWordsArray,
+		A2(
+			$elm$core$List$range,
+			1,
+			$elm$core$List$length(rawWordsArray)));
+};
+var $author$project$Poetry$Erasure$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'ToggleWord':
+				var word = msg.a;
+				var newText = A3($elm_community$list_extra$List$Extra$updateAt, word.position - 1, $author$project$Poetry$Erasure$eraseOrBringBack, model.clickableText);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{clickableText: newText}),
+					$elm$core$Platform$Cmd$none);
+			case 'MakeTextClickable':
+				var text = msg.a;
+				var clickableText = $author$project$Poetry$Erasure$textToClickableWords(model.inputText);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{clickableText: clickableText, textEntered: true}),
+					$elm$core$Platform$Cmd$none);
+			case 'UpdateInputText':
+				var text = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{inputText: text}),
+					$elm$core$Platform$Cmd$none);
+			case 'GoBackToTextEntry':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{textEntered: false}),
+					$elm$core$Platform$Cmd$none);
+			case 'Randomize':
+				return _Utils_Tuple2(
+					$author$project$Poetry$Erasure$randomErasure(model),
+					$elm$core$Platform$Cmd$none);
+			case 'UpdatePercentRandom':
+				var string = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							percentRandom: A2(
+								$elm$core$Maybe$withDefault,
+								0,
+								$elm$core$String$toInt(string))
+						}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				if (msg.a.$ === 'Just') {
+					var time = msg.a.a;
+					var timeSeed = $elm$random$Random$initialSeed(
+						$elm$time$Time$posixToMillis(time));
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{seed: timeSeed}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var _v1 = msg.a;
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
+		}
+	});
+var $author$project$Poetry$WordBank$createWordBankWord = F2(
+	function (id, word) {
+		return {id: id, used: false, word: word};
+	});
+var $elm$core$String$filter = _String_filter;
+var $elm$core$List$any = F2(
+	function (isOkay, list) {
+		any:
+		while (true) {
+			if (!list.b) {
+				return false;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (isOkay(x)) {
+					return true;
+				} else {
+					var $temp$isOkay = isOkay,
+						$temp$list = xs;
+					isOkay = $temp$isOkay;
+					list = $temp$list;
+					continue any;
+				}
+			}
+		}
+	});
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $elm$core$String$foldr = _String_foldr;
+var $elm$core$String$toList = function (string) {
+	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
+};
+var $author$project$Poetry$WordBank$isNotExtraPunctuation = function (_char) {
+	return A2(
+		$elm$core$List$member,
+		_char,
+		$elm$core$String$toList('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'1234567890'));
+};
+var $elm$core$String$words = _String_words;
+var $author$project$Poetry$WordBank$inputToWordBank = function (str) {
+	return A2(
+		$elm$core$List$indexedMap,
+		$author$project$Poetry$WordBank$createWordBankWord,
+		A2(
+			$elm$core$List$map,
+			$elm$core$String$filter($author$project$Poetry$WordBank$isNotExtraPunctuation),
+			$elm$core$String$words(str)));
+};
+var $author$project$Poetry$WordBank$poemWordInWordBank = F2(
+	function (model, str) {
+		var timesInWordBank = $elm$core$List$length(
+			A2(
+				$elm$core$List$filter,
+				function (w) {
+					return _Utils_eq(w.word, str);
+				},
+				model.wordBank));
+		var timesInPoem = $elm$core$List$length(
+			A2(
+				$elm$core$List$filter,
+				function (w) {
+					return _Utils_eq(w.word, str);
+				},
+				model.poem));
+		return (_Utils_cmp(timesInPoem, timesInWordBank) > 0) ? false : true;
+	});
+var $author$project$Poetry$WordBank$newPoemWord = F2(
+	function (model, str) {
+		return {
+			inWordBank: A2($author$project$Poetry$WordBank$poemWordInWordBank, model, str),
+			word: str
+		};
+	});
+var $author$project$Poetry$WordBank$poemInputIntoPoemWords = F2(
+	function (model, str) {
+		return A2(
+			$elm$core$List$map,
+			$author$project$Poetry$WordBank$newPoemWord(model),
+			A2(
+				$elm$core$List$map,
+				$elm$core$String$filter($author$project$Poetry$WordBank$isNotExtraPunctuation),
+				$elm$core$String$words(str)));
+	});
+var $author$project$Poetry$WordBank$setToUnused = function (wbw) {
+	return {id: wbw.id, used: false, word: wbw.word};
+};
+var $author$project$Poetry$WordBank$setAllWordBankWordsToUnused = function (w0rdBank) {
+	return A2($elm$core$List$map, $author$project$Poetry$WordBank$setToUnused, w0rdBank);
+};
+var $elm$core$String$toLower = _String_toLower;
+var $author$project$Poetry$WordBank$firstUnusedInstanceOfWord = F2(
+	function (poemW, w0rdBank) {
+		return $elm$core$List$head(
+			A2(
+				$elm$core$List$filter,
+				function (w) {
+					return _Utils_eq(
+						$elm$core$String$toLower(w.word),
+						$elm$core$String$toLower(poemW.word));
+				},
+				A2(
+					$elm$core$List$filter,
+					function (w) {
+						return !w.used;
+					},
+					w0rdBank)));
+	});
+var $author$project$Poetry$WordBank$isSameWordBankWord = F2(
+	function (a, b) {
+		return _Utils_eq(a.id, b.id);
+	});
+var $author$project$Poetry$WordBank$isFirstUnusedInstanceOfWord = F3(
+	function (poemW, w0rdBank, wordBeingTested) {
+		var theFirst = A2($author$project$Poetry$WordBank$firstUnusedInstanceOfWord, poemW, w0rdBank);
+		if (theFirst.$ === 'Just') {
+			var aWordBankWord = theFirst.a;
+			return A2($author$project$Poetry$WordBank$isSameWordBankWord, aWordBankWord, wordBeingTested);
+		} else {
+			return false;
+		}
+	});
+var $author$project$Poetry$WordBank$toggleWordBankWordUsed = function (wbWord) {
+	return _Utils_update(
+		wbWord,
+		{used: true});
+};
+var $author$project$Poetry$WordBank$toggleToUsedIfIsFirstUnusedInstanceOfWord = F3(
+	function (poemW, w0rdBank, wordBeingTested) {
+		var _v0 = A3($author$project$Poetry$WordBank$isFirstUnusedInstanceOfWord, poemW, w0rdBank, wordBeingTested);
+		if (_v0) {
+			return $author$project$Poetry$WordBank$toggleWordBankWordUsed(wordBeingTested);
+		} else {
+			return wordBeingTested;
+		}
+	});
+var $author$project$Poetry$WordBank$updateWordBank = F2(
+	function (poemW, w0rdBank) {
+		return A2(
+			$elm$core$List$map,
+			A2($author$project$Poetry$WordBank$toggleToUsedIfIsFirstUnusedInstanceOfWord, poemW, w0rdBank),
+			w0rdBank);
+	});
+var $author$project$Poetry$WordBank$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'UpdateWordBankInput':
+				var str = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{input: str}),
+					$elm$core$Platform$Cmd$none);
+			case 'CreateWordBank':
+				var str = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							enteringWordBank: false,
+							input: '',
+							wordBank: $author$project$Poetry$WordBank$inputToWordBank(str)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'UpdatePoemInput':
+				var str = msg.a;
+				var resetWordBank = $author$project$Poetry$WordBank$setAllWordBankWordsToUnused(model.wordBank);
+				var newPoemVersion = A2($author$project$Poetry$WordBank$poemInputIntoPoemWords, model, str);
+				var newWordBank = function (w0rdBank) {
+					return A3($elm$core$List$foldr, $author$project$Poetry$WordBank$updateWordBank, w0rdBank, newPoemVersion);
+				}(resetWordBank);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							input: str,
+							poem: newPoemVersion,
+							wordBank: function (w0rdBank) {
+								return A3($elm$core$List$foldr, $author$project$Poetry$WordBank$updateWordBank, w0rdBank, newPoemVersion);
+							}(resetWordBank)
+						}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					$author$project$Poetry$WordBank$initModel(
+						{data: '', width: model.width}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
 var $author$project$Main$updateWidth = F2(
 	function (width, model) {
 		switch (model.$) {
@@ -6523,6 +7310,18 @@ var $author$project$Main$updateWidth = F2(
 					_Utils_update(
 						mod3l,
 						{width: width}));
+			case 'PoetryWordBank':
+				var mod3l = model.a;
+				return $author$project$Main$PoetryWordBank(
+					_Utils_update(
+						mod3l,
+						{width: width}));
+			case 'PoetryErasure':
+				var mod3l = model.a;
+				return $author$project$Main$PoetryErasure(
+					_Utils_update(
+						mod3l,
+						{width: width}));
 			case 'Code':
 				var mod3l = model.a;
 				return $author$project$Main$Code(
@@ -6543,42 +7342,98 @@ var $author$project$Main$updateWidth = F2(
 						{width: width}));
 		}
 	});
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Main$updateWith = F4(
+	function (toModel, toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			toModel(subModel),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		switch (msg.$) {
-			case 'ClickedLink':
-				var urlRequest = msg.a;
-				if (urlRequest.$ === 'Internal') {
-					var url = urlRequest.a;
-					var _v2 = url.fragment;
-					if (_v2.$ === 'Nothing') {
-						return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		var _v0 = _Utils_Tuple2(msg, model);
+		_v0$6:
+		while (true) {
+			switch (_v0.a.$) {
+				case 'ClickedLink':
+					var urlRequest = _v0.a.a;
+					if (urlRequest.$ === 'Internal') {
+						var url = urlRequest.a;
+						var _v2 = url.fragment;
+						if (_v2.$ === 'Nothing') {
+							return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+						} else {
+							return _Utils_Tuple2(
+								model,
+								$elm$browser$Browser$Navigation$load(
+									$elm$url$Url$toString(url)));
+						}
 					} else {
+						var href = urlRequest.a;
 						return _Utils_Tuple2(
 							model,
-							$elm$browser$Browser$Navigation$load(
-								$elm$url$Url$toString(url)));
+							$elm$browser$Browser$Navigation$load(href));
 					}
-				} else {
-					var href = urlRequest.a;
+				case 'ChangedUrl':
+					var url = _v0.a.a;
+					var route = $author$project$Route$fromUrl(url);
+					return A2(
+						$author$project$Main$changeRouteTo,
+						route,
+						A2($author$project$Main$routeToModel, model, route));
+				case 'ResizeWindow':
+					var _v3 = _v0.a;
+					var width = _v3.a;
 					return _Utils_Tuple2(
-						model,
-						$elm$browser$Browser$Navigation$load(href));
-				}
-			case 'ChangedUrl':
-				var url = msg.a;
-				var route = $author$project$Route$fromUrl(url);
-				return A2(
-					$author$project$Main$changeRouteTo,
-					route,
-					A2($author$project$Main$routeToModel, model, route));
-			default:
-				var width = msg.a;
-				return _Utils_Tuple2(
-					A2($author$project$Main$updateWidth, width, model),
-					$elm$core$Platform$Cmd$none);
+						A2($author$project$Main$updateWidth, width, model),
+						$elm$core$Platform$Cmd$none);
+				case 'GotErasureMsg':
+					if (_v0.b.$ === 'PoetryErasure') {
+						var subMsg = _v0.a.a;
+						var erasure = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWith,
+							$author$project$Main$PoetryErasure,
+							$author$project$Main$GotErasureMsg,
+							model,
+							A2($author$project$Poetry$Erasure$update, subMsg, erasure));
+					} else {
+						break _v0$6;
+					}
+				case 'GotWordBankMsg':
+					if (_v0.b.$ === 'PoetryWordBank') {
+						var subMsg = _v0.a.a;
+						var wordBank = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWith,
+							$author$project$Main$PoetryWordBank,
+							$author$project$Main$GotWordBankMsg,
+							model,
+							A2($author$project$Poetry$WordBank$update, subMsg, wordBank));
+					} else {
+						break _v0$6;
+					}
+				default:
+					if (_v0.b.$ === 'Poetry') {
+						var subMsg = _v0.a.a;
+						var poetry = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWith,
+							$author$project$Main$Poetry,
+							$author$project$Main$GotPoetryMsg,
+							model,
+							A2($author$project$Poetry$update, subMsg, poetry));
+					} else {
+						break _v0$6;
+					}
+			}
 		}
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
 	return {$: 'AlignX', a: a};
 };
@@ -6740,10 +7595,6 @@ var $mdgriffith$elm_ui$Internal$Model$lengthClassName = function (x) {
 			var len = x.b;
 			return 'max' + ($elm$core$String$fromInt(max) + $mdgriffith$elm_ui$Internal$Model$lengthClassName(len));
 	}
-};
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
 };
 var $elm$core$Basics$round = _Basics_round;
 var $mdgriffith$elm_ui$Internal$Model$floatClass = function (x) {
@@ -9093,27 +9944,6 @@ var $elm$json$Json$Encode$object = function (pairs) {
 			_Json_emptyObject(_Utils_Tuple0),
 			pairs));
 };
-var $elm$core$List$any = F2(
-	function (isOkay, list) {
-		any:
-		while (true) {
-			if (!list.b) {
-				return false;
-			} else {
-				var x = list.a;
-				var xs = list.b;
-				if (isOkay(x)) {
-					return true;
-				} else {
-					var $temp$isOkay = isOkay,
-						$temp$list = xs;
-					isOkay = $temp$isOkay;
-					list = $temp$list;
-					continue any;
-				}
-			}
-		}
-	});
 var $mdgriffith$elm_ui$Internal$Model$fontName = function (font) {
 	switch (font.$) {
 		case 'Serif':
@@ -9160,9 +9990,6 @@ var $elm$core$Basics$min = F2(
 	function (x, y) {
 		return (_Utils_cmp(x, y) < 0) ? x : y;
 	});
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $mdgriffith$elm_ui$Internal$Model$renderProps = F3(
 	function (force, _v0, existing) {
 		var key = _v0.a;
@@ -9842,17 +10669,6 @@ var $mdgriffith$elm_ui$Internal$Model$adjust = F3(
 	function (size, height, vertical) {
 		return {height: height / size, size: size, vertical: vertical};
 	});
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
 var $elm$core$List$maximum = function (list) {
 	if (list.b) {
 		var x = list.a;
@@ -10160,7 +10976,6 @@ var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 };
 var $elm$core$Basics$not = _Basics_not;
 var $elm$html$Html$p = _VirtualDom_node('p');
-var $elm$core$Bitwise$and = _Bitwise_and;
 var $mdgriffith$elm_ui$Internal$Flag$present = F2(
 	function (myFlag, _v0) {
 		var fieldOne = _v0.a;
@@ -11986,8 +12801,6 @@ var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
 		return {$: 'StyleClass', a: a, b: b};
 	});
 var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
-var $elm$core$String$toLower = _String_toLower;
-var $elm$core$String$words = _String_words;
 var $mdgriffith$elm_ui$Internal$Model$renderFontClassName = F2(
 	function (font, current) {
 		return _Utils_ap(
@@ -12047,15 +12860,19 @@ var $author$project$ViewHelpers$mainFonts = $mdgriffith$elm_ui$Element$Font$fami
 		[$author$project$ViewHelpers$lato, $author$project$ViewHelpers$georgia, $mdgriffith$elm_ui$Element$Font$serif]));
 var $author$project$ViewHelpers$bodyStyle = _List_fromArray(
 	[$author$project$ViewHelpers$mainFonts]);
+var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
 var $mdgriffith$elm_ui$Internal$Model$Rgba = F4(
 	function (a, b, c, d) {
 		return {$: 'Rgba', a: a, b: b, c: c, d: d};
 	});
-var $mdgriffith$elm_ui$Element$rgb = F3(
-	function (r, g, b) {
-		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
+var $mdgriffith$elm_ui$Element$rgb255 = F3(
+	function (red, green, blue) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
 	});
-var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb, 0.0, 0.0, 0.0);
+var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 0);
 var $mdgriffith$elm_ui$Internal$Model$Class = F2(
 	function (a, b) {
 		return {$: 'Class', a: a, b: b};
@@ -12091,10 +12908,6 @@ var $author$project$ViewHelpers$workSans = $mdgriffith$elm_ui$Element$Font$typef
 var $author$project$ViewHelpers$emphasisFonts = $mdgriffith$elm_ui$Element$Font$family(
 	_List_fromArray(
 		[$author$project$ViewHelpers$workSans, $author$project$ViewHelpers$arial, $mdgriffith$elm_ui$Element$Font$sansSerif]));
-var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
-	return {$: 'Fill', a: a};
-};
-var $mdgriffith$elm_ui$Element$fill = $mdgriffith$elm_ui$Internal$Model$Fill(1);
 var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
 var $author$project$ViewHelpers$noPadding = {bottom: 0, left: 0, right: 0, top: 0};
 var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
@@ -12523,7 +13336,7 @@ var $mdgriffith$elm_ui$Element$padding = function (x) {
 			x,
 			x));
 };
-var $author$project$ViewHelpers$white = A3($mdgriffith$elm_ui$Element$rgb, 255.0, 255.0, 255.0);
+var $author$project$ViewHelpers$white = A3($mdgriffith$elm_ui$Element$rgb255, 255, 255, 255);
 var $author$project$ViewHelpers$menuItemStyle = _List_fromArray(
 	[
 		$author$project$ViewHelpers$emphasisFonts,
@@ -12596,7 +13409,11 @@ var $author$project$ViewHelpers$documentMsgHelper = F2(
 					$author$project$ViewHelpers$bodyStyle,
 					A2(
 						$mdgriffith$elm_ui$Element$column,
-						_List_Nil,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+							]),
 						_Utils_ap(
 							_List_fromArray(
 								[$author$project$ViewHelpers$navMenu]),
@@ -12858,10 +13675,6 @@ var $author$project$ViewHelpers$subtitleStyle = _List_fromArray(
 			{bottom: 50}))
 	]);
 var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$core$Basics$always = F2(
-	function (a, _v0) {
-		return a;
-	});
 var $elm$core$Basics$composeL = F3(
 	function (g, f, x) {
 		return g(
@@ -13765,6 +14578,139 @@ var $author$project$Poetry$view = function (model) {
 					]));
 	}
 };
+var $author$project$ViewHelpers$bodyEl = function (elements) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$fillPortion(5))
+			]),
+		elements);
+};
+var $author$project$ViewHelpers$bodySideSpacer = function (screenSize) {
+	if (screenSize.$ === 'ExtraLarge') {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$fillPortion(2))
+				]),
+			_List_fromArray(
+				[$mdgriffith$elm_ui$Element$none]));
+	} else {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$fillPortion(1))
+				]),
+			_List_fromArray(
+				[$mdgriffith$elm_ui$Element$none]));
+	}
+};
+var $author$project$ViewHelpers$titleEl = F2(
+	function (screenSize, textElements) {
+		if (screenSize.$ === 'ExtraLarge') {
+			return A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$fillPortion(2))
+					]),
+				textElements);
+		} else {
+			return A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width(
+						$mdgriffith$elm_ui$Element$fillPortion(3))
+					]),
+				textElements);
+		}
+	});
+var $author$project$ViewHelpers$titleSideSpacer = A2(
+	$mdgriffith$elm_ui$Element$column,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$width(
+			$mdgriffith$elm_ui$Element$fillPortion(1))
+		]),
+	_List_fromArray(
+		[$mdgriffith$elm_ui$Element$none]));
+var $author$project$ViewHelpers$basicLayoutHelper = F4(
+	function (screenSize, title, subtitle, bodyRows) {
+		var browserTitle = 'NJE: ' + title;
+		return A2(
+			$author$project$ViewHelpers$documentMsgHelper,
+			browserTitle,
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[$mdgriffith$elm_ui$Element$centerX]),
+							_List_fromArray(
+								[
+									$author$project$ViewHelpers$titleSideSpacer,
+									A2(
+									$author$project$ViewHelpers$titleEl,
+									screenSize,
+									_List_fromArray(
+										[
+											A2(
+											$mdgriffith$elm_ui$Element$paragraph,
+											$author$project$ViewHelpers$titleStyle,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$text(title)
+												])),
+											A2(
+											$mdgriffith$elm_ui$Element$paragraph,
+											$author$project$ViewHelpers$subtitleStyle,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$text(subtitle)
+												]))
+										])),
+									$author$project$ViewHelpers$titleSideSpacer
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[$mdgriffith$elm_ui$Element$centerX]),
+							_List_fromArray(
+								[
+									$author$project$ViewHelpers$bodySideSpacer(screenSize),
+									$author$project$ViewHelpers$bodyEl(bodyRows),
+									$author$project$ViewHelpers$bodySideSpacer(screenSize)
+								]))
+						]))
+				]));
+	});
+var $author$project$Poetry$Erasure$view = function (model) {
+	return A4(
+		$author$project$ViewHelpers$basicLayoutHelper,
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		'ERASURE',
+		'',
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$text('googoogaga')
+			]));
+};
 var $author$project$Poetry$Events$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: EVENTS');
 	return viewHelper(
@@ -13877,20 +14823,1334 @@ var $author$project$Poetry$Tools$view = function (model) {
 					]))
 			]));
 };
+var $author$project$Poetry$WordBank$CreateWordBank = function (a) {
+	return {$: 'CreateWordBank', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$Button = {$: 'Button'};
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
+var $mdgriffith$elm_ui$Internal$Model$NoAttribute = {$: 'NoAttribute'};
+var $mdgriffith$elm_ui$Element$Input$hasFocusStyle = function (attr) {
+	if (((attr.$ === 'StyleClass') && (attr.b.$ === 'PseudoSelector')) && (attr.b.a.$ === 'Focus')) {
+		var _v1 = attr.b;
+		var _v2 = _v1.a;
+		return true;
+	} else {
+		return false;
+	}
+};
+var $mdgriffith$elm_ui$Element$Input$focusDefault = function (attrs) {
+	return A2($elm$core$List$any, $mdgriffith$elm_ui$Element$Input$hasFocusStyle, attrs) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass('focusable');
+};
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
+var $mdgriffith$elm_ui$Element$Input$enter = 'Enter';
+var $elm$json$Json$Decode$fail = _Json_fail;
+var $elm$virtual_dom$VirtualDom$MayPreventDefault = function (a) {
+	return {$: 'MayPreventDefault', a: a};
+};
+var $elm$html$Html$Events$preventDefaultOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayPreventDefault(decoder));
+	});
+var $mdgriffith$elm_ui$Element$Input$onKey = F2(
+	function (desiredCode, msg) {
+		var decode = function (code) {
+			return _Utils_eq(code, desiredCode) ? $elm$json$Json$Decode$succeed(msg) : $elm$json$Json$Decode$fail('Not the enter key');
+		};
+		var isKey = A2(
+			$elm$json$Json$Decode$andThen,
+			decode,
+			A2($elm$json$Json$Decode$field, 'key', $elm$json$Json$Decode$string));
+		return $mdgriffith$elm_ui$Internal$Model$Attr(
+			A2(
+				$elm$html$Html$Events$preventDefaultOn,
+				'keyup',
+				A2(
+					$elm$json$Json$Decode$map,
+					function (fired) {
+						return _Utils_Tuple2(fired, true);
+					},
+					isKey)));
+	});
+var $mdgriffith$elm_ui$Element$Input$onEnter = function (msg) {
+	return A2($mdgriffith$elm_ui$Element$Input$onKey, $mdgriffith$elm_ui$Element$Input$enter, msg);
+};
+var $mdgriffith$elm_ui$Internal$Flag$cursor = $mdgriffith$elm_ui$Internal$Flag$flag(21);
+var $mdgriffith$elm_ui$Element$pointer = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$cursor, $mdgriffith$elm_ui$Internal$Style$classes.cursorPointer);
+var $elm$html$Html$Attributes$tabindex = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'tabIndex',
+		$elm$core$String$fromInt(n));
+};
+var $mdgriffith$elm_ui$Element$Input$button = F2(
+	function (attrs, _v0) {
+		var onPress = _v0.onPress;
+		var label = _v0.label;
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.seButton + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.noTextSelection)))))),
+						A2(
+							$elm$core$List$cons,
+							$mdgriffith$elm_ui$Element$pointer,
+							A2(
+								$elm$core$List$cons,
+								$mdgriffith$elm_ui$Element$Input$focusDefault(attrs),
+								A2(
+									$elm$core$List$cons,
+									$mdgriffith$elm_ui$Internal$Model$Describe($mdgriffith$elm_ui$Internal$Model$Button),
+									A2(
+										$elm$core$List$cons,
+										$mdgriffith$elm_ui$Internal$Model$Attr(
+											$elm$html$Html$Attributes$tabindex(0)),
+										function () {
+											if (onPress.$ === 'Nothing') {
+												return A2(
+													$elm$core$List$cons,
+													$mdgriffith$elm_ui$Internal$Model$Attr(
+														$elm$html$Html$Attributes$disabled(true)),
+													attrs);
+											} else {
+												var msg = onPress.a;
+												return A2(
+													$elm$core$List$cons,
+													$mdgriffith$elm_ui$Element$Events$onClick(msg),
+													A2(
+														$elm$core$List$cons,
+														$mdgriffith$elm_ui$Element$Input$onEnter(msg),
+														attrs));
+											}
+										}()))))))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[label])));
+	});
+var $author$project$Poetry$WordBank$displayCreateWordBankButton = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$button,
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$centerX]),
+		{
+			label: $mdgriffith$elm_ui$Element$text('ENTER'),
+			onPress: $elm$core$Maybe$Just(
+				$author$project$Poetry$WordBank$CreateWordBank(model.input))
+		});
+};
+var $author$project$Poetry$WordBank$UpdatePoemInput = function (a) {
+	return {$: 'UpdatePoemInput', a: a};
+};
+var $author$project$Poetry$WordBank$Reset = {$: 'Reset'};
+var $author$project$Poetry$WordBank$displayResetButton = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$Input$button,
+		_List_fromArray(
+			[$mdgriffith$elm_ui$Element$centerX]),
+		{
+			label: $mdgriffith$elm_ui$Element$text('RESET'),
+			onPress: $elm$core$Maybe$Just($author$project$Poetry$WordBank$Reset)
+		});
+};
+var $mdgriffith$elm_ui$Element$Input$Above = {$: 'Above'};
+var $mdgriffith$elm_ui$Element$Input$Label = F3(
+	function (a, b, c) {
+		return {$: 'Label', a: a, b: b, c: c};
+	});
+var $mdgriffith$elm_ui$Element$Input$labelAbove = $mdgriffith$elm_ui$Element$Input$Label($mdgriffith$elm_ui$Element$Input$Above);
+var $mdgriffith$elm_ui$Element$Input$TextArea = {$: 'TextArea'};
+var $mdgriffith$elm_ui$Internal$Model$LivePolite = {$: 'LivePolite'};
+var $mdgriffith$elm_ui$Element$Region$announce = $mdgriffith$elm_ui$Internal$Model$Describe($mdgriffith$elm_ui$Internal$Model$LivePolite);
+var $mdgriffith$elm_ui$Element$Input$applyLabel = F3(
+	function (attrs, label, input) {
+		if (label.$ === 'HiddenLabel') {
+			var labelText = label.a;
+			return A4(
+				$mdgriffith$elm_ui$Internal$Model$element,
+				$mdgriffith$elm_ui$Internal$Model$asColumn,
+				$mdgriffith$elm_ui$Internal$Model$NodeName('label'),
+				attrs,
+				$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+					_List_fromArray(
+						[input])));
+		} else {
+			var position = label.a;
+			var labelAttrs = label.b;
+			var labelChild = label.c;
+			var labelElement = A4(
+				$mdgriffith$elm_ui$Internal$Model$element,
+				$mdgriffith$elm_ui$Internal$Model$asEl,
+				$mdgriffith$elm_ui$Internal$Model$div,
+				labelAttrs,
+				$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+					_List_fromArray(
+						[labelChild])));
+			switch (position.$) {
+				case 'Above':
+					return A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asColumn,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('label'),
+						attrs,
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+							_List_fromArray(
+								[labelElement, input])));
+				case 'Below':
+					return A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asColumn,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('label'),
+						attrs,
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+							_List_fromArray(
+								[input, labelElement])));
+				case 'OnRight':
+					return A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asRow,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('label'),
+						attrs,
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+							_List_fromArray(
+								[input, labelElement])));
+				default:
+					return A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asRow,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('label'),
+						attrs,
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+							_List_fromArray(
+								[labelElement, input])));
+			}
+		}
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $mdgriffith$elm_ui$Element$Input$autofill = A2(
+	$elm$core$Basics$composeL,
+	$mdgriffith$elm_ui$Internal$Model$Attr,
+	$elm$html$Html$Attributes$attribute('autocomplete'));
+var $mdgriffith$elm_ui$Internal$Model$Behind = {$: 'Behind'};
+var $mdgriffith$elm_ui$Internal$Model$Nearby = F2(
+	function (a, b) {
+		return {$: 'Nearby', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Element$createNearby = F2(
+	function (loc, element) {
+		if (element.$ === 'Empty') {
+			return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+		} else {
+			return A2($mdgriffith$elm_ui$Internal$Model$Nearby, loc, element);
+		}
+	});
+var $mdgriffith$elm_ui$Element$behindContent = function (element) {
+	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$Behind, element);
+};
+var $mdgriffith$elm_ui$Internal$Model$MoveY = function (a) {
+	return {$: 'MoveY', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
+	function (a, b) {
+		return {$: 'TransformComponent', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$moveY = $mdgriffith$elm_ui$Internal$Flag$flag(26);
+var $mdgriffith$elm_ui$Element$moveUp = function (y) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
+		$mdgriffith$elm_ui$Internal$Flag$moveY,
+		$mdgriffith$elm_ui$Internal$Model$MoveY(-y));
+};
+var $mdgriffith$elm_ui$Element$Input$calcMoveToCompensateForPadding = function (attrs) {
+	var gatherSpacing = F2(
+		function (attr, found) {
+			if ((attr.$ === 'StyleClass') && (attr.b.$ === 'SpacingStyle')) {
+				var _v2 = attr.b;
+				var x = _v2.b;
+				var y = _v2.c;
+				if (found.$ === 'Nothing') {
+					return $elm$core$Maybe$Just(y);
+				} else {
+					return found;
+				}
+			} else {
+				return found;
+			}
+		});
+	var _v0 = A3($elm$core$List$foldr, gatherSpacing, $elm$core$Maybe$Nothing, attrs);
+	if (_v0.$ === 'Nothing') {
+		return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+	} else {
+		var vSpace = _v0.a;
+		return $mdgriffith$elm_ui$Element$moveUp(
+			$elm$core$Basics$floor(vSpace / 2));
+	}
+};
+var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
+var $mdgriffith$elm_ui$Element$clip = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.clip);
+var $mdgriffith$elm_ui$Internal$Flag$borderColor = $mdgriffith$elm_ui$Internal$Flag$flag(28);
+var $mdgriffith$elm_ui$Element$Border$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'border-color',
+			clr));
+};
+var $mdgriffith$elm_ui$Element$rgb = F3(
+	function (r, g, b) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
+	});
+var $mdgriffith$elm_ui$Element$Input$darkGrey = A3($mdgriffith$elm_ui$Element$rgb, 186 / 255, 189 / 255, 182 / 255);
+var $mdgriffith$elm_ui$Element$paddingXY = F2(
+	function (x, y) {
+		return _Utils_eq(x, y) ? A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				'p-' + $elm$core$String$fromInt(x),
+				x,
+				x,
+				x,
+				x)) : A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				'p-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+				y,
+				x,
+				y,
+				x));
+	});
+var $mdgriffith$elm_ui$Element$Input$defaultTextPadding = A2($mdgriffith$elm_ui$Element$paddingXY, 12, 12);
+var $mdgriffith$elm_ui$Internal$Flag$borderRound = $mdgriffith$elm_ui$Internal$Flag$flag(17);
+var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderRound,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Single,
+			'br-' + $elm$core$String$fromInt(radius),
+			'border-radius',
+			$elm$core$String$fromInt(radius) + 'px'));
+};
+var $mdgriffith$elm_ui$Element$Input$white = A3($mdgriffith$elm_ui$Element$rgb, 1, 1, 1);
+var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
+	function (a, b, c, d, e) {
+		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Element$Border$width = function (v) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + $elm$core$String$fromInt(v),
+			v,
+			v,
+			v,
+			v));
+};
+var $mdgriffith$elm_ui$Element$Input$defaultTextBoxStyle = _List_fromArray(
+	[
+		$mdgriffith$elm_ui$Element$Input$defaultTextPadding,
+		$mdgriffith$elm_ui$Element$Border$rounded(3),
+		$mdgriffith$elm_ui$Element$Border$color($mdgriffith$elm_ui$Element$Input$darkGrey),
+		$mdgriffith$elm_ui$Element$Background$color($mdgriffith$elm_ui$Element$Input$white),
+		$mdgriffith$elm_ui$Element$Border$width(1),
+		$mdgriffith$elm_ui$Element$spacing(5),
+		$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+		$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink)
+	]);
+var $mdgriffith$elm_ui$Element$Input$getHeight = function (attr) {
+	if (attr.$ === 'Height') {
+		var h = attr.a;
+		return $elm$core$Maybe$Just(h);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $mdgriffith$elm_ui$Internal$Model$Label = function (a) {
+	return {$: 'Label', a: a};
+};
+var $mdgriffith$elm_ui$Element$Input$hiddenLabelAttribute = function (label) {
+	if (label.$ === 'HiddenLabel') {
+		var textLabel = label.a;
+		return $mdgriffith$elm_ui$Internal$Model$Describe(
+			$mdgriffith$elm_ui$Internal$Model$Label(textLabel));
+	} else {
+		return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+	}
+};
+var $mdgriffith$elm_ui$Internal$Model$InFront = {$: 'InFront'};
+var $mdgriffith$elm_ui$Element$inFront = function (element) {
+	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$InFront, element);
+};
+var $mdgriffith$elm_ui$Element$Input$isConstrained = function (len) {
+	isConstrained:
+	while (true) {
+		switch (len.$) {
+			case 'Content':
+				return false;
+			case 'Px':
+				return true;
+			case 'Fill':
+				return true;
+			case 'Min':
+				var l = len.b;
+				var $temp$len = l;
+				len = $temp$len;
+				continue isConstrained;
+			default:
+				var l = len.b;
+				return true;
+		}
+	}
+};
+var $mdgriffith$elm_ui$Element$Input$isHiddenLabel = function (label) {
+	if (label.$ === 'HiddenLabel') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $mdgriffith$elm_ui$Element$Input$isStacked = function (label) {
+	if (label.$ === 'Label') {
+		var loc = label.a;
+		switch (loc.$) {
+			case 'OnRight':
+				return false;
+			case 'OnLeft':
+				return false;
+			case 'Above':
+				return true;
+			default:
+				return true;
+		}
+	} else {
+		return true;
+	}
+};
+var $mdgriffith$elm_ui$Element$Input$negateBox = function (box) {
+	return {bottom: -box.bottom, left: -box.left, right: -box.right, top: -box.top};
+};
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
+var $mdgriffith$elm_ui$Element$Input$isFill = function (len) {
+	isFill:
+	while (true) {
+		switch (len.$) {
+			case 'Fill':
+				return true;
+			case 'Content':
+				return false;
+			case 'Px':
+				return false;
+			case 'Min':
+				var l = len.b;
+				var $temp$len = l;
+				len = $temp$len;
+				continue isFill;
+			default:
+				var l = len.b;
+				var $temp$len = l;
+				len = $temp$len;
+				continue isFill;
+		}
+	}
+};
+var $mdgriffith$elm_ui$Element$Input$isPixel = function (len) {
+	isPixel:
+	while (true) {
+		switch (len.$) {
+			case 'Content':
+				return false;
+			case 'Px':
+				return true;
+			case 'Fill':
+				return false;
+			case 'Min':
+				var l = len.b;
+				var $temp$len = l;
+				len = $temp$len;
+				continue isPixel;
+			default:
+				var l = len.b;
+				var $temp$len = l;
+				len = $temp$len;
+				continue isPixel;
+		}
+	}
+};
+var $mdgriffith$elm_ui$Element$Input$redistributeOver = F4(
+	function (isMultiline, stacked, attr, els) {
+		switch (attr.$) {
+			case 'Nearby':
+				return _Utils_update(
+					els,
+					{
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					});
+			case 'Width':
+				var width = attr.a;
+				return $mdgriffith$elm_ui$Element$Input$isFill(width) ? _Utils_update(
+					els,
+					{
+						fullParent: A2($elm$core$List$cons, attr, els.fullParent),
+						input: A2($elm$core$List$cons, attr, els.input),
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					}) : (stacked ? _Utils_update(
+					els,
+					{
+						fullParent: A2($elm$core$List$cons, attr, els.fullParent)
+					}) : _Utils_update(
+					els,
+					{
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					}));
+			case 'Height':
+				var height = attr.a;
+				return (!stacked) ? _Utils_update(
+					els,
+					{
+						fullParent: A2($elm$core$List$cons, attr, els.fullParent),
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					}) : ($mdgriffith$elm_ui$Element$Input$isFill(height) ? _Utils_update(
+					els,
+					{
+						fullParent: A2($elm$core$List$cons, attr, els.fullParent),
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					}) : ($mdgriffith$elm_ui$Element$Input$isPixel(height) ? _Utils_update(
+					els,
+					{
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					}) : _Utils_update(
+					els,
+					{
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					})));
+			case 'AlignX':
+				return _Utils_update(
+					els,
+					{
+						fullParent: A2($elm$core$List$cons, attr, els.fullParent)
+					});
+			case 'AlignY':
+				return _Utils_update(
+					els,
+					{
+						fullParent: A2($elm$core$List$cons, attr, els.fullParent)
+					});
+			case 'StyleClass':
+				switch (attr.b.$) {
+					case 'SpacingStyle':
+						var _v1 = attr.b;
+						return _Utils_update(
+							els,
+							{
+								fullParent: A2($elm$core$List$cons, attr, els.fullParent),
+								input: A2($elm$core$List$cons, attr, els.input),
+								parent: A2($elm$core$List$cons, attr, els.parent),
+								wrapper: A2($elm$core$List$cons, attr, els.wrapper)
+							});
+					case 'PaddingStyle':
+						var cls = attr.a;
+						var _v2 = attr.b;
+						var pad = _v2.a;
+						var t = _v2.b;
+						var r = _v2.c;
+						var b = _v2.d;
+						var l = _v2.e;
+						if (isMultiline) {
+							return _Utils_update(
+								els,
+								{
+									cover: A2($elm$core$List$cons, attr, els.cover),
+									parent: A2($elm$core$List$cons, attr, els.parent)
+								});
+						} else {
+							var reducedVerticalPadding = $mdgriffith$elm_ui$Element$paddingEach(
+								{
+									bottom: b - A2($elm$core$Basics$min, t, b),
+									left: l,
+									right: r,
+									top: t - A2($elm$core$Basics$min, t, b)
+								});
+							var newLineHeight = $mdgriffith$elm_ui$Element$htmlAttribute(
+								A2(
+									$elm$html$Html$Attributes$style,
+									'line-height',
+									'calc(1.0em + ' + ($elm$core$String$fromInt(
+										2 * A2($elm$core$Basics$min, t, b)) + 'px)')));
+							var newHeight = $mdgriffith$elm_ui$Element$htmlAttribute(
+								A2(
+									$elm$html$Html$Attributes$style,
+									'height',
+									'calc(1.0em + ' + ($elm$core$String$fromInt(
+										2 * A2($elm$core$Basics$min, t, b)) + 'px)')));
+							return _Utils_update(
+								els,
+								{
+									cover: A2($elm$core$List$cons, attr, els.cover),
+									input: A2(
+										$elm$core$List$cons,
+										newHeight,
+										A2($elm$core$List$cons, newLineHeight, els.input)),
+									parent: A2($elm$core$List$cons, reducedVerticalPadding, els.parent)
+								});
+						}
+					case 'BorderWidth':
+						var _v3 = attr.b;
+						return _Utils_update(
+							els,
+							{
+								cover: A2($elm$core$List$cons, attr, els.cover),
+								parent: A2($elm$core$List$cons, attr, els.parent)
+							});
+					case 'Transform':
+						return _Utils_update(
+							els,
+							{
+								cover: A2($elm$core$List$cons, attr, els.cover),
+								parent: A2($elm$core$List$cons, attr, els.parent)
+							});
+					case 'FontSize':
+						return _Utils_update(
+							els,
+							{
+								fullParent: A2($elm$core$List$cons, attr, els.fullParent)
+							});
+					case 'FontFamily':
+						var _v4 = attr.b;
+						return _Utils_update(
+							els,
+							{
+								fullParent: A2($elm$core$List$cons, attr, els.fullParent)
+							});
+					default:
+						var flag = attr.a;
+						var cls = attr.b;
+						return _Utils_update(
+							els,
+							{
+								parent: A2($elm$core$List$cons, attr, els.parent)
+							});
+				}
+			case 'NoAttribute':
+				return els;
+			case 'Attr':
+				var a = attr.a;
+				return _Utils_update(
+					els,
+					{
+						input: A2($elm$core$List$cons, attr, els.input)
+					});
+			case 'Describe':
+				return _Utils_update(
+					els,
+					{
+						input: A2($elm$core$List$cons, attr, els.input)
+					});
+			case 'Class':
+				return _Utils_update(
+					els,
+					{
+						parent: A2($elm$core$List$cons, attr, els.parent)
+					});
+			default:
+				return _Utils_update(
+					els,
+					{
+						input: A2($elm$core$List$cons, attr, els.input)
+					});
+		}
+	});
+var $mdgriffith$elm_ui$Element$Input$redistribute = F3(
+	function (isMultiline, stacked, attrs) {
+		return function (redist) {
+			return {
+				cover: $elm$core$List$reverse(redist.cover),
+				fullParent: $elm$core$List$reverse(redist.fullParent),
+				input: $elm$core$List$reverse(redist.input),
+				parent: $elm$core$List$reverse(redist.parent),
+				wrapper: $elm$core$List$reverse(redist.wrapper)
+			};
+		}(
+			A3(
+				$elm$core$List$foldl,
+				A2($mdgriffith$elm_ui$Element$Input$redistributeOver, isMultiline, stacked),
+				{cover: _List_Nil, fullParent: _List_Nil, input: _List_Nil, parent: _List_Nil, wrapper: _List_Nil},
+				attrs));
+	});
+var $mdgriffith$elm_ui$Element$Input$renderBox = function (_v0) {
+	var top = _v0.top;
+	var right = _v0.right;
+	var bottom = _v0.bottom;
+	var left = _v0.left;
+	return $elm$core$String$fromInt(top) + ('px ' + ($elm$core$String$fromInt(right) + ('px ' + ($elm$core$String$fromInt(bottom) + ('px ' + ($elm$core$String$fromInt(left) + 'px'))))));
+};
+var $mdgriffith$elm_ui$Internal$Model$Transparency = F2(
+	function (a, b) {
+		return {$: 'Transparency', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$transparency = $mdgriffith$elm_ui$Internal$Flag$flag(0);
+var $mdgriffith$elm_ui$Element$alpha = function (o) {
+	var transparency = function (x) {
+		return 1 - x;
+	}(
+		A2(
+			$elm$core$Basics$min,
+			1.0,
+			A2($elm$core$Basics$max, 0.0, o)));
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$transparency,
+		A2(
+			$mdgriffith$elm_ui$Internal$Model$Transparency,
+			'transparency-' + $mdgriffith$elm_ui$Internal$Model$floatClass(transparency),
+			transparency));
+};
+var $mdgriffith$elm_ui$Element$Input$charcoal = A3($mdgriffith$elm_ui$Element$rgb, 136 / 255, 138 / 255, 133 / 255);
+var $mdgriffith$elm_ui$Element$rgba = $mdgriffith$elm_ui$Internal$Model$Rgba;
+var $mdgriffith$elm_ui$Element$Input$renderPlaceholder = F3(
+	function (_v0, forPlaceholder, on) {
+		var placeholderAttrs = _v0.a;
+		var placeholderEl = _v0.b;
+		return A2(
+			$mdgriffith$elm_ui$Element$el,
+			_Utils_ap(
+				forPlaceholder,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Font$color($mdgriffith$elm_ui$Element$Input$charcoal),
+							$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.noTextSelection + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.passPointerEvents)),
+							$mdgriffith$elm_ui$Element$clip,
+							$mdgriffith$elm_ui$Element$Border$color(
+							A4($mdgriffith$elm_ui$Element$rgba, 0, 0, 0, 0)),
+							$mdgriffith$elm_ui$Element$Background$color(
+							A4($mdgriffith$elm_ui$Element$rgba, 0, 0, 0, 0)),
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+							$mdgriffith$elm_ui$Element$alpha(
+							on ? 1 : 0)
+						]),
+					placeholderAttrs)),
+			placeholderEl);
+	});
+var $mdgriffith$elm_ui$Element$scrollbarY = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.scrollbarsY);
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $elm$html$Html$Attributes$spellcheck = $elm$html$Html$Attributes$boolProperty('spellcheck');
+var $mdgriffith$elm_ui$Element$Input$spellcheck = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Attributes$spellcheck);
+var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $mdgriffith$elm_ui$Element$Input$value = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Attributes$value);
+var $mdgriffith$elm_ui$Element$Input$textHelper = F3(
+	function (textInput, attrs, textOptions) {
+		var withDefaults = _Utils_ap($mdgriffith$elm_ui$Element$Input$defaultTextBoxStyle, attrs);
+		var redistributed = A3(
+			$mdgriffith$elm_ui$Element$Input$redistribute,
+			_Utils_eq(textInput.type_, $mdgriffith$elm_ui$Element$Input$TextArea),
+			$mdgriffith$elm_ui$Element$Input$isStacked(textOptions.label),
+			withDefaults);
+		var onlySpacing = function (attr) {
+			if ((attr.$ === 'StyleClass') && (attr.b.$ === 'SpacingStyle')) {
+				var _v9 = attr.b;
+				return true;
+			} else {
+				return false;
+			}
+		};
+		var heightConstrained = function () {
+			var _v7 = textInput.type_;
+			if (_v7.$ === 'TextInputNode') {
+				var inputType = _v7.a;
+				return false;
+			} else {
+				return A2(
+					$elm$core$Maybe$withDefault,
+					false,
+					A2(
+						$elm$core$Maybe$map,
+						$mdgriffith$elm_ui$Element$Input$isConstrained,
+						$elm$core$List$head(
+							$elm$core$List$reverse(
+								A2($elm$core$List$filterMap, $mdgriffith$elm_ui$Element$Input$getHeight, withDefaults)))));
+			}
+		}();
+		var getPadding = function (attr) {
+			if ((attr.$ === 'StyleClass') && (attr.b.$ === 'PaddingStyle')) {
+				var cls = attr.a;
+				var _v6 = attr.b;
+				var pad = _v6.a;
+				var t = _v6.b;
+				var r = _v6.c;
+				var b = _v6.d;
+				var l = _v6.e;
+				return $elm$core$Maybe$Just(
+					{
+						bottom: A2(
+							$elm$core$Basics$max,
+							0,
+							$elm$core$Basics$floor(b - 3)),
+						left: A2(
+							$elm$core$Basics$max,
+							0,
+							$elm$core$Basics$floor(l - 3)),
+						right: A2(
+							$elm$core$Basics$max,
+							0,
+							$elm$core$Basics$floor(r - 3)),
+						top: A2(
+							$elm$core$Basics$max,
+							0,
+							$elm$core$Basics$floor(t - 3))
+					});
+			} else {
+				return $elm$core$Maybe$Nothing;
+			}
+		};
+		var parentPadding = A2(
+			$elm$core$Maybe$withDefault,
+			{bottom: 0, left: 0, right: 0, top: 0},
+			$elm$core$List$head(
+				$elm$core$List$reverse(
+					A2($elm$core$List$filterMap, getPadding, withDefaults))));
+		var inputElement = A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			function () {
+				var _v3 = textInput.type_;
+				if (_v3.$ === 'TextInputNode') {
+					var inputType = _v3.a;
+					return $mdgriffith$elm_ui$Internal$Model$NodeName('input');
+				} else {
+					return $mdgriffith$elm_ui$Internal$Model$NodeName('textarea');
+				}
+			}(),
+			_Utils_ap(
+				function () {
+					var _v4 = textInput.type_;
+					if (_v4.$ === 'TextInputNode') {
+						var inputType = _v4.a;
+						return _List_fromArray(
+							[
+								$mdgriffith$elm_ui$Internal$Model$Attr(
+								$elm$html$Html$Attributes$type_(inputType)),
+								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.inputText)
+							]);
+					} else {
+						return _List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$clip,
+								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.inputMultiline),
+								$mdgriffith$elm_ui$Element$Input$calcMoveToCompensateForPadding(withDefaults),
+								$mdgriffith$elm_ui$Element$paddingEach(parentPadding),
+								$mdgriffith$elm_ui$Internal$Model$Attr(
+								A2(
+									$elm$html$Html$Attributes$style,
+									'margin',
+									$mdgriffith$elm_ui$Element$Input$renderBox(
+										$mdgriffith$elm_ui$Element$Input$negateBox(parentPadding)))),
+								$mdgriffith$elm_ui$Internal$Model$Attr(
+								A2($elm$html$Html$Attributes$style, 'box-sizing', 'content-box'))
+							]);
+					}
+				}(),
+				_Utils_ap(
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Input$value(textOptions.text),
+							$mdgriffith$elm_ui$Internal$Model$Attr(
+							$elm$html$Html$Events$onInput(textOptions.onChange)),
+							$mdgriffith$elm_ui$Element$Input$hiddenLabelAttribute(textOptions.label),
+							$mdgriffith$elm_ui$Element$Input$spellcheck(textInput.spellchecked),
+							A2(
+							$elm$core$Maybe$withDefault,
+							$mdgriffith$elm_ui$Internal$Model$NoAttribute,
+							A2($elm$core$Maybe$map, $mdgriffith$elm_ui$Element$Input$autofill, textInput.autofill))
+						]),
+					redistributed.input)),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil));
+		var wrappedInput = function () {
+			var _v0 = textInput.type_;
+			if (_v0.$ === 'TextArea') {
+				return A4(
+					$mdgriffith$elm_ui$Internal$Model$element,
+					$mdgriffith$elm_ui$Internal$Model$asEl,
+					$mdgriffith$elm_ui$Internal$Model$div,
+					_Utils_ap(
+						(heightConstrained ? $elm$core$List$cons($mdgriffith$elm_ui$Element$scrollbarY) : $elm$core$Basics$identity)(
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+									A2($elm$core$List$any, $mdgriffith$elm_ui$Element$Input$hasFocusStyle, withDefaults) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.focusedWithin),
+									$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.inputMultilineWrapper)
+								])),
+						redistributed.parent),
+					$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+						_List_fromArray(
+							[
+								A4(
+								$mdgriffith$elm_ui$Internal$Model$element,
+								$mdgriffith$elm_ui$Internal$Model$asParagraph,
+								$mdgriffith$elm_ui$Internal$Model$div,
+								A2(
+									$elm$core$List$cons,
+									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+									A2(
+										$elm$core$List$cons,
+										$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+										A2(
+											$elm$core$List$cons,
+											$mdgriffith$elm_ui$Element$inFront(inputElement),
+											A2(
+												$elm$core$List$cons,
+												$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.inputMultilineParent),
+												redistributed.wrapper)))),
+								$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+									function () {
+										if (textOptions.text === '') {
+											var _v1 = textOptions.placeholder;
+											if (_v1.$ === 'Nothing') {
+												return _List_fromArray(
+													[
+														$mdgriffith$elm_ui$Element$text('\u00A0')
+													]);
+											} else {
+												var place = _v1.a;
+												return _List_fromArray(
+													[
+														A3($mdgriffith$elm_ui$Element$Input$renderPlaceholder, place, _List_Nil, textOptions.text === '')
+													]);
+											}
+										} else {
+											return _List_fromArray(
+												[
+													$mdgriffith$elm_ui$Internal$Model$unstyled(
+													A2(
+														$elm$html$Html$span,
+														_List_fromArray(
+															[
+																$elm$html$Html$Attributes$class($mdgriffith$elm_ui$Internal$Style$classes.inputMultilineFiller)
+															]),
+														_List_fromArray(
+															[
+																$elm$html$Html$text(textOptions.text + '\u00A0')
+															])))
+												]);
+										}
+									}()))
+							])));
+			} else {
+				var inputType = _v0.a;
+				return A4(
+					$mdgriffith$elm_ui$Internal$Model$element,
+					$mdgriffith$elm_ui$Internal$Model$asEl,
+					$mdgriffith$elm_ui$Internal$Model$div,
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+						A2(
+							$elm$core$List$cons,
+							A2($elm$core$List$any, $mdgriffith$elm_ui$Element$Input$hasFocusStyle, withDefaults) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.focusedWithin),
+							$elm$core$List$concat(
+								_List_fromArray(
+									[
+										redistributed.parent,
+										function () {
+										var _v2 = textOptions.placeholder;
+										if (_v2.$ === 'Nothing') {
+											return _List_Nil;
+										} else {
+											var place = _v2.a;
+											return _List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$behindContent(
+													A3($mdgriffith$elm_ui$Element$Input$renderPlaceholder, place, redistributed.cover, textOptions.text === ''))
+												]);
+										}
+									}()
+									])))),
+					$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+						_List_fromArray(
+							[inputElement])));
+			}
+		}();
+		return A3(
+			$mdgriffith$elm_ui$Element$Input$applyLabel,
+			A2(
+				$elm$core$List$cons,
+				A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$cursor, $mdgriffith$elm_ui$Internal$Style$classes.cursorText),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$Input$isHiddenLabel(textOptions.label) ? $mdgriffith$elm_ui$Internal$Model$NoAttribute : $mdgriffith$elm_ui$Element$spacing(5),
+					A2($elm$core$List$cons, $mdgriffith$elm_ui$Element$Region$announce, redistributed.fullParent))),
+			textOptions.label,
+			wrappedInput);
+	});
+var $mdgriffith$elm_ui$Element$Input$multiline = F2(
+	function (attrs, multi) {
+		return A3(
+			$mdgriffith$elm_ui$Element$Input$textHelper,
+			{autofill: $elm$core$Maybe$Nothing, spellchecked: multi.spellcheck, type_: $mdgriffith$elm_ui$Element$Input$TextArea},
+			attrs,
+			{label: multi.label, onChange: multi.onChange, placeholder: multi.placeholder, text: multi.text});
+	});
+var $author$project$Poetry$WordBank$displayPoemInput = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$fillPortion(1)),
+				$mdgriffith$elm_ui$Element$padding(20),
+				$mdgriffith$elm_ui$Element$alignTop
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$Input$multiline,
+						_List_Nil,
+						{
+							label: A2(
+								$mdgriffith$elm_ui$Element$Input$labelAbove,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text('Write poem here:')),
+							onChange: $author$project$Poetry$WordBank$UpdatePoemInput,
+							placeholder: $elm$core$Maybe$Nothing,
+							spellcheck: false,
+							text: model.input
+						})
+					])),
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$centerX,
+						$mdgriffith$elm_ui$Element$paddingEach(
+						_Utils_update(
+							$author$project$ViewHelpers$noPadding,
+							{top: 20}))
+					]),
+				_List_fromArray(
+					[
+						$author$project$Poetry$WordBank$displayResetButton(model)
+					]))
+			]));
+};
+var $author$project$Poetry$WordBank$UpdateWordBankInput = function (a) {
+	return {$: 'UpdateWordBankInput', a: a};
+};
+var $author$project$Poetry$WordBank$displayWordBankInput = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$padding(20)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$Input$multiline,
+				_List_Nil,
+				{
+					label: A2(
+						$mdgriffith$elm_ui$Element$Input$labelAbove,
+						_List_Nil,
+						$mdgriffith$elm_ui$Element$text('Input source text here:')),
+					onChange: $author$project$Poetry$WordBank$UpdateWordBankInput,
+					placeholder: $elm$core$Maybe$Nothing,
+					spellcheck: false,
+					text: model.input
+				})
+			]));
+};
+var $author$project$Poetry$WordBank$extraWordColor = A3($mdgriffith$elm_ui$Element$rgb255, 93, 153, 186);
+var $author$project$Poetry$WordBank$displayExtraPoemWord = function (poemW) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Font$color($author$project$Poetry$WordBank$extraWordColor)
+			]),
+		$mdgriffith$elm_ui$Element$text(poemW.word + ' '));
+};
+var $elm$core$List$singleton = function (value) {
+	return _List_fromArray(
+		[value]);
+};
+var $author$project$Poetry$WordBank$displayExtraWords = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$textColumn,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$paddingEach(
+				_Utils_update(
+					$author$project$ViewHelpers$noPadding,
+					{top: 20})),
+				$mdgriffith$elm_ui$Element$Font$center
+			]),
+		$elm$core$List$singleton(
+			A2(
+				$mdgriffith$elm_ui$Element$paragraph,
+				_List_Nil,
+				A2(
+					$elm$core$List$map,
+					$author$project$Poetry$WordBank$displayExtraPoemWord,
+					A2(
+						$elm$core$List$filter,
+						function (w) {
+							return !w.inWordBank;
+						},
+						model.poem)))));
+};
+var $author$project$ViewHelpers$lightGrey = A3($mdgriffith$elm_ui$Element$rgb255, 180, 180, 180);
+var $author$project$Poetry$WordBank$displayWordBankWord = function (wbWord) {
+	return wbWord.used ? A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$lightGrey)
+			]),
+		$mdgriffith$elm_ui$Element$text(wbWord.word + ' ')) : A2(
+		$mdgriffith$elm_ui$Element$el,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$black)
+			]),
+		$mdgriffith$elm_ui$Element$text(wbWord.word + ' '));
+};
+var $author$project$Poetry$WordBank$displayWordBank = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$textColumn,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$Font$center
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$paragraph,
+				_List_Nil,
+				A2($elm$core$List$map, $author$project$Poetry$WordBank$displayWordBankWord, model.wordBank))
+			]));
+};
+var $author$project$Poetry$WordBank$displayWordBankWithExtraWords = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$fillPortion(1)),
+				$mdgriffith$elm_ui$Element$padding(30)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+					]),
+				_List_fromArray(
+					[
+						$author$project$Poetry$WordBank$displayWordBank(model)
+					])),
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+					]),
+				_List_fromArray(
+					[
+						$author$project$Poetry$WordBank$displayExtraWords(model)
+					]))
+			]));
+};
+var $author$project$Poetry$WordBank$displayBody = function (model) {
+	return model.enteringWordBank ? _List_fromArray(
+		[
+			$author$project$Poetry$WordBank$displayWordBankInput(model),
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					$author$project$Poetry$WordBank$displayCreateWordBankButton(model)
+				]))
+		]) : ((_Utils_eq(
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		$author$project$ViewHelpers$Large) || _Utils_eq(
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		$author$project$ViewHelpers$ExtraLarge)) ? _List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					$author$project$Poetry$WordBank$displayWordBankWithExtraWords(model),
+					$author$project$Poetry$WordBank$displayPoemInput(model)
+				]))
+		]) : _List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					$author$project$Poetry$WordBank$displayWordBankWithExtraWords(model)
+				])),
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+				]),
+			_List_fromArray(
+				[
+					$author$project$Poetry$WordBank$displayPoemInput(model)
+				]))
+		]));
+};
+var $author$project$Poetry$WordBank$view = function (model) {
+	return A4(
+		$author$project$ViewHelpers$basicLayoutHelper,
+		$author$project$ViewHelpers$findScreenSize(model.width),
+		'WORD BANK',
+		'',
+		$author$project$Poetry$WordBank$displayBody(model));
+};
 var $author$project$Main$view = function (model) {
+	var convertMsgType = F2(
+		function (toMsg, documentMsg) {
+			return {
+				body: A2(
+					$elm$core$List$map,
+					$elm$html$Html$map(toMsg),
+					documentMsg.body),
+				title: documentMsg.title
+			};
+		});
 	switch (model.$) {
 		case 'Home':
 			var mod3l = model.a;
 			return $author$project$Home$view(mod3l);
 		case 'Poetry':
 			var mod3l = model.a;
-			return $author$project$Poetry$view(mod3l);
+			return A2(
+				convertMsgType,
+				$author$project$Main$GotPoetryMsg,
+				$author$project$Poetry$view(mod3l));
 		case 'PoetryEvents':
 			var mod3l = model.a;
 			return $author$project$Poetry$Events$view(mod3l);
 		case 'PoetryTools':
 			var mod3l = model.a;
 			return $author$project$Poetry$Tools$view(mod3l);
+		case 'PoetryWordBank':
+			var mod3l = model.a;
+			return A2(
+				convertMsgType,
+				$author$project$Main$GotWordBankMsg,
+				$author$project$Poetry$WordBank$view(mod3l));
+		case 'PoetryErasure':
+			var mod3l = model.a;
+			return A2(
+				convertMsgType,
+				$author$project$Main$GotErasureMsg,
+				$author$project$Poetry$Erasure$view(mod3l));
 		case 'Code':
 			var mod3l = model.a;
 			return $author$project$Code$view(mod3l);
