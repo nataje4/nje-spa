@@ -14,7 +14,6 @@ import ViewHelpers exposing (..)
 type alias Model =
     { width : Int
     , data : String
-    , menuOpen : Bool
     }
 
 
@@ -26,7 +25,6 @@ init flags =
 initModel flags =
     { width = flags.width
     , data = flags.data
-    , menuOpen = False
     }
 
 
@@ -84,7 +82,7 @@ subtitleText =
     ]
 
 
-view : Model -> Browser.Document msg
+view : Model -> Browser.Document Msg
 view model =
     let
         screenSize : ScreenSize

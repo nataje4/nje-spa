@@ -2,10 +2,10 @@ module ViewHelpers exposing (..)
 
 import Browser exposing (Document)
 import Element as El exposing (..)
-import Element.Background as Bg exposing (color)
+import Element.Background as Eb exposing (color)
 import Element.Font as Ef exposing (..)
 import Html exposing (a, text)
-import Html.Attributes exposing (class, href, style)
+import Html.Attributes exposing (class, href, style, disabled)
 import Markdown exposing (toHtml)
 
 
@@ -110,6 +110,21 @@ linkStyle =
     [ Ef.underline
     ]
 
+-- TOD0: Write a button style that takes a boolean statement to see whether a button should be disabled
+buttonStyle : Bool -> List (El.Attribute msg)
+buttonStyle disableIfTrue =
+    if disableIfTrue then 
+        [ Eb.color lightGrey
+        , padding 5
+        , Ef.color white
+        , centerX
+        ]
+    else
+        [ Eb.color clay
+        , padding 5
+        , Ef.color white
+        , centerX
+        ]
 
 noPadding =
     { top = 0
@@ -121,18 +136,42 @@ noPadding =
 
 black : El.Color
 black =
-    rgb 0.0 0.0 0.0
+    rgb255 0 0 0
 
 
 white : El.Color
 white =
-    rgb 255.0 255.0 255.0
+    rgb255 255 255 255
 
 
 darkGrey : El.Color
 darkGrey =
-    rgb 60.0 60.0 60.0
+    rgb255 60 60 60
 
+lightGrey : El.Color
+lightGrey =
+    rgb255 180 180 180
+
+whitesmoke : El.Color
+whitesmoke =
+    rgb255 230 230 230 
+
+
+lightBlue : El.Color
+lightBlue =
+    rgb255 112 151 170
+
+clay : El.Color
+clay = 
+    rgb255 184 115 95
+
+darkGreen: El.Color
+darkGreen = 
+    rgb255 9 35 39 
+
+sand: El.Color
+sand = 
+    rgb255 173 162 150  
 
 menuItemStyle : List (Attribute msg)
 menuItemStyle =
@@ -161,7 +200,7 @@ navMenu =
                 [ none ]
     in
     El.row
-        [ Bg.color black
+        [ Eb.color black
         , width fill
         , height (px 60)
         , spacing 10
@@ -206,7 +245,9 @@ documentMsgHelper title elements =
         [ El.layout
             bodyStyle
             (El.column
-                []
+                [ width fill
+                , height fill
+                ]
                 (elements
                     ++ [ footer ]
                     |> (++) [ navMenu ]
@@ -242,40 +283,34 @@ bodySideSpacer screenSize =
 
 
 bodyEl : List (Element msg) -> Element msg
-bodyEl textElements =
-    textColumn [ El.width (fillPortion 3) ] textElements
+bodyEl elements =
+    column [ El.width (fillPortion 5) ] elements
 
 
-
-{--keep this for an idea of how to standardize basic layout 
-markdownPageHelper : ScreenSize -> String -> String -> Browser.Document msg
-markdownPageHelper screenSize title markdownString =
+basicLayoutHelper : ScreenSize -> String -> String -> List (El.Element msg) -> Browser.Document msg
+basicLayoutHelper screenSize title subtitle bodyRows =
     let
-        markdownElement : Element msg
-        markdownElement =
-            Markdown.toHtml [ class "markdown-body" ] markdownString
-                |> html
-
         browserTitle : String
         browserTitle =
             "NJE: " ++ title
     in
     documentMsgHelper browserTitle
-        [ El.column []
+        [ El.column [ width fill ]
             [ El.row [ centerX ]
                 [ titleSideSpacer
                 , titleEl screenSize
-                    [ paragraph titleStyle [ El.text title ] ]
+                    [ paragraph titleStyle [ El.text title ]
+                    , paragraph subtitleStyle [ El.text subtitle ]
+                    ]
                 , titleSideSpacer
                 ]
             , El.row [ centerX ]
                 [ bodySideSpacer screenSize
-                , bodyEl [ markdownElement ]
+                , bodyEl bodyRows
                 , bodySideSpacer screenSize
                 ]
             ]
         ]
---}
 
 
 pictureLink : String -> String -> String -> String -> Int -> Element msg
@@ -283,6 +318,28 @@ pictureLink linkString imgSrc desc bottomText fillPortion_ =
     link
         ([ width (fillPortion fillPortion_), padding 10 ] ++ linkStyle)
         { url = linkString
+        , label =
+            El.column [ width (fill |> maximum 300) ]
+                [ El.row []
+                    [ image
+                        [ width fill
+                        , centerX
+                        , alignTop
+                        ]
+                        { src = imgSrc
+                        , description = desc
+                        }
+                    ]
+                , El.row [ width (fill |> maximum 300) ] [ El.paragraph bottomTextStyle [ El.text bottomText ] ]
+                ]
+        }
+
+
+pictureDownloadLink : String -> String -> String -> String -> Int -> Element msg
+pictureDownloadLink downloadLinkString imgSrc desc bottomText fillPortion_ =
+    download
+        ([ width (fillPortion fillPortion_), padding 10 ] ++ linkStyle)
+        { url = downloadLinkString
         , label =
             El.column [ width (fill |> maximum 300) ]
                 [ El.row []

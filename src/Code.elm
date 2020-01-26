@@ -101,7 +101,7 @@ view model =
 
         resumeLink : Element msg
         resumeLink =
-            pictureLink "/assets/NatalieJaneEdsonResume2020.pdf" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
+            pictureDownloadLink "/assets/NatalieJaneEdsonResume2020.pdf" "assets/blackcattyping2.png" "click here to view the latest version of my resume" "RESUME" 1
     in
     case screenSize of
         ExtraLarge ->
