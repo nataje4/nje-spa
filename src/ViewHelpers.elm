@@ -133,6 +133,10 @@ darkGrey : El.Color
 darkGrey =
     rgb 60.0 60.0 60.0
 
+lightGrey : El.Color
+lightGrey =
+    rgb 180.0 180.0 180.0
+
 
 menuItemStyle : List (Attribute msg)
 menuItemStyle =
@@ -249,18 +253,13 @@ bodySideSpacer screenSize =
 
 
 bodyEl : List (Element msg) -> Element msg
-bodyEl textElements =
-    textColumn [ El.width (fillPortion 3) ] textElements
+bodyEl elements =
+    column[ El.width (fillPortion 3) ] elements
 
-{-- keep this for an idea of how to standardize basic layout 
-markdownPageHelper : ScreenSize -> String -> String -> Browser.Document msg
-markdownPageHelper screenSize title markdownString =
+
+basicLayoutHelper : ScreenSize -> String -> List (El.Element msg) -> Browser.Document msg
+basicLayoutHelper screenSize title bodyRows =
     let
-        markdownElement : Element msg
-        markdownElement =
-            Markdown.toHtml [ class "markdown-body" ] markdownString
-                |> html
-
         browserTitle : String
         browserTitle =
             "NJE: " ++ title
@@ -275,12 +274,11 @@ markdownPageHelper screenSize title markdownString =
                 ]
             , El.row [ centerX ]
                 [ bodySideSpacer screenSize
-                , bodyEl [ markdownElement ]
+                , bodyEl  bodyRows
                 , bodySideSpacer screenSize
                 ]
             ]
         ]
---}
 
 
 pictureLink : String -> String -> String -> String -> Int -> Element msg

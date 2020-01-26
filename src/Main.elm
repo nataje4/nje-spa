@@ -12,8 +12,8 @@ import Home exposing (Model, initModel, view)
 import Poetry exposing (Model, initModel, view)
 import Poetry.Events exposing (Model, initModel, view)
 import Poetry.Tools exposing (Model, initModel, view)
-import Poetry.WordBank exposing (Model, initModel, view)
-import Poetry.Erasure exposing (Model, initModel, view)
+import Poetry.WordBank exposing (Model, initModel, view, Msg)
+import Poetry.Erasure exposing (Model, initModel, view, Msg)
 import Route exposing (Route(..))
 import Task
 import Url exposing (..)
@@ -209,6 +209,9 @@ updateWidth width model =
         PoetryTools mod3l ->
             PoetryTools { mod3l | width = width }
 
+        PoetryWordBank mod3l ->
+            PoetryWordBank { mod3l | width = width }
+
         PoetryErasure mod3l ->
             PoetryErasure { mod3l | width = width }
 
@@ -235,6 +238,9 @@ getWidth model =
             mod3l.width
 
         PoetryTools mod3l ->
+            mod3l.width
+
+        PoetryWordBank mod3l ->
             mod3l.width
 
         PoetryErasure mod3l ->
@@ -264,6 +270,8 @@ view model =
             Poetry.Events.view mod3l
         PoetryTools mod3l ->
             Poetry.Tools.view mod3l
+        PoetryWordBank mod3l ->
+            Poetry.WordBank.view mod3l
         PoetryErasure mod3l ->
             Poetry.Erasure.view mod3l
         Code mod3l ->

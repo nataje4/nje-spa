@@ -1,9 +1,10 @@
-module WordBank exposing (..)
+module Poetry.WordBank exposing (..)
 
-import Html exposing (..)
-import Html.Attributes as Attr exposing (class, classList, value)
-import Html.Events exposing (onClick, onInput)
 import Browser exposing (document, Document)
+import Element as El exposing (..)
+import ViewHelpers exposing (..)
+import Element.Font as Ef exposing (color)
+import Element.Input as Ei exposing (..)
 
 
 
@@ -11,7 +12,9 @@ import Browser exposing (document, Document)
 
 
 type alias Model =
-    { wordBank : List WordBankWord
+    { width : Int
+    , data : String
+    , wordBank : List WordBankWord
     , poem : List PoemWord
     , input : String
     , enteringWordBank : Bool
@@ -31,17 +34,22 @@ type alias PoemWord =
     }
 
 
-type alias Flags = 
-    {}
-
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initModel, Cmd.none )
+    ( initModel flags, Cmd.none )
 
 
-initModel : Model
-initModel =
-    { wordBank = []
+
+type alias Flags =
+    { width : Int
+    , data : String
+    }
+
+initModel : Flags -> Model
+initModel flags =
+    { width = flags.width
+    , data = flags.data
+    , wordBank = []
     , poem = []
     , input = ""
     , enteringWordBank = True
@@ -97,7 +105,7 @@ update msg model =
             )
 
         Reset ->
-            ( initModel, Cmd.none )
+            ( initModel  { width =model.width, data = ""}, Cmd.none )
 
 
 
@@ -107,49 +115,7 @@ update msg model =
 
 view : Model -> Document Msg
 view model =
-    { title = "NJE: WORD BANK"
-    , body =     
-        [div []
-            (case model.enteringWordBank of
-                True ->  
-                    [ div
-                        [ class "word-bank-input" ]
-                        [ textarea
-                            [ onInput UpdateWordBankInput
-                            , value model.input
-                            ]
-                            []
-                        , div
-                            [ class "button-div" ]
-                            [ button
-                                [ onClick (CreateWordBank model.input) ]
-                                [ Html.text "this is my word bank" ]
-                            ]
-                        ]
-                    ]
-                    
-
-                False ->
-                    [ div
-                        [ class "working-div" ]
-                        [ displayWholeWordBank model
-                        , displayExtraWordsDiv model
-                        ]
-                    , div
-                        [ class "working-div" ]
-                        [ displayPoemInput model
-                        ]
-                    , div
-                        [ class "button-div" ]
-                        [ button
-                            [ onClick Reset ]
-                            [ Html.text "start over" ]
-                        ]
-                    ]                    
-            )
-        ]
-    }
-
+    basicLayoutHelper (findScreenSize model.width) "WORD BANK" (displayBody model)
 
 
 {--
@@ -160,44 +126,107 @@ clickableWordBankWord wbWord =
         [] --}
 
 
-displayWordBankWord : WordBankWord -> Html Msg
+-- We want the display body to be a list of rows 
+displayBody : Model -> List (Element Msg)
+displayBody model = 
+    if model.enteringWordBank then       
+            [ displayWordBankInput model 
+            , row [width fill] [displayCreateWordBankButton model]
+            ]           
+    else if ( (findScreenSize model.width == Large) || (findScreenSize model.width == ExtraLarge) ) then 
+        [ row 
+            [width fill] 
+            [ displayWordBankWithExtraWords model
+            , displayPoemInput model
+            ] 
+        ]    
+
+    else 
+        [ row [width fill] [ displayWordBankWithExtraWords model]
+        , row [width fill] [ displayPoemInput model]        
+        ]    
+
+displayCreateWordBankButton : Model -> Element Msg
+displayCreateWordBankButton model = 
+    button
+        [centerX] 
+        { onPress = Just (CreateWordBank model.input)
+        , label = El.text "ENTER"
+        }
+
+displayResetButton : Model -> Element Msg
+displayResetButton model = 
+    button
+        [centerX] 
+        { onPress = Just Reset
+        , label = El.text "RESET"
+        }
+
+displayWordBankWord : WordBankWord -> Element Msg
 displayWordBankWord wbWord =
-    span
-        [ classList [ ( "used", wbWord.used ), ( "word-bank-word", True ) ] ]
-        [ Html.text (wbWord.word ++ " ") ]
+    if wbWord.used then 
+        el [Ef.color lightGrey] ( El.text (wbWord.word ++ " ") )
+    else 
+        el [Ef.color lightGrey] ( El.text (wbWord.word ++ " ") )
 
 
-displayWholeWordBank : Model -> Html Msg
-displayWholeWordBank model =
-    div
-        [ class "word-bank-display" ]
+displayWordBank : Model -> Element Msg
+displayWordBank model =
+    El.row
+        [width fill]
         (List.map displayWordBankWord model.wordBank)
 
+displayExtraPoemWord : PoemWord -> Element Msg
+displayExtraPoemWord poemW =
+    el [Ef.color extraWordColor] ( El.text (poemW.word ++ " ") ) 
 
-displayPoemInput : Model -> Html Msg
+
+extraWordColor : El.Color 
+extraWordColor = 
+    rgb 93.0 153.0 186.0
+
+displayExtraWords : Model -> Element Msg
+displayExtraWords model =
+    List.filter (\w -> w.inWordBank == False) model.poem
+        |> List.map displayExtraPoemWord
+        |> El.row [width fill, paddingEach { noPadding | top = 20}]
+
+displayWordBankWithExtraWords : Model -> Element Msg
+displayWordBankWithExtraWords model = 
+    El.column 
+        [width (fillPortion 1), padding 30]
+        [row [width fill] [displayWordBank model], row [width fill] [displayExtraWords model]]
+
+displayPoemInput : Model -> Element Msg
 displayPoemInput model =
-    div
-        [ class "poem-input" ]
-        [ textarea
-            [ onInput UpdatePoemInput
-            , value model.input
+    El.column
+        [width (fillPortion 1), padding 20]
+        [ row [width fill] 
+            [ multiline []
+                { onChange = UpdatePoemInput
+                , text = model.input
+                , placeholder = Nothing
+                , label = labelAbove [] (El.text "Write poem here:")
+                , spellcheck = False
+                }
             ]
-            []
+        , row [] [displayResetButton model] 
+        ]
+
+displayWordBankInput : Model -> Element Msg 
+displayWordBankInput model =
+    El.row
+        [width fill, padding 20]
+        [ multiline []
+            { onChange = UpdateWordBankInput
+            , text = model.input
+            , placeholder = Nothing
+            , label = labelAbove [] (El.text "Input source text here:")
+            , spellcheck = False
+            }
         ]
 
 
-displayExtraPoemWord : PoemWord -> Html Msg
-displayExtraPoemWord poemW =
-    span
-        [ class "extra-word" ]
-        [ Html.text poemW.word ]
-
-
-displayExtraWordsDiv : Model -> Html Msg
-displayExtraWordsDiv model =
-    List.filter (\w -> w.inWordBank == False) model.poem
-        |> List.map displayExtraPoemWord
-        |> div [ class "extra-words-div" ]
 
 
 
@@ -384,14 +413,4 @@ isNotExtraPunctuation char =
 
 
 
----- PROGRAM ----
 
-
-main : Program Flags Model Msg
-main =
-    Browser.document
-        { view = view
-        , init = init
-        , update = update
-        , subscriptions = always Sub.none
-        }

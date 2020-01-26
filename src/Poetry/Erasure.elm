@@ -10,7 +10,7 @@ import Task exposing (..)
 import Time exposing (..)
 import Browser exposing (..)
 import ViewHelpers exposing (..)
-import Element exposing (row, html)
+import Element as El exposing (row, html, text)
 
 type alias ClickableWord =
     { text : String
@@ -45,7 +45,7 @@ initModel flags =
     }
 
 
-init : Flags -> ( Model, Cmd Msg )
+init : Flags -> ( Model, Cmd msg )
 init flags =
     ( initModel flags, now )
 
@@ -87,7 +87,7 @@ hasPosition int word =
         False
 
 
-now : Cmd Msg
+now : Cmd msg
 now =
     Task.perform (Just >> GetSeed) Time.now
 
@@ -102,7 +102,7 @@ type Msg
     | GetSeed (Maybe Time.Posix)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
         ToggleWord word ->
@@ -328,7 +328,7 @@ isNotErased word =
 ---- VIEW ----
 
 
-myStyles : List (Html.Attribute Msg)
+myStyles : List (Html.Attribute msg)
 myStyles =
     [ style "font-family" "Georgia" 
     , style "font-size" "20px" 
@@ -370,16 +370,13 @@ htmlLegacyView model =
                 , Html.button (onClick Randomize :: appButtonStyle) [ Html.text "Go!" ]
                 ]
 
-view : Model -> Browser.Document msg
-view model = 
-    documentMsgHelper "ERASURE"
-        [ Element.row [] 
-            [ Element.html (htmlLegacyView model)
-            ]
-        ]
+
+view : Model -> Document msg
+view model =
+    basicLayoutHelper (findScreenSize model.width) "ERASURE" [El.text "googoogaga"]
         
 
-appButtonStyle : List (Html.Attribute Msg)
+appButtonStyle : List (Html.Attribute msg)
 appButtonStyle =
     [ style "padding" "0 5px" 
     , style "border-radius" "0" 
@@ -414,7 +411,7 @@ enterYourTextScreen model =
         ]
 
 
-percentRandomInput : Html Msg
+percentRandomInput : Html msg
 percentRandomInput =
     div []
         [ Html.input
@@ -430,7 +427,7 @@ percentRandomInput =
         ]
 
 
-displayClickableWord : ClickableWord -> Html Msg
+displayClickableWord : ClickableWord -> Html msg
 displayClickableWord word =
     Html.span
         [ onClick (ToggleWord word), style "color" (wordColor word) ]
