@@ -74,13 +74,16 @@ update msg model =
             ( { model | input = str }, Cmd.none )
 
         CreateWordBank str ->
-            ( { model
-                | input = ""
-                , enteringWordBank = False
-                , wordBank = inputToWordBank str
-              }
-            , Cmd.none
-            )
+            if (String.isEmpty model.input) then 
+                (model, Cmd.none)
+            else 
+                ( { model
+                    | input = ""
+                    , enteringWordBank = False
+                    , wordBank = inputToWordBank str
+                  }
+                , Cmd.none
+                )
 
         UpdatePoemInput str ->
             let
@@ -151,8 +154,7 @@ displayBody model =
 
 displayCreateWordBankButton : Model -> Element Msg
 displayCreateWordBankButton model =
-    button
-        [ centerX ]
+    button (buttonStyle (String.isEmpty model.input))
         { onPress = Just (CreateWordBank model.input)
         , label = El.text "ENTER"
         }
@@ -160,8 +162,7 @@ displayCreateWordBankButton model =
 
 displayResetButton : Model -> Element Msg
 displayResetButton model =
-    button
-        [ centerX ]
+    button (buttonStyle False) 
         { onPress = Just Reset
         , label = El.text "RESET"
         }
@@ -170,10 +171,10 @@ displayResetButton model =
 displayWordBankWord : WordBankWord -> Element Msg
 displayWordBankWord wbWord =
     if wbWord.used then
-        el [ Ef.color lightGrey ] (El.text (wbWord.word ++ " "))
+        el [ Ef.color whitesmoke, padding 5 ] (El.text (wbWord.word ++ " "))
 
     else
-        el [ Ef.color black ] (El.text (wbWord.word ++ " "))
+        el [ Ef.color black, padding 5 ] (El.text (wbWord.word ++ " "))
 
 
 displayWordBank : Model -> Element Msg
@@ -185,13 +186,7 @@ displayWordBank model =
 
 displayExtraPoemWord : PoemWord -> Element Msg
 displayExtraPoemWord poemW =
-    el [ Ef.color extraWordColor ] (El.text (poemW.word ++ " "))
-
-
-extraWordColor : El.Color
-extraWordColor =
-    rgb255 93 153 186
-
+    el [ Ef.color lightBlue ] (El.text (poemW.word ++ " "))
 
 displayExtraWords : Model -> Element Msg
 displayExtraWords model =

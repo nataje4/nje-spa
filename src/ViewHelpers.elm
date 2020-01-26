@@ -2,10 +2,10 @@ module ViewHelpers exposing (..)
 
 import Browser exposing (Document)
 import Element as El exposing (..)
-import Element.Background as Bg exposing (color)
+import Element.Background as Eb exposing (color)
 import Element.Font as Ef exposing (..)
 import Html exposing (a, text)
-import Html.Attributes exposing (class, href, style)
+import Html.Attributes exposing (class, href, style, disabled)
 import Markdown exposing (toHtml)
 
 
@@ -110,6 +110,21 @@ linkStyle =
     [ Ef.underline
     ]
 
+-- TOD0: Write a button style that takes a boolean statement to see whether a button should be disabled
+buttonStyle : Bool -> List (El.Attribute msg)
+buttonStyle disableIfTrue =
+    if disableIfTrue then 
+        [ Eb.color lightGrey
+        , padding 5
+        , Ef.color white
+        , centerX
+        ]
+    else
+        [ Eb.color clay
+        , padding 5
+        , Ef.color white
+        , centerX
+        ]
 
 noPadding =
     { top = 0
@@ -133,11 +148,30 @@ darkGrey : El.Color
 darkGrey =
     rgb255 60 60 60
 
-
 lightGrey : El.Color
 lightGrey =
     rgb255 180 180 180
 
+whitesmoke : El.Color
+whitesmoke =
+    rgb255 230 230 230 
+
+
+lightBlue : El.Color
+lightBlue =
+    rgb255 112 151 170
+
+clay : El.Color
+clay = 
+    rgb255 184 115 95
+
+darkGreen: El.Color
+darkGreen = 
+    rgb255 9 35 39 
+
+sand: El.Color
+sand = 
+    rgb255 173 162 150  
 
 menuItemStyle : List (Attribute msg)
 menuItemStyle =
@@ -166,7 +200,7 @@ navMenu =
                 [ none ]
     in
     El.row
-        [ Bg.color black
+        [ Eb.color black
         , width fill
         , height (px 60)
         , spacing 10

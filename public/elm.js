@@ -7038,7 +7038,7 @@ var $author$project$Poetry$Erasure$update = F2(
 			case 'MakeTextClickable':
 				var text = msg.a;
 				var clickableText = $author$project$Poetry$Erasure$textToClickableWords(model.inputText);
-				return _Utils_Tuple2(
+				return $elm$core$String$isEmpty(model.inputText) ? _Utils_Tuple2(model, $elm$core$Platform$Cmd$none) : _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{clickableText: clickableText, enterTextScreen: false}),
@@ -7249,7 +7249,7 @@ var $author$project$Poetry$WordBank$update = F2(
 					$elm$core$Platform$Cmd$none);
 			case 'CreateWordBank':
 				var str = msg.a;
-				return _Utils_Tuple2(
+				return $elm$core$String$isEmpty(model.input) ? _Utils_Tuple2(model, $elm$core$Platform$Cmd$none) : _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
@@ -14721,11 +14721,11 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
-var $author$project$ViewHelpers$lightGrey = A3($mdgriffith$elm_ui$Element$rgb255, 180, 180, 180);
+var $author$project$ViewHelpers$whitesmoke = A3($mdgriffith$elm_ui$Element$rgb255, 230, 230, 230);
 var $author$project$Poetry$Erasure$wordColor = function (word) {
 	var _v0 = word.erased;
 	if (_v0) {
-		return $author$project$ViewHelpers$lightGrey;
+		return $author$project$ViewHelpers$whitesmoke;
 	} else {
 		return $author$project$ViewHelpers$black;
 	}
@@ -14738,7 +14738,8 @@ var $author$project$Poetry$Erasure$displayClickableWord = function (word) {
 				$mdgriffith$elm_ui$Element$Events$onClick(
 				$author$project$Poetry$Erasure$ToggleWord(word)),
 				$mdgriffith$elm_ui$Element$Font$color(
-				$author$project$Poetry$Erasure$wordColor(word))
+				$author$project$Poetry$Erasure$wordColor(word)),
+				$mdgriffith$elm_ui$Element$padding(5)
 			]),
 		$mdgriffith$elm_ui$Element$text(word.text + ' '));
 };
@@ -14866,6 +14867,23 @@ var $mdgriffith$elm_ui$Element$Input$button = F2(
 				_List_fromArray(
 					[label])));
 	});
+var $author$project$ViewHelpers$clay = A3($mdgriffith$elm_ui$Element$rgb255, 184, 115, 95);
+var $author$project$ViewHelpers$lightGrey = A3($mdgriffith$elm_ui$Element$rgb255, 180, 180, 180);
+var $author$project$ViewHelpers$buttonStyle = function (disableIfTrue) {
+	return disableIfTrue ? _List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$Background$color($author$project$ViewHelpers$lightGrey),
+			$mdgriffith$elm_ui$Element$padding(5),
+			$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$white),
+			$mdgriffith$elm_ui$Element$centerX
+		]) : _List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$Background$color($author$project$ViewHelpers$clay),
+			$mdgriffith$elm_ui$Element$padding(5),
+			$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$white),
+			$mdgriffith$elm_ui$Element$centerX
+		]);
+};
 var $mdgriffith$elm_ui$Element$Input$Above = {$: 'Above'};
 var $mdgriffith$elm_ui$Element$Input$Label = F3(
 	function (a, b, c) {
@@ -15755,26 +15773,46 @@ var $author$project$Poetry$Erasure$displayEnterTextScreen = function (model) {
 		_List_fromArray(
 			[
 				A2(
-				$mdgriffith$elm_ui$Element$Input$multiline,
-				_List_Nil,
-				{
-					label: A2(
-						$mdgriffith$elm_ui$Element$Input$labelAbove,
-						_List_Nil,
-						$mdgriffith$elm_ui$Element$text('Input source text here:')),
-					onChange: $author$project$Poetry$Erasure$UpdateInputText,
-					placeholder: $elm$core$Maybe$Nothing,
-					spellcheck: false,
-					text: model.inputText
-				}),
-				A2(
-				$mdgriffith$elm_ui$Element$Input$button,
-				_List_Nil,
-				{
-					label: $mdgriffith$elm_ui$Element$text('ENTER'),
-					onPress: $elm$core$Maybe$Just(
-						$author$project$Poetry$Erasure$MakeTextClickable(model.inputText))
-				})
+				$mdgriffith$elm_ui$Element$column,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$Input$multiline,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$padding(5)
+							]),
+						{
+							label: A2(
+								$mdgriffith$elm_ui$Element$Input$labelAbove,
+								_List_Nil,
+								$mdgriffith$elm_ui$Element$text('Input source text here:')),
+							onChange: $author$project$Poetry$Erasure$UpdateInputText,
+							placeholder: $elm$core$Maybe$Nothing,
+							spellcheck: false,
+							text: model.inputText
+						}),
+						A2(
+						$mdgriffith$elm_ui$Element$el,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$padding(20),
+								$mdgriffith$elm_ui$Element$centerX
+							]),
+						A2(
+							$mdgriffith$elm_ui$Element$Input$button,
+							$author$project$ViewHelpers$buttonStyle(
+								$elm$core$String$isEmpty(model.inputText)),
+							{
+								label: $mdgriffith$elm_ui$Element$text('ENTER'),
+								onPress: $elm$core$Maybe$Just(
+									$author$project$Poetry$Erasure$MakeTextClickable(model.inputText))
+							}))
+					]))
 			]));
 };
 var $author$project$Poetry$Erasure$UpdatePercentRandom = function (a) {
@@ -15794,11 +15832,16 @@ var $mdgriffith$elm_ui$Element$Input$text = $mdgriffith$elm_ui$Element$Input$tex
 var $author$project$Poetry$Erasure$displayPercentRandomInput = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$Input$text,
-		_List_Nil,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$px(50))
+			]),
 		{
 			label: A2(
 				$mdgriffith$elm_ui$Element$Input$labelLeft,
-				_List_Nil,
+				_List_fromArray(
+					[$mdgriffith$elm_ui$Element$centerY]),
 				$mdgriffith$elm_ui$Element$text('Percent of words to erase: ')),
 			onChange: $author$project$Poetry$Erasure$UpdatePercentRandom,
 			placeholder: $elm$core$Maybe$Nothing,
@@ -15809,7 +15852,7 @@ var $author$project$Poetry$Erasure$Randomize = {$: 'Randomize'};
 var $author$project$Poetry$Erasure$displayRandomizeButton = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$Input$button,
-		_List_Nil,
+		$author$project$ViewHelpers$buttonStyle(!model.percentRandom),
 		{
 			label: $mdgriffith$elm_ui$Element$text('RANDOMIZE'),
 			onPress: $elm$core$Maybe$Just($author$project$Poetry$Erasure$Randomize)
@@ -15819,7 +15862,7 @@ var $author$project$Poetry$Erasure$GoBackToTextEntry = {$: 'GoBackToTextEntry'};
 var $author$project$Poetry$Erasure$displayResetButton = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$Input$button,
-		_List_Nil,
+		$author$project$ViewHelpers$buttonStyle(false),
 		{
 			label: $mdgriffith$elm_ui$Element$text('RESET TEXT'),
 			onPress: $elm$core$Maybe$Just($author$project$Poetry$Erasure$GoBackToTextEntry)
@@ -15899,7 +15942,8 @@ var $author$project$Poetry$Erasure$displayBody = function (model) {
 						[
 							$mdgriffith$elm_ui$Element$width(
 							$mdgriffith$elm_ui$Element$fillPortion(1)),
-							$mdgriffith$elm_ui$Element$padding(20)
+							$mdgriffith$elm_ui$Element$padding(20),
+							$mdgriffith$elm_ui$Element$alignTop
 						]),
 					_List_fromArray(
 						[
@@ -16118,8 +16162,8 @@ var $author$project$Poetry$WordBank$CreateWordBank = function (a) {
 var $author$project$Poetry$WordBank$displayCreateWordBankButton = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$Input$button,
-		_List_fromArray(
-			[$mdgriffith$elm_ui$Element$centerX]),
+		$author$project$ViewHelpers$buttonStyle(
+			$elm$core$String$isEmpty(model.input)),
 		{
 			label: $mdgriffith$elm_ui$Element$text('ENTER'),
 			onPress: $elm$core$Maybe$Just(
@@ -16133,8 +16177,7 @@ var $author$project$Poetry$WordBank$Reset = {$: 'Reset'};
 var $author$project$Poetry$WordBank$displayResetButton = function (model) {
 	return A2(
 		$mdgriffith$elm_ui$Element$Input$button,
-		_List_fromArray(
-			[$mdgriffith$elm_ui$Element$centerX]),
+		$author$project$ViewHelpers$buttonStyle(false),
 		{
 			label: $mdgriffith$elm_ui$Element$text('RESET'),
 			onPress: $elm$core$Maybe$Just($author$project$Poetry$WordBank$Reset)
@@ -16218,13 +16261,13 @@ var $author$project$Poetry$WordBank$displayWordBankInput = function (model) {
 				})
 			]));
 };
-var $author$project$Poetry$WordBank$extraWordColor = A3($mdgriffith$elm_ui$Element$rgb255, 93, 153, 186);
+var $author$project$ViewHelpers$lightBlue = A3($mdgriffith$elm_ui$Element$rgb255, 112, 151, 170);
 var $author$project$Poetry$WordBank$displayExtraPoemWord = function (poemW) {
 	return A2(
 		$mdgriffith$elm_ui$Element$el,
 		_List_fromArray(
 			[
-				$mdgriffith$elm_ui$Element$Font$color($author$project$Poetry$WordBank$extraWordColor)
+				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$lightBlue)
 			]),
 		$mdgriffith$elm_ui$Element$text(poemW.word + ' '));
 };
@@ -16263,13 +16306,15 @@ var $author$project$Poetry$WordBank$displayWordBankWord = function (wbWord) {
 		$mdgriffith$elm_ui$Element$el,
 		_List_fromArray(
 			[
-				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$lightGrey)
+				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$whitesmoke),
+				$mdgriffith$elm_ui$Element$padding(5)
 			]),
 		$mdgriffith$elm_ui$Element$text(wbWord.word + ' ')) : A2(
 		$mdgriffith$elm_ui$Element$el,
 		_List_fromArray(
 			[
-				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$black)
+				$mdgriffith$elm_ui$Element$Font$color($author$project$ViewHelpers$black),
+				$mdgriffith$elm_ui$Element$padding(5)
 			]),
 		$mdgriffith$elm_ui$Element$text(wbWord.word + ' '));
 };

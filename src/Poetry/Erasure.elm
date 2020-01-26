@@ -120,12 +120,15 @@ update msg model =
                 clickableText =
                     textToClickableWords model.inputText
             in
-            ( { model
-                | clickableText = clickableText
-                , enterTextScreen = False
-              }
-            , Cmd.none
-            )
+            if (String.isEmpty model.inputText) then 
+                (model, Cmd.none)
+            else 
+                ( { model
+                    | clickableText = clickableText
+                    , enterTextScreen = False
+                  }
+                , Cmd.none
+                )
 
         UpdateInputText text ->
             ( { model | inputText = text }, Cmd.none )
@@ -347,7 +350,7 @@ displayBody model =
                     [ el [ centerX ] (displayResetButton model)
                     ]
                 ]
-            , column [ width (fillPortion 1), padding 20 ]
+            , column [ width (fillPortion 1), padding 20, alignTop]
                 [ displayPercentRandomInput model
                 , el [ paddingEach { noPadding | top = 20 }, centerX ] (displayRandomizeButton model)
                 ]
@@ -375,45 +378,31 @@ view model =
     basicLayoutHelper (findScreenSize model.width) "ERASURE" "" (displayBody model)
 
 
-
-{--
-appButtonStyle : List (Html.Attribute Msg)
-appButtonStyle =
-    [ style "padding" "0 5px" 
-    , style "border-radius" "0" 
-    , style "border-width" "0" 
-    , style "color" "black" 
-    , style "background" "transparent" 
-    , style "font-family" "'Arial', sans-serif" 
-    , style "padding-left" "6em" 
-    , style "padding-right" "6em" 
-    , style "margin-bottom" "30px" 
-    , style "display" "inline-block" 
-    , style "font-size" ".75em" 
-    ]
---}
-
-
 displayEnterTextScreen : Model -> Element Msg
 displayEnterTextScreen model =
     row [ width fill ]
-        [ multiline []
-            { onChange = UpdateInputText
-            , text = model.inputText
-            , placeholder = Nothing
-            , label = labelAbove [] (El.text "Input source text here:")
-            , spellcheck = False
-            }
-        , button []
-            { onPress = Just (MakeTextClickable model.inputText)
-            , label = El.text "ENTER"
-            }
+        [ column [width fill] 
+            [ multiline [padding 5]
+                { onChange = UpdateInputText
+                , text = model.inputText
+                , placeholder = Nothing
+                , label = labelAbove [] (El.text "Input source text here:")
+                , spellcheck = False
+                }
+            , El.el [padding 20, centerX] 
+                (button 
+                    (buttonStyle (String.isEmpty model.inputText))
+                    { onPress = Just (MakeTextClickable model.inputText)
+                    , label = El.text "ENTER"
+                    }
+                )
+            ]
         ]
 
 
 displayResetButton : Model -> Element Msg
 displayResetButton model =
-    button []
+    button (buttonStyle False)
         { onPress = Just GoBackToTextEntry
         , label = El.text "RESET TEXT"
         }
@@ -421,7 +410,7 @@ displayResetButton model =
 
 displayRandomizeButton : Model -> Element Msg
 displayRandomizeButton model =
-    button []
+    button (buttonStyle (model.percentRandom == 0))
         { onPress = Just Randomize
         , label = El.text "RANDOMIZE"
         }
@@ -429,18 +418,18 @@ displayRandomizeButton model =
 
 displayPercentRandomInput : Model -> Element Msg
 displayPercentRandomInput model =
-    Ei.text []
+    Ei.text [ width (px 50)]
         { onChange = UpdatePercentRandom
         , text = String.fromInt model.percentRandom
         , placeholder = Nothing
-        , label = labelLeft [] (El.text "Percent of words to erase: ")
+        , label = labelLeft [centerY] (El.text "Percent of words to erase: ")
         }
 
 
 displayClickableWord : ClickableWord -> Element Msg
 displayClickableWord word =
     El.el
-        [ onClick (ToggleWord word), Ef.color (wordColor word) ]
+        [ onClick (ToggleWord word), Ef.color (wordColor word), padding 5]
         (El.text (word.text ++ " "))
 
 
@@ -448,7 +437,7 @@ wordColor : ClickableWord -> El.Color
 wordColor word =
     case word.erased of
         True ->
-            lightGrey
+            whitesmoke
 
         False ->
             black
