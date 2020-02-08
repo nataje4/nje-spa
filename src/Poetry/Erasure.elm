@@ -20,10 +20,14 @@ type alias ClickableWord =
     , position : Int
     }
 
+type SubPage 
+    = EnterTextScreen
+    | EraseWords
+    | PreviewPoemText
 
 type alias Model =
     { clickableText : List ClickableWord
-    , enterTextScreen : Bool
+    , subpage : SubPage
     , inputText : String
     , percentRandom : Int
     , seed : Random.Seed
@@ -40,7 +44,7 @@ type alias Flags =
 initModel : Flags -> Model
 initModel flags =
     { clickableText = []
-    , enterTextScreen = True
+    , subpage = EnterTextScreen
     , inputText = ""
     , percentRandom = 90
     , seed = Random.initialSeed 42
@@ -99,10 +103,10 @@ type Msg
     = ToggleWord ClickableWord
     | MakeTextClickable String
     | UpdateInputText String
-    | GoBackToTextEntry
     | Randomize
     | UpdatePercentRandom String
     | GetSeed (Maybe Time.Posix)
+    | UpdateSubPage SubPage
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -115,26 +119,10 @@ update msg model =
             in
             ( { model | clickableText = newText }, Cmd.none )
 
-        MakeTextClickable text ->
-            let
-                clickableText =
-                    textToClickableWords model.inputText
-            in
-            if (String.isEmpty model.inputText) then 
-                (model, Cmd.none)
-            else 
-                ( { model
-                    | clickableText = clickableText
-                    , enterTextScreen = False
-                  }
-                , Cmd.none
-                )
+        
 
         UpdateInputText text ->
             ( { model | inputText = text }, Cmd.none )
-
-        GoBackToTextEntry ->
-            ( { model | enterTextScreen = True }, Cmd.none )
 
         Randomize ->
             ( randomErasure model, Cmd.none )
@@ -154,6 +142,24 @@ update msg model =
             ( model
             , Cmd.none
             )
+        
+        MakeTextClickable text ->
+            let
+                clickableText =
+                    textToClickableWords model.inputText
+            in
+            if (String.isEmpty model.inputText) then 
+                (model, Cmd.none)
+            else 
+                ( { model
+                    | clickableText = clickableText
+                    , subpage = EraseWords
+                  }
+                , Cmd.none
+                )
+
+        UpdateSubPage page -> 
+            ( {model | subpage = page}, Cmd.none)
 
 
 desiredAmountErased : Model -> Int
@@ -335,9 +341,10 @@ isNotErased word =
 
 displayBody : Model -> List (Element Msg)
 displayBody model =
-    if model.enterTextScreen then
+    if model.subpage == EnterTextScreen then
         [ displayEnterTextScreen model ]
 
+    {--
     else if (findScreenSize model.width == Large) || (findScreenSize model.width == ExtraLarge) then
         [ row [ width fill ]
             [ column [ width (fillPortion 3), padding 20 ]
@@ -356,11 +363,12 @@ displayBody model =
                 ]
             ]
         ]
-
-    else
+        --}
+    else if model.subpage == EraseWords then 
         [ row [ width fill, padding 20 ]
             [ column [ width (fillPortion 1), centerX ] [ displayPercentRandomInput model ]
             , column [ width (fillPortion 1), centerX ] [ displayRandomizeButton model ]
+            , column [ width (fillPortion 1), centerX ] [ displayTogglePreviewTextButton model ]
             ]
         , row [ width fill, padding 20 ]
             [ textColumn [ width fill ]
@@ -369,6 +377,18 @@ displayBody model =
             ]
         , row [ width fill ]
             [ el [ centerX ] (displayResetButton model)
+            ]
+        ]
+    else 
+        [ row [ width fill, padding 20 ]
+            [ column [ width (fillPortion 1), centerX ] [ displayTogglePreviewTextButton model ]
+            ]
+        , row [ width fill, padding 20 ]
+            [ textColumn [ width fill ]
+                [ List.filter (\x -> x.erased == False) model.clickableText
+                    |> List.map displayClickableWord
+                    |> paragraph []
+                ]
             ]
         ]
 
@@ -403,7 +423,7 @@ displayEnterTextScreen model =
 displayResetButton : Model -> Element Msg
 displayResetButton model =
     button (buttonStyle False)
-        { onPress = Just GoBackToTextEntry
+        { onPress = Just (UpdateSubPage EnterTextScreen)
         , label = El.text "RESET TEXT"
         }
 
@@ -414,6 +434,28 @@ displayRandomizeButton model =
         { onPress = Just Randomize
         , label = El.text "RANDOMIZE"
         }
+
+displayTogglePreviewTextButton : Model -> Element Msg 
+displayTogglePreviewTextButton model = 
+    let 
+        selectedWords : List ClickableWord
+        selectedWords = 
+            List.filter (\x -> x.erased == False) model.clickableText
+
+    in
+    case model.subpage of 
+            EraseWords -> 
+                button (buttonStyle (List.isEmpty selectedWords))
+                    { onPress = Just (UpdateSubPage PreviewPoemText)
+                    , label = El.text "PREVIEW POEM TEXT"
+                    }
+            _ -> 
+                button (buttonStyle (List.isEmpty selectedWords))
+                    { onPress = Just (UpdateSubPage EraseWords)
+                    , label = El.text "GO BACK"
+                    }                
+
+
 
 
 displayPercentRandomInput : Model -> Element Msg
