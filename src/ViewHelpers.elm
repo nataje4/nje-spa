@@ -93,6 +93,21 @@ subtitleStyle =
     , paddingEach { noPadding | bottom = 50 }
     ]
 
+sectionTitleStyle : List (El.Attribute msg)
+sectionTitleStyle =
+    [ emphasisFonts
+    , center
+    , Ef.size 36
+    , padding 50
+    ]
+
+listingTitleStyle : List (El.Attribute msg)
+listingTitleStyle =
+    [ emphasisFonts
+    , center
+    , Ef.size 30
+    , paddingEach {noPadding | bottom = 15}
+    ]
 
 bottomTextStyle : List (El.Attribute msg)
 bottomTextStyle =
@@ -312,6 +327,35 @@ basicLayoutHelper screenSize title subtitle bodyRows =
             ]
         ]
 
+type alias Listing msg =
+    { imgSrc : String
+    , imgDescription : String 
+    , title : String
+    , text : Element msg
+    }
+
+listingViewHelper : Listing msg  -> List (Element msg)
+listingViewHelper listing = 
+    [ El.row [centerX, paddingEach {noPadding | top =20 }]
+        [ image 
+            [ width (fillPortion 1), padding 10 ] 
+            { src = listing.imgSrc
+            , description = listing.imgDescription
+            }
+        ]
+    , El.row [centerX, padding 10]
+        [ textColumn [width (fillPortion 2), padding 10]
+            [ paragraph listingTitleStyle [El.text listing.title]
+            , listing.text
+            ]
+        ]
+    ]
+
+sectionViewHelper : String -> List (Listing msg) -> List (Element msg)
+sectionViewHelper sectionTitle listings = 
+    (++)
+    [ El.row [centerX] [paragraph sectionTitleStyle [El.text sectionTitle]]]
+    (List.concatMap listingViewHelper listings)
 
 pictureLink : String -> String -> String -> String -> Int -> Element msg
 pictureLink linkString imgSrc desc bottomText fillPortion_ =

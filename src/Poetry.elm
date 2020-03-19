@@ -97,9 +97,9 @@ view model =
         shopLink =
             pictureLink "https://www.etsy.com/shop/NJEpoetry" "assets/oceanwater.jpg" "click here to be taken to my etsy shop" "SHOP" 1
 
-        eventsLink : Element msg
-        eventsLink =
-            pictureLink "#/poetry/events" "assets/oceanwater.jpg" "click here to see a list of my events" "EVENTS" 1
+        offeringsLink : Element msg
+        offeringsLink =
+            pictureLink "#/poetry/offerings" "assets/oceanwater.jpg" "click here to see a list of my events" "OFFERINGS" 1
 
         toolsLink : Element msg
         toolsLink =
@@ -119,7 +119,7 @@ view model =
                 , El.row [ centerX ]
                     [ El.column [ El.width (fillPortion 2) ] [ none ]
                     , shopLink
-                    , eventsLink
+                    , offeringsLink
                     , toolsLink
                     , El.column [ El.width (fillPortion 2) ] [ none ]
                     ]
@@ -138,7 +138,7 @@ view model =
                 , El.row [ centerX ]
                     [ El.column [ El.width (fillPortion 1) ] [ none ]
                     , shopLink
-                    , eventsLink
+                    , offeringsLink
                     , toolsLink
                     , El.column [ El.width (fillPortion 1) ] [ none ]
                     ]
@@ -155,6 +155,6 @@ view model =
                     , El.column [ El.width (fillPortion 1) ] [ none ]
                     ]
                 , El.row [ centerX ] [ shopLink ]
-                , El.row [ centerX ] [ eventsLink ]
+                , El.row [ centerX ] [ offeringsLink ]
                 , El.row [ centerX ] [ toolsLink ]
                 ]

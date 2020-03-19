@@ -5179,8 +5179,8 @@ var $author$project$Main$Poetry = function (a) {
 var $author$project$Main$PoetryErasure = function (a) {
 	return {$: 'PoetryErasure', a: a};
 };
-var $author$project$Main$PoetryEvents = function (a) {
-	return {$: 'PoetryEvents', a: a};
+var $author$project$Main$PoetryOfferings = function (a) {
+	return {$: 'PoetryOfferings', a: a};
 };
 var $author$project$Main$PoetryTools = function (a) {
 	return {$: 'PoetryTools', a: a};
@@ -5233,7 +5233,7 @@ var $author$project$Poetry$Erasure$initModel = function (flags) {
 		width: flags.width
 	};
 };
-var $author$project$Poetry$Events$initModel = function (flags) {
+var $author$project$Poetry$Offerings$initModel = function (flags) {
 	return {data: flags.data, width: flags.width};
 };
 var $author$project$Poetry$Tools$initModel = function (flags) {
@@ -5252,7 +5252,7 @@ var $author$project$Main$getWidth = function (model) {
 		case 'Poetry':
 			var mod3l = model.a;
 			return mod3l.width;
-		case 'PoetryEvents':
+		case 'PoetryOfferings':
 			var mod3l = model.a;
 			return mod3l.width;
 		case 'PoetryTools':
@@ -5297,11 +5297,11 @@ var $author$project$Main$changeRouteTo = F2(
 						$author$project$Main$Poetry(
 							$author$project$Poetry$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
-				case 'PoetryEvents':
+				case 'PoetryOfferings':
 					var _v2 = maybeRoute.a;
 					return _Utils_Tuple2(
-						$author$project$Main$PoetryEvents(
-							$author$project$Poetry$Events$initModel(newFlags)),
+						$author$project$Main$PoetryOfferings(
+							$author$project$Poetry$Offerings$initModel(newFlags)),
 						$elm$core$Platform$Cmd$none);
 				case 'PoetryTools':
 					var _v3 = maybeRoute.a;
@@ -5981,7 +5981,7 @@ var $author$project$Route$CodeDemos = {$: 'CodeDemos'};
 var $author$project$Route$Home = {$: 'Home'};
 var $author$project$Route$Poetry = {$: 'Poetry'};
 var $author$project$Route$PoetryErasure = {$: 'PoetryErasure'};
-var $author$project$Route$PoetryEvents = {$: 'PoetryEvents'};
+var $author$project$Route$PoetryOfferings = {$: 'PoetryOfferings'};
 var $author$project$Route$PoetryTools = {$: 'PoetryTools'};
 var $author$project$Route$PoetryWordBank = {$: 'PoetryWordBank'};
 var $elm$url$Url$Parser$Parser = function (a) {
@@ -6127,11 +6127,11 @@ var $author$project$Route$parser = $elm$url$Url$Parser$oneOf(
 					$elm$url$Url$Parser$s('erasure')))),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Route$PoetryEvents,
+			$author$project$Route$PoetryOfferings,
 			A2(
 				$elm$url$Url$Parser$slash,
 				$elm$url$Url$Parser$s('poetry'),
-				$elm$url$Url$Parser$s('events'))),
+				$elm$url$Url$Parser$s('offerings'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Code,
@@ -6181,10 +6181,10 @@ var $author$project$Main$routeToModel = F2(
 					var _v2 = maybeRoute.a;
 					return $author$project$Main$Poetry(
 						$author$project$Poetry$initModel(newFlags));
-				case 'PoetryEvents':
+				case 'PoetryOfferings':
 					var _v3 = maybeRoute.a;
-					return $author$project$Main$PoetryEvents(
-						$author$project$Poetry$Events$initModel(newFlags));
+					return $author$project$Main$PoetryOfferings(
+						$author$project$Poetry$Offerings$initModel(newFlags));
 				case 'PoetryTools':
 					var _v4 = maybeRoute.a;
 					return $author$project$Main$PoetryTools(
@@ -7301,9 +7301,9 @@ var $author$project$Main$updateWidth = F2(
 					_Utils_update(
 						mod3l,
 						{width: width}));
-			case 'PoetryEvents':
+			case 'PoetryOfferings':
 				var mod3l = model.a;
-				return $author$project$Main$PoetryEvents(
+				return $author$project$Main$PoetryOfferings(
 					_Utils_update(
 						mod3l,
 						{width: width}));
@@ -13422,7 +13422,7 @@ var $author$project$ViewHelpers$Large = {$: 'Large'};
 var $author$project$ViewHelpers$Medium = {$: 'Medium'};
 var $author$project$ViewHelpers$Small = {$: 'Small'};
 var $author$project$ViewHelpers$findScreenSize = function (width) {
-	return (width <= 450) ? $author$project$ViewHelpers$Small : ((width <= 700) ? $author$project$ViewHelpers$Medium : ((width <= 800) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
+	return (width <= 450) ? $author$project$ViewHelpers$Small : ((width <= 800) ? $author$project$ViewHelpers$Medium : ((width <= 1200) ? $author$project$ViewHelpers$Large : $author$project$ViewHelpers$ExtraLarge));
 };
 var $mdgriffith$elm_ui$Internal$Model$Top = {$: 'Top'};
 var $mdgriffith$elm_ui$Element$alignTop = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$Top);
@@ -14266,7 +14266,7 @@ var $author$project$Poetry$view = function (model) {
 	var toolsLink = A5($author$project$ViewHelpers$pictureLink, '#/poetry/tools', 'assets/oceanwater.jpg', 'click here to be taken to a list of the tools I\'ve created', 'TOOLS', 1);
 	var shopLink = A5($author$project$ViewHelpers$pictureLink, 'https://www.etsy.com/shop/NJEpoetry', 'assets/oceanwater.jpg', 'click here to be taken to my etsy shop', 'SHOP', 1);
 	var screenSize = $author$project$ViewHelpers$findScreenSize(model.width);
-	var eventsLink = A5($author$project$ViewHelpers$pictureLink, '#/poetry/events', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'EVENTS', 1);
+	var offeringsLink = A5($author$project$ViewHelpers$pictureLink, '#/poetry/offerings', 'assets/oceanwater.jpg', 'click here to see a list of my events', 'OFFERINGS', 1);
 	switch (screenSize.$) {
 		case 'ExtraLarge':
 			return viewHelper(
@@ -14325,7 +14325,7 @@ var $author$project$Poetry$view = function (model) {
 								_List_fromArray(
 									[$mdgriffith$elm_ui$Element$none])),
 								shopLink,
-								eventsLink,
+								offeringsLink,
 								toolsLink,
 								A2(
 								$mdgriffith$elm_ui$Element$column,
@@ -14395,7 +14395,7 @@ var $author$project$Poetry$view = function (model) {
 								_List_fromArray(
 									[$mdgriffith$elm_ui$Element$none])),
 								shopLink,
-								eventsLink,
+								offeringsLink,
 								toolsLink,
 								A2(
 								$mdgriffith$elm_ui$Element$column,
@@ -14459,7 +14459,7 @@ var $author$project$Poetry$view = function (model) {
 						_List_fromArray(
 							[$mdgriffith$elm_ui$Element$centerX]),
 						_List_fromArray(
-							[eventsLink])),
+							[offeringsLink])),
 						A2(
 						$mdgriffith$elm_ui$Element$row,
 						_List_fromArray(
@@ -15916,42 +15916,133 @@ var $author$project$Poetry$Erasure$view = function (model) {
 		'',
 		$author$project$Poetry$Erasure$displayBody(model));
 };
-var $author$project$Poetry$Events$view = function (model) {
-	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: EVENTS');
+var $author$project$Poetry$Offerings$eventListings = _List_fromArray(
+	[
+		{
+		imgDescription: 'people dancing around a fire',
+		imgSrc: 'assets/firedance.jpg',
+		text: A2(
+			$mdgriffith$elm_ui$Element$paragraph,
+			$author$project$ViewHelpers$bodyStyle,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$text('\n                        In lieu of a birthday reading for myself, I am hosting a virtual get-together and poetry reading on April 7th at 7:30 pm. \n                        I want to spotlight local Portland poets who may be suffering given the current circumstances. Additional information and updates can be found \n                        on the facebook\n                    '),
+					A2(
+					$mdgriffith$elm_ui$Element$link,
+					$author$project$ViewHelpers$linkStyle,
+					{
+						label: $mdgriffith$elm_ui$Element$text('event page'),
+						url: 'https://www.facebook.com/events/2343370595956435/'
+					}),
+					$mdgriffith$elm_ui$Element$text('.')
+				])),
+		title: 'Fire Dance: a Virtual Poetry Reading'
+	}
+	]);
+var $author$project$ViewHelpers$listingTitleStyle = _List_fromArray(
+	[
+		$author$project$ViewHelpers$emphasisFonts,
+		$mdgriffith$elm_ui$Element$Font$center,
+		$mdgriffith$elm_ui$Element$Font$size(30),
+		$mdgriffith$elm_ui$Element$paddingEach(
+		_Utils_update(
+			$author$project$ViewHelpers$noPadding,
+			{bottom: 15}))
+	]);
+var $author$project$ViewHelpers$listingViewHelper = function (listing) {
+	return _List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$centerX,
+					$mdgriffith$elm_ui$Element$paddingEach(
+					_Utils_update(
+						$author$project$ViewHelpers$noPadding,
+						{top: 20}))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$image,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(1)),
+							$mdgriffith$elm_ui$Element$padding(10)
+						]),
+					{description: listing.imgDescription, src: listing.imgSrc})
+				])),
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$centerX,
+					$mdgriffith$elm_ui$Element$padding(10)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$textColumn,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width(
+							$mdgriffith$elm_ui$Element$fillPortion(2)),
+							$mdgriffith$elm_ui$Element$padding(10)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							$author$project$ViewHelpers$listingTitleStyle,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text(listing.title)
+								])),
+							listing.text
+						]))
+				]))
+		]);
+};
+var $author$project$ViewHelpers$sectionTitleStyle = _List_fromArray(
+	[
+		$author$project$ViewHelpers$emphasisFonts,
+		$mdgriffith$elm_ui$Element$Font$center,
+		$mdgriffith$elm_ui$Element$Font$size(36),
+		$mdgriffith$elm_ui$Element$padding(50)
+	]);
+var $author$project$ViewHelpers$sectionViewHelper = F2(
+	function (sectionTitle, listings) {
+		return _Utils_ap(
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[$mdgriffith$elm_ui$Element$centerX]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							$author$project$ViewHelpers$sectionTitleStyle,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text(sectionTitle)
+								]))
+						]))
+				]),
+			A2($elm$core$List$concatMap, $author$project$ViewHelpers$listingViewHelper, listings));
+	});
+var $author$project$Poetry$Offerings$view = function (model) {
+	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: OFFERINGS');
 	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
-	return viewHelper(
-		_List_fromArray(
-			[
-				A2(
-				$mdgriffith$elm_ui$Element$row,
-				_List_fromArray(
-					[$mdgriffith$elm_ui$Element$centerX]),
-				_List_fromArray(
-					[
-						$author$project$ViewHelpers$titleSideSpacer,
-						A2(
-						$author$project$ViewHelpers$titleEl,
-						screensize,
-						_List_fromArray(
-							[
-								A2(
-								$mdgriffith$elm_ui$Element$paragraph,
-								$author$project$ViewHelpers$titleStyle,
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('POETRY EVENTS')
-									])),
-								A2(
-								$mdgriffith$elm_ui$Element$paragraph,
-								$author$project$ViewHelpers$subtitleStyle,
-								_List_fromArray(
-									[
-										$mdgriffith$elm_ui$Element$text('This page is under construction. Please check back soon!')
-									]))
-							])),
-						$author$project$ViewHelpers$titleSideSpacer
-					]))
-			]));
+	return A4(
+		$author$project$ViewHelpers$basicLayoutHelper,
+		screensize,
+		'POETRY OFFERINGS',
+		'',
+		A2($author$project$ViewHelpers$sectionViewHelper, 'EVENTS', $author$project$Poetry$Offerings$eventListings));
 };
 var $author$project$Poetry$Tools$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: POETRY TOOLS');
@@ -16285,9 +16376,9 @@ var $author$project$Main$view = function (model) {
 				convertMsgType,
 				$author$project$Main$GotPoetryMsg,
 				$author$project$Poetry$view(mod3l));
-		case 'PoetryEvents':
+		case 'PoetryOfferings':
 			var mod3l = model.a;
-			return $author$project$Poetry$Events$view(mod3l);
+			return $author$project$Poetry$Offerings$view(mod3l);
 		case 'PoetryTools':
 			var mod3l = model.a;
 			return $author$project$Poetry$Tools$view(mod3l);

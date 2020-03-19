@@ -14,7 +14,7 @@ import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
 type Route
     = Home
     | Poetry
-    | PoetryEvents
+    | PoetryOfferings
     | PoetryTools
     | PoetryWordBank
     | PoetryErasure
@@ -30,7 +30,7 @@ parser =
         , Parser.map PoetryTools (s "poetry" </> s "tools")
         , Parser.map PoetryWordBank (s "poetry" </> s "tools" </> s "wordbank")
         , Parser.map PoetryErasure (s "poetry" </> s "tools" </> s "erasure")
-        , Parser.map PoetryEvents (s "poetry" </> s "events")
+        , Parser.map PoetryOfferings (s "poetry" </> s "offerings")
         , Parser.map Code (s "code")
         , Parser.map CodeDemos (s "code" </> s "demos")
         ]
@@ -80,8 +80,8 @@ routeToPieces page =
         Poetry ->
             [ "poetry" ]
 
-        PoetryEvents ->
-            [ "poetry", "events" ]
+        PoetryOfferings ->
+            [ "poetry", "offerings" ]
 
         PoetryTools ->
             [ "poetry", "tools" ]

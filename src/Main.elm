@@ -11,7 +11,7 @@ import Home exposing (Model, initModel, view)
 import Html exposing (map)
 import Poetry exposing (Model, initModel, view)
 import Poetry.Erasure exposing (Model, Msg, initModel, update, view)
-import Poetry.Events exposing (Model, initModel, view)
+import Poetry.Offerings exposing (Model, initModel, view)
 import Poetry.Tools exposing (Model, initModel, view)
 import Poetry.WordBank exposing (Model, Msg, initModel, update, view)
 import Route exposing (Route(..))
@@ -26,7 +26,7 @@ import Url exposing (..)
 type Model
     = Home Home.Model
     | Poetry Poetry.Model
-    | PoetryEvents Poetry.Events.Model
+    | PoetryOfferings Poetry.Offerings.Model
     | PoetryTools Poetry.Tools.Model
     | PoetryWordBank Poetry.WordBank.Model
     | PoetryErasure Poetry.Erasure.Model
@@ -160,8 +160,8 @@ changeRouteTo maybeRoute model =
         Just Route.Poetry ->
             ( Poetry (Poetry.initModel newFlags), Cmd.none )
 
-        Just Route.PoetryEvents ->
-            ( PoetryEvents (Poetry.Events.initModel newFlags), Cmd.none )
+        Just Route.PoetryOfferings ->
+            ( PoetryOfferings (Poetry.Offerings.initModel newFlags), Cmd.none )
 
         Just Route.PoetryTools ->
             ( PoetryTools (Poetry.Tools.initModel newFlags), Cmd.none )
@@ -196,8 +196,8 @@ routeToModel model maybeRoute =
         Just Route.Poetry ->
             Poetry (Poetry.initModel newFlags)
 
-        Just Route.PoetryEvents ->
-            PoetryEvents (Poetry.Events.initModel newFlags)
+        Just Route.PoetryOfferings ->
+            PoetryOfferings (Poetry.Offerings.initModel newFlags)
 
         Just Route.PoetryTools ->
             PoetryTools (Poetry.Tools.initModel newFlags)
@@ -227,8 +227,8 @@ updateWidth width model =
         Poetry mod3l ->
             Poetry { mod3l | width = width }
 
-        PoetryEvents mod3l ->
-            PoetryEvents { mod3l | width = width }
+        PoetryOfferings mod3l ->
+            PoetryOfferings { mod3l | width = width }
 
         PoetryTools mod3l ->
             PoetryTools { mod3l | width = width }
@@ -258,7 +258,7 @@ getWidth model =
         Poetry mod3l ->
             mod3l.width
 
-        PoetryEvents mod3l ->
+        PoetryOfferings mod3l ->
             mod3l.width
 
         PoetryTools mod3l ->
@@ -298,8 +298,8 @@ view model =
             Poetry.view mod3l
                 |> convertMsgType GotPoetryMsg
 
-        PoetryEvents mod3l ->
-            Poetry.Events.view mod3l
+        PoetryOfferings mod3l ->
+            Poetry.Offerings.view mod3l
 
         PoetryTools mod3l ->
             Poetry.Tools.view mod3l
