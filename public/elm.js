@@ -16041,6 +16041,23 @@ var $author$project$ViewHelpers$sectionViewHelper = F2(
 				]),
 			A2($elm$core$List$concatMap, $author$project$ViewHelpers$listingViewHelper, listings));
 	});
+var $author$project$Poetry$Offerings$servicesListings = _List_fromArray(
+	[
+		{
+		imgDescription: 'pen resting on blank pages of a notebook',
+		imgSrc: 'assets/penpaper.jpg',
+		text: A2(
+			$mdgriffith$elm_ui$Element$paragraph,
+			$author$project$ViewHelpers$bodyStyle,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$text('\n                        I have years of experience studying poetry in both academic and alternative settings. \n                        I love reading people\'s new and in-progress work, and can offer expertise around revision \n                        techniques and project organization, as well as line edits on individual poems. I am very \n                        flexible on payment—please email me at \n                    '),
+					$author$project$ViewHelpers$emailLink('poetry@nataliejaneedson.com'),
+					$mdgriffith$elm_ui$Element$text(' if you have any questions!')
+				])),
+		title: 'Sliding-Scale Editing Services'
+	}
+	]);
 var $author$project$Poetry$Offerings$workshopListings = _List_fromArray(
 	[
 		{
@@ -16069,7 +16086,8 @@ var $author$project$Poetry$Offerings$view = function (model) {
 		$elm$core$List$concat(
 			_List_fromArray(
 				[
-					A2($author$project$ViewHelpers$sectionViewHelper, 'EVENTS', $author$project$Poetry$Offerings$eventListings),
+					A2($author$project$ViewHelpers$sectionViewHelper, 'SERVICES', $author$project$Poetry$Offerings$servicesListings),
+					A2($author$project$ViewHelpers$sectionViewHelper, 'UPCOMING EVENTS', $author$project$Poetry$Offerings$eventListings),
 					A2($author$project$ViewHelpers$sectionViewHelper, 'WORKSHOPS', $author$project$Poetry$Offerings$workshopListings)
 				])));
 };

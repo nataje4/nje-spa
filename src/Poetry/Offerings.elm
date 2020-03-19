@@ -58,7 +58,8 @@ view model =
         screensize = 
             findScreenSize model.width
     in
-        [ sectionViewHelper "EVENTS" eventListings
+        [ sectionViewHelper "SERVICES" servicesListings
+        , sectionViewHelper "UPCOMING EVENTS" eventListings
         , sectionViewHelper "WORKSHOPS" workshopListings
         ]
             |> List.concat
@@ -101,6 +102,28 @@ view model =
             ]
         ]
         --}
+
+servicesListings : List (Listing msg)
+servicesListings = 
+    [ 
+        { imgSrc = "assets/penpaper.jpg"
+        , imgDescription = "pen resting on blank pages of a notebook"
+        , title = "Sliding-Scale Editing Services"
+        , text =
+            paragraph bodyStyle 
+                [ El.text
+                    """
+                        I have years of experience studying poetry in both academic and alternative settings. 
+                        I love reading people's new and in-progress work, and can offer expertise around revision 
+                        techniques and project organization, as well as line edits on individual poems. I am very 
+                        flexible on payment—please email me at 
+                    """
+                , emailLink "poetry@nataliejaneedson.com"
+                , El.text " if you have any questions!"
+                ]
+        }
+    ]
+
 eventListings : List (Listing msg)
 eventListings = 
     [ 
@@ -137,7 +160,7 @@ workshopListings =
                         Impossible Language is a recurring workshop that teaches surrealist generative writing techniques, 
                         which are facilitated by both digital tools and found language. I co-teach the workshop with my creative 
                         partner, Eva Bertoglio. The most recent iteration of the workshop was held at the Independent Publishing 
-                        Resource Center in Portland, OR in February 2020. To inquire about the curriculum details and rates, you 
+                        Resource Center in Portland, OR in February 2020. To inquire about curriculum details and rates, you 
                         can contact me at
                     """
                 , emailLink "poetry@nataliejaneedson.com"
