@@ -72,6 +72,7 @@ mainFonts =
 bodyStyle : List (El.Attribute msg)
 bodyStyle =
     [ mainFonts
+    , center
     ]
 
 
@@ -98,7 +99,8 @@ sectionTitleStyle =
     [ emphasisFonts
     , center
     , Ef.size 36
-    , padding 50
+    , paddingEach {noPadding | bottom = 15, top= 50 }
+    , Ef.italic
     ]
 
 listingTitleStyle : List (El.Attribute msg)
@@ -344,7 +346,7 @@ listingViewHelper listing =
             }
         ]
     , El.row [centerX, padding 10]
-        [ textColumn [width (fillPortion 2), padding 10]
+        [ textColumn [width (fillPortion 2), paddingEach {noPadding | top =10, bottom =20} ]
             [ paragraph listingTitleStyle [El.text listing.title]
             , listing.text
             ]

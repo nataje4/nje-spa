@@ -12795,6 +12795,12 @@ var $mdgriffith$elm_ui$Element$column = F2(
 						attrs))),
 			$mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Class = F2(
+	function (a, b) {
+		return {$: 'Class', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$fontAlignment = $mdgriffith$elm_ui$Internal$Flag$flag(12);
+var $mdgriffith$elm_ui$Element$Font$center = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textCenter);
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
 	function (a, b) {
 		return {$: 'FontFamily', a: a, b: b};
@@ -12862,7 +12868,7 @@ var $author$project$ViewHelpers$mainFonts = $mdgriffith$elm_ui$Element$Font$fami
 	_List_fromArray(
 		[$author$project$ViewHelpers$lato, $author$project$ViewHelpers$georgia, $mdgriffith$elm_ui$Element$Font$serif]));
 var $author$project$ViewHelpers$bodyStyle = _List_fromArray(
-	[$author$project$ViewHelpers$mainFonts]);
+	[$author$project$ViewHelpers$mainFonts, $mdgriffith$elm_ui$Element$Font$center]);
 var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
 	return {$: 'Fill', a: a};
 };
@@ -12876,12 +12882,6 @@ var $mdgriffith$elm_ui$Element$rgb255 = F3(
 		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
 	});
 var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 0);
-var $mdgriffith$elm_ui$Internal$Model$Class = F2(
-	function (a, b) {
-		return {$: 'Class', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$fontAlignment = $mdgriffith$elm_ui$Internal$Flag$flag(12);
-var $mdgriffith$elm_ui$Element$Font$center = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textCenter);
 var $mdgriffith$elm_ui$Internal$Model$Colored = F3(
 	function (a, b, c) {
 		return {$: 'Colored', a: a, b: b, c: c};
@@ -14245,7 +14245,7 @@ var $author$project$Poetry$subtitleText = _List_fromArray(
 		_List_fromArray(
 			[$mdgriffith$elm_ui$Element$Font$italic]),
 		$mdgriffith$elm_ui$Element$text('BALACLAVA')),
-		$mdgriffith$elm_ui$Element$text('\n            , in June 2018 and is currently working on her full-length debut. Her written work focuses \n            on mental health, love, and the mundane. She is also interested in the intersection of code and poetry \n            and has written a number of tools to assist in her personal generative writing practice, all of \n            which will be available on this website soon. You can contact her with poetry-related inquiries  \n        '),
+		$mdgriffith$elm_ui$Element$text('\n            , in June 2018 and is currently working on her full-length debut. Her written work focuses \n            on mental health, love, and the mundane. She is also interested in the intersection of code and poetry \n            and has written a number of tools to assist in her personal generative writing practice, all of \n            which will be available on this website soon. You can contact her with poetry-related inquiries at\n        '),
 		$author$project$ViewHelpers$emailLink('poetry@nataliejaneedson.com'),
 		$mdgriffith$elm_ui$Element$text(' or find her on twitter '),
 		A2(
@@ -15926,7 +15926,7 @@ var $author$project$Poetry$Offerings$eventListings = _List_fromArray(
 			$author$project$ViewHelpers$bodyStyle,
 			_List_fromArray(
 				[
-					$mdgriffith$elm_ui$Element$text('\n                        In lieu of a birthday reading for myself, I am hosting a virtual get-together and poetry reading on April 7th at 7:30 pm. \n                        I want to spotlight local Portland poets who may be suffering given the current circumstances. Additional information and updates can be found \n                        on the facebook\n                    '),
+					$mdgriffith$elm_ui$Element$text('\n                        In lieu of a birthday reading for myself, I am hosting a virtual get-together and poetry reading on April 7th at 7:30 pm. \n                        I want to spotlight local Portland poets who may be suffering given the current circumstances. Additional information and \n                        updates can be found on the facebook\n                    '),
 					A2(
 					$mdgriffith$elm_ui$Element$link,
 					$author$project$ViewHelpers$linkStyle,
@@ -15989,7 +15989,10 @@ var $author$project$ViewHelpers$listingViewHelper = function (listing) {
 						[
 							$mdgriffith$elm_ui$Element$width(
 							$mdgriffith$elm_ui$Element$fillPortion(2)),
-							$mdgriffith$elm_ui$Element$padding(10)
+							$mdgriffith$elm_ui$Element$paddingEach(
+							_Utils_update(
+								$author$project$ViewHelpers$noPadding,
+								{bottom: 20, top: 10}))
 						]),
 					_List_fromArray(
 						[
@@ -16010,7 +16013,11 @@ var $author$project$ViewHelpers$sectionTitleStyle = _List_fromArray(
 		$author$project$ViewHelpers$emphasisFonts,
 		$mdgriffith$elm_ui$Element$Font$center,
 		$mdgriffith$elm_ui$Element$Font$size(36),
-		$mdgriffith$elm_ui$Element$padding(50)
+		$mdgriffith$elm_ui$Element$paddingEach(
+		_Utils_update(
+			$author$project$ViewHelpers$noPadding,
+			{bottom: 15, top: 50})),
+		$mdgriffith$elm_ui$Element$Font$italic
 	]);
 var $author$project$ViewHelpers$sectionViewHelper = F2(
 	function (sectionTitle, listings) {
@@ -16034,6 +16041,23 @@ var $author$project$ViewHelpers$sectionViewHelper = F2(
 				]),
 			A2($elm$core$List$concatMap, $author$project$ViewHelpers$listingViewHelper, listings));
 	});
+var $author$project$Poetry$Offerings$workshopListings = _List_fromArray(
+	[
+		{
+		imgDescription: 'a series of geometrically pleasing spirograpgh diagrams',
+		imgSrc: 'assets/woodcuts.jpg',
+		text: A2(
+			$mdgriffith$elm_ui$Element$paragraph,
+			$author$project$ViewHelpers$bodyStyle,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$text('\n                        Impossible Language is a recurring workshop that teaches surrealist generative writing techniques, \n                        which are facilitated by both digital tools and found language. I co-teach the workshop with my creative \n                        partner, Eva Bertoglio. The most recent iteration of the workshop was held at the Independent Publishing \n                        Resource Center in Portland, OR in February 2020. To inquire about the curriculum details and rates, you \n                        can contact me at\n                    '),
+					$author$project$ViewHelpers$emailLink('poetry@nataliejaneedson.com'),
+					$mdgriffith$elm_ui$Element$text('.')
+				])),
+		title: 'Impossible Language'
+	}
+	]);
 var $author$project$Poetry$Offerings$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: OFFERINGS');
 	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
@@ -16042,7 +16066,12 @@ var $author$project$Poetry$Offerings$view = function (model) {
 		screensize,
 		'POETRY OFFERINGS',
 		'',
-		A2($author$project$ViewHelpers$sectionViewHelper, 'EVENTS', $author$project$Poetry$Offerings$eventListings));
+		$elm$core$List$concat(
+			_List_fromArray(
+				[
+					A2($author$project$ViewHelpers$sectionViewHelper, 'EVENTS', $author$project$Poetry$Offerings$eventListings),
+					A2($author$project$ViewHelpers$sectionViewHelper, 'WORKSHOPS', $author$project$Poetry$Offerings$workshopListings)
+				])));
 };
 var $author$project$Poetry$Tools$view = function (model) {
 	var viewHelper = $author$project$ViewHelpers$documentMsgHelper('NJE: POETRY TOOLS');

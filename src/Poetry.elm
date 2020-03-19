@@ -70,7 +70,7 @@ subtitleText =
             , in June 2018 and is currently working on her full-length debut. Her written work focuses 
             on mental health, love, and the mundane. She is also interested in the intersection of code and poetry 
             and has written a number of tools to assist in her personal generative writing practice, all of 
-            which will be available on this website soon. You can contact her with poetry-related inquiries  
+            which will be available on this website soon. You can contact her with poetry-related inquiries at
         """
     , emailLink "poetry@nataliejaneedson.com"
     , text " or find her on twitter "
