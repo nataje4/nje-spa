@@ -23,18 +23,6 @@ import Url exposing (..)
 ---- MODEL ----
 
 
-type Model
-    = Home Home.Model
-    | Poetry Poetry.Model
-    | PoetryOfferings Poetry.Offerings.Model
-    | PoetryTools Poetry.Tools.Model
-    | PoetryWordBank Poetry.WordBank.Model
-    | PoetryErasure Poetry.Erasure.Model
-    | Code Code.Model
-    | CodeDemos Code.Demos.Model
-    | Error Error.Model
-
-
 
 --Flags are required by the Browser.application function
 
@@ -69,217 +57,6 @@ type alias Flags =
 --TODO: make it so only the width matters on resize
 
 
-type Msg
-    = ChangedUrl Url
-    | ClickedLink Browser.UrlRequest
-    | ResizeWindow Int Int
-    | GotErasureMsg Poetry.Erasure.Msg
-    | GotWordBankMsg Poetry.WordBank.Msg
-    | GotPoetryMsg Poetry.Msg
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case ( msg, model ) of
-        ( ClickedLink urlRequest, _ ) ->
-            case urlRequest of
-                Browser.Internal url ->
-                    case url.fragment of
-                        Nothing ->
-                            -- If we got a link that didn't include a fragment,
-                            -- it's from one of those (href "") attributes that
-                            -- we have to include to make the RealWorld CSS work.
-                            --
-                            -- In an application doing path routing instead of
-                            -- fragment-based routing, this entire
-                            -- `case url.fragment of` expression this comment
-                            -- is inside would be unnecessary.
-                            ( model, Cmd.none )
-
-                        Just _ ->
-                            ( model
-                            , Nav.load (Url.toString url)
-                            )
-
-                Browser.External href ->
-                    ( model
-                    , Nav.load href
-                    )
-
-        ( ChangedUrl url, _ ) ->
-            let
-                route =
-                    Route.fromUrl url
-            in
-            changeRouteTo route (routeToModel model route)
-
-        ( ResizeWindow width _, _ ) ->
-            ( updateWidth width model, Cmd.none )
-
-        ( GotErasureMsg subMsg, PoetryErasure erasure ) ->
-            Poetry.Erasure.update subMsg erasure
-                |> updateWith PoetryErasure GotErasureMsg model
-
-        ( GotWordBankMsg subMsg, PoetryWordBank wordBank ) ->
-            Poetry.WordBank.update subMsg wordBank
-                |> updateWith PoetryWordBank GotWordBankMsg model
-
-        ( GotPoetryMsg subMsg, Poetry poetry ) ->
-            Poetry.update subMsg poetry
-                |> updateWith Poetry GotPoetryMsg model
-
-        ( _, _ ) ->
-            ( model, Cmd.none )
-
-
-updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
-updateWith toModel toMsg model ( subModel, subCmd ) =
-    ( toModel subModel
-    , Cmd.map toMsg subCmd
-    )
-
-
-routeChangeFlags : Model -> Flags
-routeChangeFlags model =
-    { width = getWidth model
-    , data = ""
-    }
-
-
-changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
-changeRouteTo maybeRoute model =
-    let
-        newFlags : Flags
-        newFlags =
-            routeChangeFlags model
-    in
-    case maybeRoute of
-        Nothing ->
-            ( Error (Error.initModel newFlags), Cmd.none )
-
-        Just Route.Poetry ->
-            ( Poetry (Poetry.initModel newFlags), Cmd.none )
-
-        Just Route.PoetryOfferings ->
-            ( PoetryOfferings (Poetry.Offerings.initModel newFlags), Cmd.none )
-
-        Just Route.PoetryTools ->
-            ( PoetryTools (Poetry.Tools.initModel newFlags), Cmd.none )
-
-        Just Route.PoetryWordBank ->
-            ( PoetryWordBank (Poetry.WordBank.initModel newFlags), Cmd.none )
-
-        Just Route.PoetryErasure ->
-            ( PoetryErasure (Poetry.Erasure.initModel newFlags), Cmd.none )
-
-        Just Route.Code ->
-            ( Code (Code.initModel newFlags), Cmd.none )
-
-        Just Route.CodeDemos ->
-            ( CodeDemos (Code.Demos.initModel newFlags), Cmd.none )
-
-        Just Route.Home ->
-            ( Home (Home.initModel newFlags), Cmd.none )
-
-
-routeToModel : Model -> Maybe Route -> Model
-routeToModel model maybeRoute =
-    let
-        newFlags : Flags
-        newFlags =
-            routeChangeFlags model
-    in
-    case maybeRoute of
-        Just Route.Home ->
-            Home (Home.initModel newFlags)
-
-        Just Route.Poetry ->
-            Poetry (Poetry.initModel newFlags)
-
-        Just Route.PoetryOfferings ->
-            PoetryOfferings (Poetry.Offerings.initModel newFlags)
-
-        Just Route.PoetryTools ->
-            PoetryTools (Poetry.Tools.initModel newFlags)
-
-        Just Route.PoetryWordBank ->
-            PoetryWordBank (Poetry.WordBank.initModel newFlags)
-
-        Just Route.PoetryErasure ->
-            PoetryErasure (Poetry.Erasure.initModel newFlags)
-
-        Just Route.Code ->
-            Code (Code.initModel newFlags)
-
-        Just Route.CodeDemos ->
-            CodeDemos (Code.Demos.initModel newFlags)
-
-        Nothing ->
-            Error (Error.initModel newFlags)
-
-
-updateWidth : Int -> Model -> Model
-updateWidth width model =
-    case model of
-        Home mod3l ->
-            Home { mod3l | width = width }
-
-        Poetry mod3l ->
-            Poetry { mod3l | width = width }
-
-        PoetryOfferings mod3l ->
-            PoetryOfferings { mod3l | width = width }
-
-        PoetryTools mod3l ->
-            PoetryTools { mod3l | width = width }
-
-        PoetryWordBank mod3l ->
-            PoetryWordBank { mod3l | width = width }
-
-        PoetryErasure mod3l ->
-            PoetryErasure { mod3l | width = width }
-
-        Code mod3l ->
-            Code { mod3l | width = width }
-
-        CodeDemos mod3l ->
-            CodeDemos { mod3l | width = width }
-
-        Error mod3l ->
-            Error { mod3l | width = width }
-
-
-getWidth : Model -> Int
-getWidth model =
-    case model of
-        Home mod3l ->
-            mod3l.width
-
-        Poetry mod3l ->
-            mod3l.width
-
-        PoetryOfferings mod3l ->
-            mod3l.width
-
-        PoetryTools mod3l ->
-            mod3l.width
-
-        PoetryWordBank mod3l ->
-            mod3l.width
-
-        PoetryErasure mod3l ->
-            mod3l.width
-
-        Code mod3l ->
-            mod3l.width
-
-        CodeDemos mod3l ->
-            mod3l.width
-
-        Error mod3l ->
-            mod3l.width
-
-
 
 ---- VIEW ----
 
@@ -290,35 +67,35 @@ view model =
         convertMsgType toMsg documentMsg =
             { title = documentMsg.title, body = List.map (Html.map toMsg) documentMsg.body }
     in
-    case model of
-        Home mod3l ->
+    case model.page of
+        Home ->
             Home.view mod3l
 
-        Poetry mod3l ->
+        Poetry ->
             Poetry.view mod3l
                 |> convertMsgType GotPoetryMsg
 
-        PoetryOfferings mod3l ->
+        PoetryOfferings ->
             Poetry.Offerings.view mod3l
 
-        PoetryTools mod3l ->
+        PoetryTools ->
             Poetry.Tools.view mod3l
 
-        PoetryWordBank mod3l ->
+        PoetryWordBank ->
             Poetry.WordBank.view mod3l
                 |> convertMsgType GotWordBankMsg
 
-        PoetryErasure mod3l ->
+        PoetryErasure ->
             Poetry.Erasure.view mod3l
                 |> convertMsgType GotErasureMsg
 
-        Code mod3l ->
+        Code ->
             Code.view mod3l
 
-        CodeDemos mod3l ->
+        CodeDemos ->
             Code.Demos.view mod3l
 
-        Error mod3l ->
+        Error ->
             Error.view mod3l
 
 

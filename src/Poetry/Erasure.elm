@@ -99,15 +99,6 @@ now =
     Task.perform (Just >> GetSeed) Time.now
 
 
-type Msg
-    = ToggleWord ClickableWord
-    | MakeTextClickable String
-    | UpdateInputText String
-    | Randomize
-    | UpdatePercentRandom String
-    | GetSeed (Maybe Time.Posix)
-    | UpdateSubPage SubPage
-
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
