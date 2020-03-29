@@ -5,42 +5,17 @@ import Element as El exposing (..)
 import Element.Font as EF exposing (italic)
 import Html exposing (Html)
 import ViewHelpers exposing (..)
-
+import Model exposing (..)
+import Msg exposing (..)
+import Type exposing (Page(..))
 
 
 ---- MODEL ----
 
 
-type alias Model =
-    { width : Int
-    , data : String
-    }
-
-
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initModel flags, Cmd.none )
-
-
-initModel flags =
-    { width = flags.width
-    , data = flags.data
-    }
-
-
-type alias Flags =
-    { width : Int
-    , data : String
-    }
-
-
-
----- UPDATE ----
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
-
+    ( basicInitModel flags Poetry, Cmd.none )
 
 
 ---- VIEW ----

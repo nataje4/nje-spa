@@ -1,8 +1,9 @@
 module Type exposing (..)
 
 
-type Model
-    = Home 
+type Page
+    = Loading
+    | Home 
     | Poetry 
     | PoetryOfferings 
     | PoetryTools 
@@ -12,7 +13,7 @@ type Model
     | CodeDemos 
     | Error 
 
-
+-- erasure
 
 type alias ClickableWord =
     { text : String
@@ -24,6 +25,8 @@ type ErasureSubPage
     = EnterTextScreen
     | EraseWords
     | PreviewPoemText
+
+-- word bank
 
 type alias WordBankWord =
     { id : Int

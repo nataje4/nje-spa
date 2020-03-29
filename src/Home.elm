@@ -8,49 +8,16 @@ import Browser.Events exposing (onResize)
 import Element as El exposing (..)
 import Html exposing (Html)
 import ViewHelpers exposing (..)
-
+import Msg exposing (..)
+import Model exposing (..)
+import Type exposing (Page(..))
 
 
 ---- MODEL ----
 
-
-type alias Model =
-    { width : Int
-    , data : String
-    , menuOpen : Bool
-    }
-
-
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initModel flags, Cmd.none )
-
-
-initModel flags =
-    { width = flags.width
-    , data = flags.data
-    , menuOpen = False
-    }
-
-
-type alias Flags =
-    { width : Int
-    , data : String
-    }
-
-
-
----- UPDATE ----
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
-
+    ( basicInitModel flags Home, Cmd.none )
 
 
 ---- VIEW ----

@@ -4,20 +4,15 @@ import Browser
 import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Browser.Navigation as Nav exposing (Key, load, pushUrl)
-import Code exposing (Model, initModel, view)
-import Code.Demos exposing (Model, initModel, view)
-import Error exposing (Model, initModel, view)
-import Home exposing (Model, initModel, view)
 import Html exposing (map)
-import Poetry exposing (Model, initModel, view)
-import Poetry.Erasure exposing (Model, Msg, initModel, update, view)
-import Poetry.Offerings exposing (Model, initModel, view)
-import Poetry.Tools exposing (Model, initModel, view)
-import Poetry.WordBank exposing (Model, Msg, initModel, update, view)
+import Model exposing (..)
+import Msg exposing (..)
 import Route exposing (Route(..))
 import Task
+import Type exposing (Page(..))
 import Url exposing (..)
-
+import Update exposing (..)
+import View exposing (view)
 
 
 ---- MODEL ----
@@ -40,64 +35,108 @@ init flags url navKey =
 initModel : Flags -> Model
 initModel flags =
     --will flash to error page initially before init function finishes executing. TODO: fix this
-    Error
-        { width = flags.width
-        , data = ""
-        }
+    basicInitModel flags Loading
 
 
 type alias Flags =
     { width : Int
-    , data : String
+    }
+
+{--
+updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWith toModel toMsg model ( subModel, subCmd ) =
+    ( toModel subModel
+    , Cmd.map toMsg subCmd
+    )
+
+
+routeChangeFlags : Model -> Flags
+routeChangeFlags model =
+    { width = model.width
     }
 
 
-
----- UPDATE ----
---TODO: make it so only the width matters on resize
-
-
-
----- VIEW ----
-
-
-view : Model -> Browser.Document Msg
-view model =
+changeRouteTo : Maybe Route -> Model -> ( Model, Cmd Msg )
+changeRouteTo maybeRoute model =
     let
-        convertMsgType toMsg documentMsg =
-            { title = documentMsg.title, body = List.map (Html.map toMsg) documentMsg.body }
+        newFlags : Flags
+        newFlags =
+            routeChangeFlags model
     in
-    case model.page of
-        Home ->
-            Home.view mod3l
+    case maybeRoute of
+        Nothing ->
+            Error.init newFlags
 
-        Poetry ->
-            Poetry.view mod3l
-                |> convertMsgType GotPoetryMsg
+        Just Route.Poetry ->
+            Poetry.init newFlags
 
-        PoetryOfferings ->
-            Poetry.Offerings.view mod3l
+        Just Route.PoetryOfferings ->
+            Poetry.Offerings.init newFlags
 
-        PoetryTools ->
-            Poetry.Tools.view mod3l
+        Just Route.PoetryTools ->
+            Poetry.Tools.init newFlags
 
-        PoetryWordBank ->
-            Poetry.WordBank.view mod3l
-                |> convertMsgType GotWordBankMsg
+        Just Route.PoetryWordBank ->
+            Poetry.WordBank.init newFlags
 
-        PoetryErasure ->
-            Poetry.Erasure.view mod3l
-                |> convertMsgType GotErasureMsg
+        Just Route.PoetryErasure ->
+            Poetry.Erasure.init newFlags
 
-        Code ->
-            Code.view mod3l
+        Just Route.Code ->
+            Code.init newFlags
 
-        CodeDemos ->
-            Code.Demos.view mod3l
+        Just Route.CodeDemos ->
+            Code.Demos.init newFlags
 
-        Error ->
-            Error.view mod3l
+        Just Route.Home ->
+            Home.init newFlags
 
+
+routeToModel : Model -> Maybe Route -> Model
+routeToModel model maybeRoute =
+    let
+        newFlags : Flags
+        newFlags =
+            routeChangeFlags model
+    in
+    case maybeRoute of
+        Just Route.Home ->
+            Home.init newFlags
+                |> Tuple.first
+
+        Just Route.Poetry ->
+            Poetry.init newFlags
+                |> Tuple.first
+
+        Just Route.PoetryOfferings ->
+            Poetry.Offerings.init newFlags
+                |> Tuple.first
+
+        Just Route.PoetryTools ->
+            Poetry.Tools.init newFlags
+                |> Tuple.first
+
+        Just Route.PoetryWordBank ->
+            Poetry.WordBank.init newFlags
+                |> Tuple.first
+
+        Just Route.PoetryErasure ->
+            Poetry.Erasure.init newFlags
+                |> Tuple.first
+
+        Just Route.Code ->
+            Code.init newFlags
+                |> Tuple.first
+
+        Just Route.CodeDemos ->
+            Code.Demos.init newFlags
+                |> Tuple.first
+
+        Nothing ->
+            Error.init newFlags
+                |> Tuple.first
+
+--}
 
 
 ---- SUBSCRIPTIONS ----

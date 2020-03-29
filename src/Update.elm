@@ -1,14 +1,32 @@
 module Update exposing (..)
 
 import Browser exposing (..)
+import Browser.Navigation as Nav exposing (..)
+import Code exposing (init)
+import Code.Demos exposing (init)
+import Error exposing (init)
+import Home exposing (init)
+import List.Extra as Lex exposing (..)
 import Model exposing (..) 
-import Msg exposing (..)
+import Msg exposing (Msg(..), ErasureMsg(..), WordBankMsg(..))
+import Poetry exposing (init)
+import Poetry.Erasure exposing (init, textToClickableWords, eraseOrBringBack, randomErasure)
+import Poetry.Offerings exposing (init)
+import Poetry.Tools exposing (init)
+import Poetry.WordBank exposing (init, inputToWordBank, updateWordBank, poemInputIntoPoemWords, setAllWordBankWordsToUnused)
+import Random exposing (initialSeed)
+import Route exposing (..)
+import Time exposing (posixToMillis)
 import Type exposing (..)
+import Url exposing (..)
+
+
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-         ClickedLink urlRequest ->
+        ClickedLink urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
                     case url.fragment of
@@ -33,15 +51,15 @@ update msg model =
                     , Nav.load href
                     )
 
-         ChangedUrl url ->
+        ChangedUrl url ->
             let
                 route =
                     Route.fromUrl url
             in
             changeRouteTo route (routeToModel model route)
 
-         ResizeWindow width _ ->
-            ( , Cmd.none )
+        ResizeWindow width _ ->
+            ({model | width =width} , Cmd.none )
 
         -- ERASURE MSGS -- 
 
@@ -90,7 +108,7 @@ update msg model =
                 , Cmd.none
                 )
 
-        GotErasureMsg (UpdateSubPage page )-> 
+        GotErasureMsg (UpdateErasureSubPage page )-> 
             ( {model | erasureSubpage = page}, Cmd.none)
 
         GotWordBankMsg (UpdateWordBankInput str) ->
@@ -131,10 +149,7 @@ update msg model =
             )
 
         GotWordBankMsg (Reset) ->
-            ( initModel { width = model.width, data = "" }, Cmd.none )
-
-        _ ->
-            ( model, Cmd.none )
+            ( basicInitModel {width = model.width} Type.PoetryWordBank, Cmd.none )
 
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
@@ -146,8 +161,7 @@ updateWith toModel toMsg model ( subModel, subCmd ) =
 
 routeChangeFlags : Model -> Flags
 routeChangeFlags model =
-    { width = getWidth model
-    , data = ""
+    { width = model.width
     }
 
 
@@ -160,31 +174,31 @@ changeRouteTo maybeRoute model =
     in
     case maybeRoute of
         Nothing ->
-            ( Error (Error.initModel newFlags), Cmd.none )
+            Error.init newFlags
 
         Just Route.Poetry ->
-            ( Poetry (Poetry.initModel newFlags), Cmd.none )
+            Poetry.init newFlags
 
         Just Route.PoetryOfferings ->
-            ( PoetryOfferings (Poetry.Offerings.initModel newFlags), Cmd.none )
+            Poetry.Offerings.init newFlags
 
         Just Route.PoetryTools ->
-            ( PoetryTools (Poetry.Tools.initModel newFlags), Cmd.none )
+            Poetry.Tools.init newFlags
 
         Just Route.PoetryWordBank ->
-            ( PoetryWordBank (Poetry.WordBank.initModel newFlags), Cmd.none )
+            Poetry.WordBank.init newFlags
 
         Just Route.PoetryErasure ->
-            ( PoetryErasure (Poetry.Erasure.initModel newFlags), Cmd.none )
+            Poetry.Erasure.init newFlags
 
         Just Route.Code ->
-            ( Code (Code.initModel newFlags), Cmd.none )
+            Code.init newFlags
 
         Just Route.CodeDemos ->
-            ( CodeDemos (Code.Demos.initModel newFlags), Cmd.none )
+            Code.Demos.init newFlags
 
         Just Route.Home ->
-            ( Home (Home.initModel newFlags), Cmd.none )
+            Home.init newFlags
 
 
 routeToModel : Model -> Maybe Route -> Model
@@ -196,91 +210,39 @@ routeToModel model maybeRoute =
     in
     case maybeRoute of
         Just Route.Home ->
-            Home (Home.initModel newFlags)
+            Home.init newFlags
+                |> Tuple.first
 
         Just Route.Poetry ->
-            Poetry (Poetry.initModel newFlags)
+            Poetry.init newFlags
+                |> Tuple.first
 
         Just Route.PoetryOfferings ->
-            PoetryOfferings (Poetry.Offerings.initModel newFlags)
+            Poetry.Offerings.init newFlags
+                |> Tuple.first
 
         Just Route.PoetryTools ->
-            PoetryTools (Poetry.Tools.initModel newFlags)
+            Poetry.Tools.init newFlags
+                |> Tuple.first
 
         Just Route.PoetryWordBank ->
-            PoetryWordBank (Poetry.WordBank.initModel newFlags)
+            Poetry.WordBank.init newFlags
+                |> Tuple.first
 
         Just Route.PoetryErasure ->
-            PoetryErasure (Poetry.Erasure.initModel newFlags)
+            Poetry.Erasure.init newFlags
+                |> Tuple.first
 
         Just Route.Code ->
-            Code (Code.initModel newFlags)
+            Code.init newFlags
+                |> Tuple.first
 
         Just Route.CodeDemos ->
-            CodeDemos (Code.Demos.initModel newFlags)
+            Code.Demos.init newFlags
+                |> Tuple.first
 
         Nothing ->
-            Error (Error.initModel newFlags)
+            Error.init newFlags
+                |> Tuple.first
 
-
-updateWidth : Int -> Model -> Model
-updateWidth width model =
-    case model of
-        Home mod3l ->
-            Home { mod3l | width = width }
-
-        Poetry mod3l ->
-            Poetry { mod3l | width = width }
-
-        PoetryOfferings mod3l ->
-            PoetryOfferings { mod3l | width = width }
-
-        PoetryTools mod3l ->
-            PoetryTools { mod3l | width = width }
-
-        PoetryWordBank mod3l ->
-            PoetryWordBank { mod3l | width = width }
-
-        PoetryErasure mod3l ->
-            PoetryErasure { mod3l | width = width }
-
-        Code mod3l ->
-            Code { mod3l | width = width }
-
-        CodeDemos mod3l ->
-            CodeDemos { mod3l | width = width }
-
-        Error mod3l ->
-            Error { mod3l | width = width }
-
-
-getWidth : Model -> Int
-getWidth model =
-    case model of
-        Home mod3l ->
-            mod3l.width
-
-        Poetry mod3l ->
-            mod3l.width
-
-        PoetryOfferings mod3l ->
-            mod3l.width
-
-        PoetryTools mod3l ->
-            mod3l.width
-
-        PoetryWordBank mod3l ->
-            mod3l.width
-
-        PoetryErasure mod3l ->
-            mod3l.width
-
-        Code mod3l ->
-            mod3l.width
-
-        CodeDemos mod3l ->
-            mod3l.width
-
-        Error mod3l ->
-            mod3l.width
-
+--}

@@ -1,7 +1,9 @@
 module Msg exposing (..)
 
 import Browser exposing (UrlRequest)
-
+import Url exposing (..)
+import Type exposing (ClickableWord, ErasureSubPage)
+import Time exposing (Posix)
 
 type Msg
     = ChangedUrl Url
@@ -17,7 +19,7 @@ type ErasureMsg
     | Randomize
     | UpdatePercentRandom String
     | GetSeed (Maybe Time.Posix)
-    | UpdateSubPage SubPage
+    | UpdateErasureSubPage ErasureSubPage
 
 type WordBankMsg 
     = UpdateWordBankInput String

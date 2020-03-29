@@ -5,120 +5,25 @@ import Element as El exposing (..)
 import Element.Font as Ef exposing (center, color)
 import Element.Input as Ei exposing (..)
 import ViewHelpers exposing (..)
-
-
+import Msg exposing (..)
+import Model exposing (..)
+import Type exposing (..)
 
 ---- MODEL ----
 
 
-type alias Model =
-    { width : Int
-    , data : String
-    , wordBank : List WordBankWord
-    , poem : List PoemWord
-    , input : String
-    , enteringWordBank : Bool
-    }
-
-
-type alias WordBankWord =
-    { id : Int
-    , word : String
-    , used : Bool
-    }
-
-
-type alias PoemWord =
-    { word : String
-    , inWordBank : Bool
-    }
-
-
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( initModel flags, Cmd.none )
-
-
-type alias Flags =
-    { width : Int
-    , data : String
-    }
-
-
-initModel : Flags -> Model
-initModel flags =
-    { width = flags.width
-    , data = flags.data
-    , wordBank = []
-    , poem = []
-    , input = ""
-    , enteringWordBank = True
-    }
+    ( basicInitModel flags PoetryWordBank, Cmd.none )
 
 
 
----- UPDATE ----
-
-
-type Msg
-    = UpdateWordBankInput String
-    | CreateWordBank String
-    | UpdatePoemInput String
-    | Reset
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        UpdateWordBankInput str ->
-            ( { model | input = str }, Cmd.none )
-
-        CreateWordBank str ->
-            if (String.isEmpty model.input) then 
-                (model, Cmd.none)
-            else 
-                ( { model
-                    | input = ""
-                    , enteringWordBank = False
-                    , wordBank = inputToWordBank str
-                  }
-                , Cmd.none
-                )
-
-        UpdatePoemInput str ->
-            let
-                resetWordBank : List WordBankWord
-                resetWordBank =
-                    setAllWordBankWordsToUnused model.wordBank
-
-                newPoemVersion : List PoemWord
-                newPoemVersion =
-                    poemInputIntoPoemWords model str
-
-                newWordBank : List WordBankWord
-                newWordBank =
-                    resetWordBank |> (\w0rdBank -> List.foldr updateWordBank w0rdBank newPoemVersion)
-            in
-            ( { model
-                | poem = newPoemVersion
-                , wordBank = resetWordBank |> (\w0rdBank -> List.foldr updateWordBank w0rdBank newPoemVersion)
-                , input = str
-              }
-            , Cmd.none
-            )
-
-        Reset ->
-            ( initModel { width = model.width, data = "" }, Cmd.none )
-
-
-
---is inWordBank getting set after the word is getting marked as used? ***
 ---- VIEW ----
 
 
 view : Model -> Document Msg
 view model =
-    basicLayoutHelper (findScreenSize model.width) "WORD BANK" "" (displayBody model)
+    basicLayoutHelper (findScreenSize model.width) "WORD BANK" "" (displayWordBankBody model)
 
 
 
@@ -131,8 +36,8 @@ clickableWordBankWord wbWord =
 -- We want the display body to be a list of rows
 
 
-displayBody : Model -> List (Element Msg)
-displayBody model =
+displayWordBankBody : Model -> List (Element Msg)
+displayWordBankBody model =
     if model.enteringWordBank then
         [ displayWordBankInput model
         , row [ width fill ] [ displayCreateWordBankButton model ]
@@ -155,15 +60,15 @@ displayBody model =
 displayCreateWordBankButton : Model -> Element Msg
 displayCreateWordBankButton model =
     button (buttonStyle (String.isEmpty model.input))
-        { onPress = Just (CreateWordBank model.input)
+        { onPress = Just (CreateWordBank model.input |> GotWordBankMsg)
         , label = El.text "ENTER"
         }
 
 
-displayResetButton : Model -> Element Msg
-displayResetButton model =
+displayWordBankResetButton : Model -> Element Msg
+displayWordBankResetButton model =
     button (buttonStyle False) 
-        { onPress = Just Reset
+        { onPress = Just (GotWordBankMsg Reset)
         , label = El.text "RESET"
         }
 
@@ -210,14 +115,14 @@ displayPoemInput model =
         [ width (fillPortion 1), padding 20, alignTop ]
         [ row [ width fill ]
             [ multiline []
-                { onChange = UpdatePoemInput
+                { onChange = (\words -> UpdatePoemInput words |> GotWordBankMsg)
                 , text = model.input
                 , placeholder = Nothing
                 , label = labelAbove [] (El.text "Write poem here:")
                 , spellcheck = False
                 }
             ]
-        , row [ centerX, paddingEach { noPadding | top = 20 } ] [ displayResetButton model ]
+        , row [ centerX, paddingEach { noPadding | top = 20 } ] [ displayWordBankResetButton model ]
         ]
 
 
@@ -226,7 +131,7 @@ displayWordBankInput model =
     El.row
         [ width fill, padding 20 ]
         [ multiline []
-            { onChange = UpdateWordBankInput
+            { onChange = (\words -> UpdateWordBankInput words |> GotWordBankMsg)
             , text = model.input
             , placeholder = Nothing
             , label = labelAbove [] (El.text "Input source text here:")

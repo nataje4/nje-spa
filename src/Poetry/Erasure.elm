@@ -12,44 +12,19 @@ import Random exposing (..)
 import Task exposing (..)
 import Time exposing (..)
 import ViewHelpers exposing (..)
+import Msg exposing (..) 
+import Model exposing (..)
+import Type exposing (..)
 
-
-type alias ClickableWord =
-    { text : String
-    , erased : Bool
-    , position : Int
-    }
-
-type SubPage 
-    = EnterTextScreen
-    | EraseWords
-    | PreviewPoemText
-
-type alias Model =
-    { clickableText : List ClickableWord
-    , subpage : SubPage
-    , inputText : String
-    , percentRandom : Int
-    , seed : Random.Seed
-    , width : Int
-    }
-
-
-type alias Flags =
-    { width : Int
-    , data : String
-    }
 
 
 initModel : Flags -> Model
 initModel flags =
-    { clickableText = []
-    , subpage = EnterTextScreen
-    , inputText = ""
-    , percentRandom = 90
-    , seed = Random.initialSeed 42
-    , width = flags.width
-    }
+    let 
+        foo = basicInitModel flags PoetryErasure
+    in
+
+    { foo | seed = Random.initialSeed flags.width}
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -96,61 +71,8 @@ hasPosition int word =
 
 now : Cmd Msg
 now =
-    Task.perform (Just >> GetSeed) Time.now
+    Task.perform (Just >> (\x -> GetSeed x |> GotErasureMsg)) Time.now
 
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        ToggleWord word ->
-            let
-                newText =
-                    Lex.updateAt (word.position - 1) eraseOrBringBack model.clickableText
-            in
-            ( { model | clickableText = newText }, Cmd.none )
-
-        
-
-        UpdateInputText text ->
-            ( { model | inputText = text }, Cmd.none )
-
-        Randomize ->
-            ( randomErasure model, Cmd.none )
-
-        UpdatePercentRandom string ->
-            ( { model | percentRandom = Maybe.withDefault 0 (String.toInt string) }, Cmd.none )
-
-        GetSeed (Just time) ->
-            let
-                timeSeed =
-                    Random.initialSeed (Time.posixToMillis time)
-            in
-            ( { model | seed = timeSeed }, Cmd.none )
-
-        GetSeed Nothing ->
-            --This would be an error, but I am not too concerned with it... I have a fallback seed
-            ( model
-            , Cmd.none
-            )
-        
-        MakeTextClickable text ->
-            let
-                clickableText =
-                    textToClickableWords model.inputText
-            in
-            if (String.isEmpty model.inputText) then 
-                (model, Cmd.none)
-            else 
-                ( { model
-                    | clickableText = clickableText
-                    , subpage = EraseWords
-                  }
-                , Cmd.none
-                )
-
-        UpdateSubPage page -> 
-            ( {model | subpage = page}, Cmd.none)
 
 
 desiredAmountErased : Model -> Int
@@ -332,7 +254,7 @@ isNotErased word =
 
 displayBody : Model -> List (Element Msg)
 displayBody model =
-    if model.subpage == EnterTextScreen then
+    if model.erasureSubpage == EnterTextScreen then
         [ displayEnterTextScreen model ]
 
     {--
@@ -355,7 +277,7 @@ displayBody model =
             ]
         ]
         --}
-    else if model.subpage == EraseWords then 
+    else if model.erasureSubpage == EraseWords then 
         [ row [ width fill, padding 20 ]
             [ column [ width (fillPortion 1), centerX ] [ displayPercentRandomInput model ]
             , column [ width (fillPortion 1), centerX ] [ displayRandomizeButton model ]
@@ -394,7 +316,7 @@ displayEnterTextScreen model =
     row [ width fill ]
         [ column [width fill] 
             [ multiline [padding 5]
-                { onChange = UpdateInputText
+                { onChange = (\words -> UpdateInputText words |> GotErasureMsg)
                 , text = model.inputText
                 , placeholder = Nothing
                 , label = labelAbove [] (El.text "Input source text here:")
@@ -403,7 +325,7 @@ displayEnterTextScreen model =
             , El.el [padding 20, centerX] 
                 (button 
                     (buttonStyle (String.isEmpty model.inputText))
-                    { onPress = Just (MakeTextClickable model.inputText)
+                    { onPress = Just (MakeTextClickable model.inputText |> GotErasureMsg)
                     , label = El.text "ENTER"
                     }
                 )
@@ -414,7 +336,7 @@ displayEnterTextScreen model =
 displayResetButton : Model -> Element Msg
 displayResetButton model =
     button (buttonStyle False)
-        { onPress = Just (UpdateSubPage EnterTextScreen)
+        { onPress = Just (UpdateErasureSubPage EnterTextScreen |> GotErasureMsg)
         , label = El.text "RESET TEXT"
         }
 
@@ -422,7 +344,7 @@ displayResetButton model =
 displayRandomizeButton : Model -> Element Msg
 displayRandomizeButton model =
     button (buttonStyle (model.percentRandom == 0))
-        { onPress = Just Randomize
+        { onPress = Just (GotErasureMsg Randomize)
         , label = El.text "RANDOMIZE"
         }
 
@@ -434,15 +356,15 @@ displayTogglePreviewTextButton model =
             List.filter (\x -> x.erased == False) model.clickableText
 
     in
-    case model.subpage of 
+    case model.erasureSubpage of 
             EraseWords -> 
                 button (buttonStyle (List.isEmpty selectedWords))
-                    { onPress = Just (UpdateSubPage PreviewPoemText)
+                    { onPress = Just (UpdateErasureSubPage PreviewPoemText |> GotErasureMsg)
                     , label = El.text "PREVIEW POEM TEXT"
                     }
             _ -> 
                 button (buttonStyle (List.isEmpty selectedWords))
-                    { onPress = Just (UpdateSubPage EraseWords)
+                    { onPress = Just (UpdateErasureSubPage EraseWords |> GotErasureMsg)
                     , label = El.text "GO BACK"
                     }                
 
@@ -452,7 +374,7 @@ displayTogglePreviewTextButton model =
 displayPercentRandomInput : Model -> Element Msg
 displayPercentRandomInput model =
     Ei.text [ width (px 50)]
-        { onChange = UpdatePercentRandom
+        { onChange = (\num -> UpdatePercentRandom num |> GotErasureMsg)
         , text = String.fromInt model.percentRandom
         , placeholder = Nothing
         , label = labelLeft [centerY] (El.text "Percent of words to erase: ")
@@ -462,7 +384,7 @@ displayPercentRandomInput model =
 displayClickableWord : ClickableWord -> Element Msg
 displayClickableWord word =
     El.el
-        [ onClick (ToggleWord word), Ef.color (wordColor word), padding 5]
+        [ onClick (ToggleWord word |> GotErasureMsg), Ef.color (wordColor word), padding 5]
         (El.text (word.text ++ " "))
 
 
