@@ -2,6 +2,7 @@ module Model exposing (..)
 
 import Type exposing (..)
 import Random exposing (Seed, initialSeed )
+import Time exposing (Month(..))
 
 type alias Model = 
     -- MAIN PART, ALWAYS IN USE -- 
@@ -50,5 +51,5 @@ blankModel =
     , enteringWordBank = True 
     -- FIRE DANCE -- 
     , day = 1
-    , month = Jane
+    , month = Jan
     }

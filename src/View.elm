@@ -8,6 +8,7 @@ import Browser
 import Code exposing (view)
 import Code.Demos exposing (view)
 import Error exposing (view)
+import FireDance exposing (view)
 import Home exposing (view)
 import Poetry exposing (view)
 import Poetry.Erasure exposing (view)
@@ -44,6 +45,9 @@ view model =
 
         Error ->
             Error.view model
+
+        FireDance -> 
+            FireDance.view model 
 
         Loading -> 
             { title = "..."

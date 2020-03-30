@@ -3,7 +3,7 @@ module Msg exposing (..)
 import Browser exposing (UrlRequest)
 import Url exposing (..)
 import Type exposing (ClickableWord, ErasureSubPage)
-import Time exposing (Posix)
+import Time exposing (Posix, Month)
 
 type Msg
     = ChangedUrl Url
@@ -11,6 +11,7 @@ type Msg
     | ResizeWindow Int Int
     | GotErasureMsg ErasureMsg
     | GotWordBankMsg WordBankMsg
+    | GotFireDanceMsg FireDanceMsg
 
 type ErasureMsg 
     = ToggleWord ClickableWord
@@ -26,3 +27,7 @@ type WordBankMsg
     | CreateWordBank String
     | UpdatePoemInput String
     | Reset
+
+type FireDanceMsg 
+    = UpdateDay Int 
+    | UpdateMonth Time.Month

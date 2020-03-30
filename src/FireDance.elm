@@ -6,19 +6,40 @@ import Element.Font as Ef exposing (size, center)
 import Element.Border as Eb exposing (color, width, solid)
 import ViewHelpers exposing (..)
 import Time exposing (Month(..))
-
+import Msg exposing (Msg(..), FireDanceMsg(..))
+import Model exposing (..)
+import Type exposing (..)
+import Task exposing (Task, perform)
 
 
 ---- MODEL ----
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( basicInitModel flags FireDance, Cmd.none )
+    (basicInitModel flags FireDance, Cmd.batch [getDay, getMonth])
+
 
 
 isApril7th : Model -> Bool
 isApril7th model = 
     (&&) (model.month == Apr) (model.day == 7)
+
+
+whatDayIsIt : Task x Int
+whatDayIsIt =
+    Task.map2 Time.toDay Time.here Time.now
+
+getDay : Cmd Msg
+getDay = 
+    Task.perform (\x -> UpdateDay x |> GotFireDanceMsg) whatDayIsIt
+
+whatMonthIsIt : Task x Time.Month
+whatMonthIsIt =
+    Task.map2 Time.toMonth Time.here Time.now
+
+getMonth : Cmd Msg
+getMonth = 
+    Task.perform (\x -> UpdateMonth x |> GotFireDanceMsg) whatMonthIsIt
 
 
 

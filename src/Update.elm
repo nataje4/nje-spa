@@ -5,10 +5,11 @@ import Browser.Navigation as Nav exposing (..)
 import Code exposing (init)
 import Code.Demos exposing (init)
 import Error exposing (init)
+import FireDance exposing (init)
 import Home exposing (init)
 import List.Extra as Lex exposing (..)
 import Model exposing (..) 
-import Msg exposing (Msg(..), ErasureMsg(..), WordBankMsg(..))
+import Msg exposing (Msg(..), ErasureMsg(..), WordBankMsg(..), FireDanceMsg(..))
 import Poetry exposing (init)
 import Poetry.Erasure exposing (init, textToClickableWords, eraseOrBringBack, randomErasure)
 import Poetry.Offerings exposing (init)
@@ -151,6 +152,14 @@ update msg model =
         GotWordBankMsg (Reset) ->
             ( basicInitModel {width = model.width} Type.PoetryWordBank, Cmd.none )
 
+        GotFireDanceMsg (UpdateDay day_) -> 
+            ( {model | day = day_}, Cmd.none)
+
+        GotFireDanceMsg (UpdateMonth month_) -> 
+            ( {model | month = month_}, Cmd.none)
+
+
+
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toModel toMsg model ( subModel, subCmd ) =
@@ -198,6 +207,7 @@ changeRouteTo maybeRoute model =
             Code.Demos.init newFlags
 
         Just Route.FireDance -> 
+            FireDance.init newFlags
 
         Just Route.Home ->
             Home.init newFlags
@@ -241,6 +251,10 @@ routeToModel model maybeRoute =
 
         Just Route.CodeDemos ->
             Code.Demos.init newFlags
+                |> Tuple.first
+
+        Just Route.FireDance -> 
+            FireDance.init newFlags
                 |> Tuple.first
 
         Nothing ->

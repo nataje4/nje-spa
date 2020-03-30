@@ -5209,6 +5209,7 @@ var $elm$browser$Browser$application = _Browser_application;
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $author$project$Type$Code = {$: 'Code'};
 var $author$project$Type$EnterTextScreen = {$: 'EnterTextScreen'};
+var $elm$time$Time$Jan = {$: 'Jan'};
 var $author$project$Type$Loading = {$: 'Loading'};
 var $elm$random$Random$Seed = F2(
 	function (a, b) {
@@ -5231,10 +5232,12 @@ var $elm$random$Random$initialSeed = function (x) {
 };
 var $author$project$Model$blankModel = {
 	clickableText: _List_Nil,
+	day: 1,
 	enteringWordBank: true,
 	erasureSubpage: $author$project$Type$EnterTextScreen,
 	input: '',
 	inputText: '',
+	month: $elm$time$Time$Jan,
 	page: $author$project$Type$Loading,
 	percentRandom: 90,
 	poem: _List_Nil,
@@ -5266,6 +5269,166 @@ var $author$project$Error$init = function (flags) {
 	return _Utils_Tuple2(
 		A2($author$project$Model$basicInitModel, flags, $author$project$Type$Error),
 		$elm$core$Platform$Cmd$none);
+};
+var $author$project$Type$FireDance = {$: 'FireDance'};
+var $author$project$Msg$GotFireDanceMsg = function (a) {
+	return {$: 'GotFireDanceMsg', a: a};
+};
+var $author$project$Msg$UpdateDay = function (a) {
+	return {$: 'UpdateDay', a: a};
+};
+var $elm$time$Time$Name = function (a) {
+	return {$: 'Name', a: a};
+};
+var $elm$time$Time$Offset = function (a) {
+	return {$: 'Offset', a: a};
+};
+var $elm$time$Time$Zone = F2(
+	function (a, b) {
+		return {$: 'Zone', a: a, b: b};
+	});
+var $elm$time$Time$customZone = $elm$time$Time$Zone;
+var $elm$time$Time$here = _Time_here(_Utils_Tuple0);
+var $elm$time$Time$Posix = function (a) {
+	return {$: 'Posix', a: a};
+};
+var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
+var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
+var $elm$time$Time$flooredDiv = F2(
+	function (numerator, denominator) {
+		return $elm$core$Basics$floor(numerator / denominator);
+	});
+var $elm$time$Time$posixToMillis = function (_v0) {
+	var millis = _v0.a;
+	return millis;
+};
+var $elm$time$Time$toAdjustedMinutesHelp = F3(
+	function (defaultOffset, posixMinutes, eras) {
+		toAdjustedMinutesHelp:
+		while (true) {
+			if (!eras.b) {
+				return posixMinutes + defaultOffset;
+			} else {
+				var era = eras.a;
+				var olderEras = eras.b;
+				if (_Utils_cmp(era.start, posixMinutes) < 0) {
+					return posixMinutes + era.offset;
+				} else {
+					var $temp$defaultOffset = defaultOffset,
+						$temp$posixMinutes = posixMinutes,
+						$temp$eras = olderEras;
+					defaultOffset = $temp$defaultOffset;
+					posixMinutes = $temp$posixMinutes;
+					eras = $temp$eras;
+					continue toAdjustedMinutesHelp;
+				}
+			}
+		}
+	});
+var $elm$time$Time$toAdjustedMinutes = F2(
+	function (_v0, time) {
+		var defaultOffset = _v0.a;
+		var eras = _v0.b;
+		return A3(
+			$elm$time$Time$toAdjustedMinutesHelp,
+			defaultOffset,
+			A2(
+				$elm$time$Time$flooredDiv,
+				$elm$time$Time$posixToMillis(time),
+				60000),
+			eras);
+	});
+var $elm$core$Basics$ge = _Utils_ge;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$time$Time$toCivil = function (minutes) {
+	var rawDay = A2($elm$time$Time$flooredDiv, minutes, 60 * 24) + 719468;
+	var era = (((rawDay >= 0) ? rawDay : (rawDay - 146096)) / 146097) | 0;
+	var dayOfEra = rawDay - (era * 146097);
+	var yearOfEra = ((((dayOfEra - ((dayOfEra / 1460) | 0)) + ((dayOfEra / 36524) | 0)) - ((dayOfEra / 146096) | 0)) / 365) | 0;
+	var dayOfYear = dayOfEra - (((365 * yearOfEra) + ((yearOfEra / 4) | 0)) - ((yearOfEra / 100) | 0));
+	var mp = (((5 * dayOfYear) + 2) / 153) | 0;
+	var month = mp + ((mp < 10) ? 3 : (-9));
+	var year = yearOfEra + (era * 400);
+	return {
+		day: (dayOfYear - ((((153 * mp) + 2) / 5) | 0)) + 1,
+		month: month,
+		year: year + ((month <= 2) ? 1 : 0)
+	};
+};
+var $elm$time$Time$toDay = F2(
+	function (zone, time) {
+		return $elm$time$Time$toCivil(
+			A2($elm$time$Time$toAdjustedMinutes, zone, time)).day;
+	});
+var $author$project$FireDance$whatDayIsIt = A3($elm$core$Task$map2, $elm$time$Time$toDay, $elm$time$Time$here, $elm$time$Time$now);
+var $author$project$FireDance$getDay = A2(
+	$elm$core$Task$perform,
+	function (x) {
+		return $author$project$Msg$GotFireDanceMsg(
+			$author$project$Msg$UpdateDay(x));
+	},
+	$author$project$FireDance$whatDayIsIt);
+var $author$project$Msg$UpdateMonth = function (a) {
+	return {$: 'UpdateMonth', a: a};
+};
+var $elm$time$Time$Apr = {$: 'Apr'};
+var $elm$time$Time$Aug = {$: 'Aug'};
+var $elm$time$Time$Dec = {$: 'Dec'};
+var $elm$time$Time$Feb = {$: 'Feb'};
+var $elm$time$Time$Jul = {$: 'Jul'};
+var $elm$time$Time$Jun = {$: 'Jun'};
+var $elm$time$Time$Mar = {$: 'Mar'};
+var $elm$time$Time$May = {$: 'May'};
+var $elm$time$Time$Nov = {$: 'Nov'};
+var $elm$time$Time$Oct = {$: 'Oct'};
+var $elm$time$Time$Sep = {$: 'Sep'};
+var $elm$time$Time$toMonth = F2(
+	function (zone, time) {
+		var _v0 = $elm$time$Time$toCivil(
+			A2($elm$time$Time$toAdjustedMinutes, zone, time)).month;
+		switch (_v0) {
+			case 1:
+				return $elm$time$Time$Jan;
+			case 2:
+				return $elm$time$Time$Feb;
+			case 3:
+				return $elm$time$Time$Mar;
+			case 4:
+				return $elm$time$Time$Apr;
+			case 5:
+				return $elm$time$Time$May;
+			case 6:
+				return $elm$time$Time$Jun;
+			case 7:
+				return $elm$time$Time$Jul;
+			case 8:
+				return $elm$time$Time$Aug;
+			case 9:
+				return $elm$time$Time$Sep;
+			case 10:
+				return $elm$time$Time$Oct;
+			case 11:
+				return $elm$time$Time$Nov;
+			default:
+				return $elm$time$Time$Dec;
+		}
+	});
+var $author$project$FireDance$whatMonthIsIt = A3($elm$core$Task$map2, $elm$time$Time$toMonth, $elm$time$Time$here, $elm$time$Time$now);
+var $author$project$FireDance$getMonth = A2(
+	$elm$core$Task$perform,
+	function (x) {
+		return $author$project$Msg$GotFireDanceMsg(
+			$author$project$Msg$UpdateMonth(x));
+	},
+	$author$project$FireDance$whatMonthIsIt);
+var $author$project$FireDance$init = function (flags) {
+	return _Utils_Tuple2(
+		A2($author$project$Model$basicInitModel, flags, $author$project$Type$FireDance),
+		$elm$core$Platform$Cmd$batch(
+			_List_fromArray(
+				[$author$project$FireDance$getDay, $author$project$FireDance$getMonth])));
 };
 var $author$project$Type$Home = {$: 'Home'};
 var $author$project$Home$init = function (flags) {
@@ -5299,22 +5462,6 @@ var $elm$core$Basics$composeR = F3(
 		return g(
 			f(x));
 	});
-var $elm$time$Time$Name = function (a) {
-	return {$: 'Name', a: a};
-};
-var $elm$time$Time$Offset = function (a) {
-	return {$: 'Offset', a: a};
-};
-var $elm$time$Time$Zone = F2(
-	function (a, b) {
-		return {$: 'Zone', a: a, b: b};
-	});
-var $elm$time$Time$customZone = $elm$time$Time$Zone;
-var $elm$time$Time$Posix = function (a) {
-	return {$: 'Posix', a: a};
-};
-var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
-var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
 var $author$project$Poetry$Erasure$now = A2(
 	$elm$core$Task$perform,
 	A2(
@@ -5379,8 +5526,11 @@ var $author$project$Update$changeRouteTo = F2(
 				case 'CodeDemos':
 					var _v7 = maybeRoute.a;
 					return $author$project$Code$Demos$init(newFlags);
-				default:
+				case 'FireDance':
 					var _v8 = maybeRoute.a;
+					return $author$project$FireDance$init(newFlags);
+				default:
+					var _v9 = maybeRoute.a;
 					return $author$project$Home$init(newFlags);
 			}
 		}
@@ -6021,6 +6171,7 @@ var $elm$url$Url$Parser$parse = F2(
 	});
 var $author$project$Route$Code = {$: 'Code'};
 var $author$project$Route$CodeDemos = {$: 'CodeDemos'};
+var $author$project$Route$FireDance = {$: 'FireDance'};
 var $author$project$Route$Home = {$: 'Home'};
 var $author$project$Route$Poetry = {$: 'Poetry'};
 var $author$project$Route$PoetryErasure = {$: 'PoetryErasure'};
@@ -6185,7 +6336,11 @@ var $author$project$Route$parser = $elm$url$Url$Parser$oneOf(
 			A2(
 				$elm$url$Url$Parser$slash,
 				$elm$url$Url$Parser$s('code'),
-				$elm$url$Url$Parser$s('demos')))
+				$elm$url$Url$Parser$s('demos'))),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Route$FireDance,
+			$elm$url$Url$Parser$s('firedance'))
 		]));
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
@@ -6236,9 +6391,12 @@ var $author$project$Update$routeToModel = F2(
 				case 'Code':
 					var _v7 = maybeRoute.a;
 					return $author$project$Code$init(newFlags).a;
-				default:
+				case 'CodeDemos':
 					var _v8 = maybeRoute.a;
 					return $author$project$Code$Demos$init(newFlags).a;
+				default:
+					var _v9 = maybeRoute.a;
+					return $author$project$FireDance$init(newFlags).a;
 			}
 		} else {
 			return $author$project$Error$init(newFlags).a;
@@ -6685,10 +6843,6 @@ var $author$project$Poetry$WordBank$poemInputIntoPoemWords = F2(
 				$elm$core$String$filter($author$project$Poetry$WordBank$isNotExtraPunctuation),
 				$elm$core$String$words(str)));
 	});
-var $elm$time$Time$posixToMillis = function (_v0) {
-	var millis = _v0.a;
-	return millis;
-};
 var $elm$core$List$drop = F2(
 	function (n, list) {
 		drop:
@@ -6906,9 +7060,6 @@ var $elm$random$Random$Generator = function (a) {
 	return {$: 'Generator', a: a};
 };
 var $elm$core$Bitwise$and = _Bitwise_and;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $elm$random$Random$peel = function (_v0) {
 	var state = _v0.a;
@@ -7294,7 +7445,7 @@ var $author$project$Update$update = F2(
 								{erasureSubpage: page}),
 							$elm$core$Platform$Cmd$none);
 				}
-			default:
+			case 'GotWordBankMsg':
 				switch (msg.a.$) {
 					case 'UpdateWordBankInput':
 						var str = msg.a.a;
@@ -7340,6 +7491,22 @@ var $author$project$Update$update = F2(
 								{width: model.width},
 								$author$project$Type$PoetryWordBank),
 							$elm$core$Platform$Cmd$none);
+				}
+			default:
+				if (msg.a.$ === 'UpdateDay') {
+					var day_ = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{day: day_}),
+						$elm$core$Platform$Cmd$none);
+				} else {
+					var month_ = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{month: month_}),
+						$elm$core$Platform$Cmd$none);
 				}
 		}
 	});
@@ -11747,7 +11914,6 @@ var $mdgriffith$elm_ui$Internal$Model$renderWidth = function (w) {
 	}
 };
 var $mdgriffith$elm_ui$Internal$Flag$borderWidth = $mdgriffith$elm_ui$Internal$Flag$flag(27);
-var $elm$core$Basics$ge = _Utils_ge;
 var $mdgriffith$elm_ui$Internal$Model$skippable = F2(
 	function (flag, style) {
 		if (_Utils_eq(flag, $mdgriffith$elm_ui$Internal$Flag$borderWidth)) {
@@ -13897,6 +14063,247 @@ var $author$project$Error$view = function (model) {
 					]))
 			]));
 };
+var $author$project$ViewHelpers$bodyEl = function (elements) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$width(
+				$mdgriffith$elm_ui$Element$fillPortion(5))
+			]),
+		elements);
+};
+var $author$project$ViewHelpers$bodySideSpacer = function (screenSize) {
+	if (screenSize.$ === 'ExtraLarge') {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$fillPortion(2))
+				]),
+			_List_fromArray(
+				[$mdgriffith$elm_ui$Element$none]));
+	} else {
+		return A2(
+			$mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width(
+					$mdgriffith$elm_ui$Element$fillPortion(1))
+				]),
+			_List_fromArray(
+				[$mdgriffith$elm_ui$Element$none]));
+	}
+};
+var $author$project$ViewHelpers$basicLayoutHelper = F4(
+	function (screenSize, title, subtitle, bodyRows) {
+		var browserTitle = 'NJE: ' + title;
+		return A2(
+			$author$project$ViewHelpers$documentMsgHelper,
+			browserTitle,
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[$mdgriffith$elm_ui$Element$centerX]),
+							_List_fromArray(
+								[
+									$author$project$ViewHelpers$titleSideSpacer,
+									A2(
+									$author$project$ViewHelpers$titleEl,
+									screenSize,
+									_List_fromArray(
+										[
+											A2(
+											$mdgriffith$elm_ui$Element$paragraph,
+											$author$project$ViewHelpers$titleStyle,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$text(title)
+												])),
+											A2(
+											$mdgriffith$elm_ui$Element$paragraph,
+											$author$project$ViewHelpers$subtitleStyle,
+											_List_fromArray(
+												[
+													$mdgriffith$elm_ui$Element$text(subtitle)
+												]))
+										])),
+									$author$project$ViewHelpers$titleSideSpacer
+								])),
+							A2(
+							$mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[$mdgriffith$elm_ui$Element$centerX]),
+							_List_fromArray(
+								[
+									$author$project$ViewHelpers$bodySideSpacer(screenSize),
+									$author$project$ViewHelpers$bodyEl(bodyRows),
+									$author$project$ViewHelpers$bodySideSpacer(screenSize)
+								]))
+						]))
+				]));
+	});
+var $mdgriffith$elm_ui$Internal$Flag$borderColor = $mdgriffith$elm_ui$Internal$Flag$flag(28);
+var $mdgriffith$elm_ui$Element$Border$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'border-color',
+			clr));
+};
+var $author$project$FireDance$isApril7th = function (model) {
+	return _Utils_eq(model.month, $elm$time$Time$Apr) && (model.day === 7);
+};
+var $author$project$ViewHelpers$sand = A3($mdgriffith$elm_ui$Element$rgb255, 173, 162, 150);
+var $mdgriffith$elm_ui$Internal$Flag$borderStyle = $mdgriffith$elm_ui$Internal$Flag$flag(11);
+var $mdgriffith$elm_ui$Element$Border$solid = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$borderStyle, $mdgriffith$elm_ui$Internal$Style$classes.borderSolid);
+var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
+	function (a, b, c, d, e) {
+		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Element$Border$width = function (v) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + $elm$core$String$fromInt(v),
+			v,
+			v,
+			v,
+			v));
+};
+var $author$project$FireDance$showLink = function (model) {
+	var linkViewmsg = $author$project$FireDance$isApril7th(model) ? _List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$text('You can join us for the gathering '),
+			A2(
+			$mdgriffith$elm_ui$Element$link,
+			$author$project$ViewHelpers$linkStyle,
+			{
+				label: $mdgriffith$elm_ui$Element$text('here'),
+				url: 'https://zoom.us/s/3986782691'
+			}),
+			$mdgriffith$elm_ui$Element$text('.')
+		]) : _List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$text('The link will appear here on the day of the event.')
+		]);
+	return A2(
+		$mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$paddingEach(
+				_Utils_update(
+					$author$project$ViewHelpers$noPadding,
+					{top: 30})),
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$textColumn,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$padding(30),
+						$mdgriffith$elm_ui$Element$Font$size(16),
+						$mdgriffith$elm_ui$Element$Border$solid,
+						$mdgriffith$elm_ui$Element$Border$width(5),
+						$mdgriffith$elm_ui$Element$Border$color($author$project$ViewHelpers$sand),
+						$mdgriffith$elm_ui$Element$centerX
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$paragraph,
+						_List_fromArray(
+							[$mdgriffith$elm_ui$Element$centerX, $mdgriffith$elm_ui$Element$centerY, $mdgriffith$elm_ui$Element$Font$center]),
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$text('The link to the ZOOM meeting will appear here on the day of the event.')
+							]))
+					]))
+			]));
+};
+var $author$project$FireDance$bodyRows = function (model) {
+	return _List_fromArray(
+		[
+			A2(
+			$mdgriffith$elm_ui$Element$image,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+					$mdgriffith$elm_ui$Element$padding(10)
+				]),
+			{description: 'people dancing around a fire', src: 'assets/firedance.jpg'}),
+			A2(
+			$mdgriffith$elm_ui$Element$row,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$paddingEach(
+					_Utils_update(
+						$author$project$ViewHelpers$noPadding,
+						{top: 30}))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$mdgriffith$elm_ui$Element$textColumn,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$mdgriffith$elm_ui$Element$paragraph,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Element$text('\n                    Fire Dance is a virtual poetry event and fundraiser in honor of my birthday, which will be held \n                    on April 7th, (my actual birthday!) at 7:30 PM. The suggested donation is $3-10, and all proceeds \n                    will go to the \n                    '),
+									A2(
+									$mdgriffith$elm_ui$Element$link,
+									$author$project$ViewHelpers$linkStyle,
+									{
+										label: $mdgriffith$elm_ui$Element$text('Portland Area Artists Emergency Relief Fund'),
+										url: 'https://www.pdxartistrelief.com/'
+									}),
+									$mdgriffith$elm_ui$Element$text('. The event will be held over ZOOM, which is an easy to use platform for video calling—you can download it '),
+									A2(
+									$mdgriffith$elm_ui$Element$link,
+									$author$project$ViewHelpers$linkStyle,
+									{
+										label: $mdgriffith$elm_ui$Element$text('here'),
+										url: 'https://www.pdxartistrelief.com/'
+									}),
+									$mdgriffith$elm_ui$Element$text('. Once you have the application downloaded, all you have to do to join in is click the link below. ')
+								]))
+						]))
+				])),
+			$author$project$FireDance$showLink(model)
+		]);
+};
+var $author$project$FireDance$subtitleText = '';
+var $author$project$FireDance$view = function (model) {
+	var screensize = $author$project$ViewHelpers$findScreenSize(model.width);
+	return A4(
+		$author$project$ViewHelpers$basicLayoutHelper,
+		screensize,
+		'FIRE DANCE',
+		$author$project$FireDance$subtitleText,
+		$author$project$FireDance$bodyRows(model));
+};
 var $author$project$Home$subtitleText = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$text('is a poet, programmer, and aspiring polymath based in Portland, OR. She has a lot \n        to say about her work—what do you want to know about?\n        ')
@@ -14375,97 +14782,6 @@ var $author$project$Poetry$view = function (model) {
 					]));
 	}
 };
-var $author$project$ViewHelpers$bodyEl = function (elements) {
-	return A2(
-		$mdgriffith$elm_ui$Element$column,
-		_List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$width(
-				$mdgriffith$elm_ui$Element$fillPortion(5))
-			]),
-		elements);
-};
-var $author$project$ViewHelpers$bodySideSpacer = function (screenSize) {
-	if (screenSize.$ === 'ExtraLarge') {
-		return A2(
-			$mdgriffith$elm_ui$Element$column,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$width(
-					$mdgriffith$elm_ui$Element$fillPortion(2))
-				]),
-			_List_fromArray(
-				[$mdgriffith$elm_ui$Element$none]));
-	} else {
-		return A2(
-			$mdgriffith$elm_ui$Element$column,
-			_List_fromArray(
-				[
-					$mdgriffith$elm_ui$Element$width(
-					$mdgriffith$elm_ui$Element$fillPortion(1))
-				]),
-			_List_fromArray(
-				[$mdgriffith$elm_ui$Element$none]));
-	}
-};
-var $author$project$ViewHelpers$basicLayoutHelper = F4(
-	function (screenSize, title, subtitle, bodyRows) {
-		var browserTitle = 'NJE: ' + title;
-		return A2(
-			$author$project$ViewHelpers$documentMsgHelper,
-			browserTitle,
-			_List_fromArray(
-				[
-					A2(
-					$mdgriffith$elm_ui$Element$column,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$mdgriffith$elm_ui$Element$row,
-							_List_fromArray(
-								[$mdgriffith$elm_ui$Element$centerX]),
-							_List_fromArray(
-								[
-									$author$project$ViewHelpers$titleSideSpacer,
-									A2(
-									$author$project$ViewHelpers$titleEl,
-									screenSize,
-									_List_fromArray(
-										[
-											A2(
-											$mdgriffith$elm_ui$Element$paragraph,
-											$author$project$ViewHelpers$titleStyle,
-											_List_fromArray(
-												[
-													$mdgriffith$elm_ui$Element$text(title)
-												])),
-											A2(
-											$mdgriffith$elm_ui$Element$paragraph,
-											$author$project$ViewHelpers$subtitleStyle,
-											_List_fromArray(
-												[
-													$mdgriffith$elm_ui$Element$text(subtitle)
-												]))
-										])),
-									$author$project$ViewHelpers$titleSideSpacer
-								])),
-							A2(
-							$mdgriffith$elm_ui$Element$row,
-							_List_fromArray(
-								[$mdgriffith$elm_ui$Element$centerX]),
-							_List_fromArray(
-								[
-									$author$project$ViewHelpers$bodySideSpacer(screenSize),
-									$author$project$ViewHelpers$bodyEl(bodyRows),
-									$author$project$ViewHelpers$bodySideSpacer(screenSize)
-								]))
-						]))
-				]));
-	});
 var $author$project$Msg$ToggleWord = function (a) {
 	return {$: 'ToggleWord', a: a};
 };
@@ -14787,17 +15103,6 @@ var $mdgriffith$elm_ui$Element$Input$calcMoveToCompensateForPadding = function (
 };
 var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
 var $mdgriffith$elm_ui$Element$clip = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.clip);
-var $mdgriffith$elm_ui$Internal$Flag$borderColor = $mdgriffith$elm_ui$Internal$Flag$flag(28);
-var $mdgriffith$elm_ui$Element$Border$color = function (clr) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$borderColor,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Colored,
-			'bc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
-			'border-color',
-			clr));
-};
 var $mdgriffith$elm_ui$Element$rgb = F3(
 	function (r, g, b) {
 		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, r, g, b, 1);
@@ -14838,22 +15143,6 @@ var $mdgriffith$elm_ui$Element$Border$rounded = function (radius) {
 			$elm$core$String$fromInt(radius) + 'px'));
 };
 var $mdgriffith$elm_ui$Element$Input$white = A3($mdgriffith$elm_ui$Element$rgb, 1, 1, 1);
-var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
-	function (a, b, c, d, e) {
-		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
-	});
-var $mdgriffith$elm_ui$Element$Border$width = function (v) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
-		A5(
-			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
-			'b-' + $elm$core$String$fromInt(v),
-			v,
-			v,
-			v,
-			v));
-};
 var $mdgriffith$elm_ui$Element$Input$defaultTextBoxStyle = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$Input$defaultTextPadding,
@@ -16353,6 +16642,8 @@ var $author$project$View$view = function (model) {
 			return $author$project$Code$Demos$view(model);
 		case 'Error':
 			return $author$project$Error$view(model);
+		case 'FireDance':
+			return $author$project$FireDance$view(model);
 		default:
 			return {
 				body: _List_fromArray(
