@@ -14232,10 +14232,7 @@ var $author$project$FireDance$showLink = function (model) {
 						$mdgriffith$elm_ui$Element$paragraph,
 						_List_fromArray(
 							[$mdgriffith$elm_ui$Element$centerX, $mdgriffith$elm_ui$Element$centerY, $mdgriffith$elm_ui$Element$Font$center]),
-						_List_fromArray(
-							[
-								$mdgriffith$elm_ui$Element$text('The link to the ZOOM meeting will appear here on the day of the event.')
-							]))
+						linkViewmsg)
 					]))
 			]));
 };

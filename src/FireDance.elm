@@ -116,5 +116,5 @@ showLink model =
     in 
         row [paddingEach {noPadding | top= 30}, El.width fill]
             [ textColumn [padding 30, Ef.size 16, Eb.solid, Eb.width 5, Eb.color sand, centerX ]
-                [ paragraph [ centerX, centerY, center ] [El.text "The link to the ZOOM meeting will appear here on the day of the event."] ]
+                [ paragraph [ centerX, centerY, center ] linkViewmsg ]
             ]
