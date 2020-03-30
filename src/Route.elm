@@ -20,6 +20,7 @@ type Route
     | PoetryErasure
     | Code
     | CodeDemos
+    | FireDance
 
 
 parser : Parser (Route -> a) a
@@ -33,6 +34,7 @@ parser =
         , Parser.map PoetryOfferings (s "poetry" </> s "offerings")
         , Parser.map Code (s "code")
         , Parser.map CodeDemos (s "code" </> s "demos")
+        , Parser.map FireDance (s "firedance")
         ]
 
 
@@ -97,4 +99,7 @@ routeToPieces page =
 
         CodeDemos ->
             [ "code", "demos" ]
+
+        FireDance -> 
+            [ "firedance" ]
 --}

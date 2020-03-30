@@ -197,6 +197,8 @@ changeRouteTo maybeRoute model =
         Just Route.CodeDemos ->
             Code.Demos.init newFlags
 
+        Just Route.FireDance -> 
+
         Just Route.Home ->
             Home.init newFlags
 

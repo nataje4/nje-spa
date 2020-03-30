@@ -12,6 +12,7 @@ type Page
     | Code 
     | CodeDemos 
     | Error 
+    | FireDance
 
 -- erasure
 

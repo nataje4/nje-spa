@@ -18,6 +18,9 @@ type alias Model =
     , poem : List PoemWord
     , input : String
     , enteringWordBank : Bool
+    -- FIRE DANCE -- 
+    , day : Int
+    , month : Time.Month
     }
 
 type alias Flags = 
@@ -45,4 +48,7 @@ blankModel =
     , poem = []
     , input = ""
     , enteringWordBank = True 
+    -- FIRE DANCE -- 
+    , day = 1
+    , month = Jane
     }
