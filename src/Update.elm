@@ -17,6 +17,7 @@ import Poetry.Tools exposing (init)
 import Poetry.WordBank exposing (init, inputToWordBank, updateWordBank, poemInputIntoPoemWords, setAllWordBankWordsToUnused)
 import Random exposing (initialSeed)
 import Route exposing (..)
+import Submit exposing (init)
 import Time exposing (posixToMillis)
 import Type exposing (..)
 import Url exposing (..)
@@ -160,12 +161,12 @@ update msg model =
 
 
 
-
+{--
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toModel toMsg model ( subModel, subCmd ) =
     ( toModel subModel
     , Cmd.map toMsg subCmd
-    )
+    ) --}
 
 
 routeChangeFlags : Model -> Flags
@@ -212,15 +213,17 @@ changeRouteTo maybeRoute model =
         Just Route.Home ->
             Home.init newFlags
 
+        Just Route.Submit ->
+            Submit.init newFlags
+
 
 routeToModel : Model -> Maybe Route -> Model
 routeToModel model maybeRoute =
-    let
-        newFlags : Flags
-        newFlags =
-            routeChangeFlags model
-    in
-    case maybeRoute of
+    changeRouteTo maybeRoute model 
+        |> Tuple.first
+
+
+    {--case maybeRoute of
         Just Route.Home ->
             Home.init newFlags
                 |> Tuple.first
@@ -257,8 +260,14 @@ routeToModel model maybeRoute =
             FireDance.init newFlags
                 |> Tuple.first
 
+        Just Route.Submit -> 
+            Submit.init newFlags
+                |> Tuple.first
+
         Nothing ->
             Error.init newFlags
                 |> Tuple.first
+        --}
+
 
 --}

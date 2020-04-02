@@ -13,6 +13,7 @@ type Page
     | CodeDemos 
     | Error 
     | FireDance
+    | Submit
 
 -- erasure
 

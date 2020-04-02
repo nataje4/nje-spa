@@ -21,6 +21,7 @@ type Route
     | Code
     | CodeDemos
     | FireDance
+    | Submit
 
 
 parser : Parser (Route -> a) a
@@ -35,6 +36,7 @@ parser =
         , Parser.map Code (s "code")
         , Parser.map CodeDemos (s "code" </> s "demos")
         , Parser.map FireDance (s "firedance")
+        , Parser.map Submit (s "submit")
         ]
 
 
@@ -102,4 +104,7 @@ routeToPieces page =
 
         FireDance -> 
             [ "firedance" ]
+
+        Submit -> 
+            [ "submit" ]
 --}

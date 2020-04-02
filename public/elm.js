@@ -5495,6 +5495,13 @@ var $author$project$Poetry$WordBank$init = function (flags) {
 		A2($author$project$Model$basicInitModel, flags, $author$project$Type$PoetryWordBank),
 		$elm$core$Platform$Cmd$none);
 };
+var $author$project$Type$Submit = {$: 'Submit'};
+var $elm$browser$Browser$Navigation$load = _Browser_load;
+var $author$project$Submit$init = function (flags) {
+	return _Utils_Tuple2(
+		A2($author$project$Model$basicInitModel, flags, $author$project$Type$Submit),
+		$elm$browser$Browser$Navigation$load('mailto:poetry@nataliejaneedson.com?subject=Submission'));
+};
 var $author$project$Update$routeChangeFlags = function (model) {
 	return {width: model.width};
 };
@@ -5529,9 +5536,12 @@ var $author$project$Update$changeRouteTo = F2(
 				case 'FireDance':
 					var _v8 = maybeRoute.a;
 					return $author$project$FireDance$init(newFlags);
-				default:
+				case 'Home':
 					var _v9 = maybeRoute.a;
 					return $author$project$Home$init(newFlags);
+				default:
+					var _v10 = maybeRoute.a;
+					return $author$project$Submit$init(newFlags);
 			}
 		}
 	});
@@ -6178,6 +6188,7 @@ var $author$project$Route$PoetryErasure = {$: 'PoetryErasure'};
 var $author$project$Route$PoetryOfferings = {$: 'PoetryOfferings'};
 var $author$project$Route$PoetryTools = {$: 'PoetryTools'};
 var $author$project$Route$PoetryWordBank = {$: 'PoetryWordBank'};
+var $author$project$Route$Submit = {$: 'Submit'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
@@ -6340,7 +6351,11 @@ var $author$project$Route$parser = $elm$url$Url$Parser$oneOf(
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$FireDance,
-			$elm$url$Url$Parser$s('firedance'))
+			$elm$url$Url$Parser$s('firedance')),
+			A2(
+			$elm$url$Url$Parser$map,
+			$author$project$Route$Submit,
+			$elm$url$Url$Parser$s('submit'))
 		]));
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
@@ -6367,40 +6382,7 @@ var $author$project$Main$initModel = function (flags) {
 };
 var $author$project$Update$routeToModel = F2(
 	function (model, maybeRoute) {
-		var newFlags = $author$project$Update$routeChangeFlags(model);
-		if (maybeRoute.$ === 'Just') {
-			switch (maybeRoute.a.$) {
-				case 'Home':
-					var _v1 = maybeRoute.a;
-					return $author$project$Home$init(newFlags).a;
-				case 'Poetry':
-					var _v2 = maybeRoute.a;
-					return $author$project$Poetry$init(newFlags).a;
-				case 'PoetryOfferings':
-					var _v3 = maybeRoute.a;
-					return $author$project$Poetry$Offerings$init(newFlags).a;
-				case 'PoetryTools':
-					var _v4 = maybeRoute.a;
-					return $author$project$Poetry$Tools$init(newFlags).a;
-				case 'PoetryWordBank':
-					var _v5 = maybeRoute.a;
-					return $author$project$Poetry$WordBank$init(newFlags).a;
-				case 'PoetryErasure':
-					var _v6 = maybeRoute.a;
-					return $author$project$Poetry$Erasure$init(newFlags).a;
-				case 'Code':
-					var _v7 = maybeRoute.a;
-					return $author$project$Code$init(newFlags).a;
-				case 'CodeDemos':
-					var _v8 = maybeRoute.a;
-					return $author$project$Code$Demos$init(newFlags).a;
-				default:
-					var _v9 = maybeRoute.a;
-					return $author$project$FireDance$init(newFlags).a;
-			}
-		} else {
-			return $author$project$Error$init(newFlags).a;
-		}
+		return A2($author$project$Update$changeRouteTo, maybeRoute, model).a;
 	});
 var $author$project$Main$init = F3(
 	function (flags, url, navKey) {
@@ -6796,7 +6778,6 @@ var $author$project$Poetry$WordBank$inputToWordBank = function (str) {
 			$elm$core$String$filter($author$project$Poetry$WordBank$isNotExtraPunctuation),
 			$elm$core$String$words(str)));
 };
-var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$List$filter = F2(
 	function (isGood, list) {
 		return A3(
@@ -7520,6 +7501,47 @@ var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
 };
 var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
 var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
+var $mdgriffith$elm_ui$Internal$Model$Colored = F3(
+	function (a, b, c) {
+		return {$: 'Colored', a: a, b: b, c: c};
+	});
+var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
+	function (a, b) {
+		return {$: 'StyleClass', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
+	return {$: 'Flag', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
+	return {$: 'Second', a: a};
+};
+var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
+var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
+	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
+};
+var $mdgriffith$elm_ui$Internal$Flag$bgColor = $mdgriffith$elm_ui$Internal$Flag$flag(8);
+var $elm$core$Basics$round = _Basics_round;
+var $mdgriffith$elm_ui$Internal$Model$floatClass = function (x) {
+	return $elm$core$String$fromInt(
+		$elm$core$Basics$round(x * 255));
+};
+var $mdgriffith$elm_ui$Internal$Model$formatColorClass = function (_v0) {
+	var red = _v0.a;
+	var green = _v0.b;
+	var blue = _v0.c;
+	var alpha = _v0.d;
+	return $mdgriffith$elm_ui$Internal$Model$floatClass(red) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(green) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(blue) + ('-' + $mdgriffith$elm_ui$Internal$Model$floatClass(alpha))))));
+};
+var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$bgColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'background-color',
+			clr));
+};
 var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
 	return {$: 'Fill', a: a};
 };
@@ -7650,16 +7672,6 @@ var $mdgriffith$elm_ui$Internal$Model$addKeyedChildren = F3(
 	});
 var $mdgriffith$elm_ui$Internal$Model$AsParagraph = {$: 'AsParagraph'};
 var $mdgriffith$elm_ui$Internal$Model$asParagraph = $mdgriffith$elm_ui$Internal$Model$AsParagraph;
-var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
-	return {$: 'Flag', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Flag$Second = function (a) {
-	return {$: 'Second', a: a};
-};
-var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
-var $mdgriffith$elm_ui$Internal$Flag$flag = function (i) {
-	return (i > 31) ? $mdgriffith$elm_ui$Internal$Flag$Second(1 << (i - 32)) : $mdgriffith$elm_ui$Internal$Flag$Flag(1 << i);
-};
 var $mdgriffith$elm_ui$Internal$Flag$alignBottom = $mdgriffith$elm_ui$Internal$Flag$flag(41);
 var $mdgriffith$elm_ui$Internal$Flag$alignRight = $mdgriffith$elm_ui$Internal$Flag$flag(40);
 var $mdgriffith$elm_ui$Internal$Flag$centerX = $mdgriffith$elm_ui$Internal$Flag$flag(42);
@@ -7689,11 +7701,6 @@ var $mdgriffith$elm_ui$Internal$Model$lengthClassName = function (x) {
 			var len = x.b;
 			return 'max' + ($elm$core$String$fromInt(max) + $mdgriffith$elm_ui$Internal$Model$lengthClassName(len));
 	}
-};
-var $elm$core$Basics$round = _Basics_round;
-var $mdgriffith$elm_ui$Internal$Model$floatClass = function (x) {
-	return $elm$core$String$fromInt(
-		$elm$core$Basics$round(x * 255));
 };
 var $mdgriffith$elm_ui$Internal$Model$transformClass = function (transform) {
 	switch (transform.$) {
@@ -13049,10 +13056,6 @@ var $mdgriffith$elm_ui$Internal$Model$renderRoot = F3(
 					_List_fromArray(
 						[child]))));
 	});
-var $mdgriffith$elm_ui$Internal$Model$Colored = F3(
-	function (a, b, c) {
-		return {$: 'Colored', a: a, b: b, c: c};
-	});
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
 	function (a, b) {
 		return {$: 'FontFamily', a: a, b: b};
@@ -13061,24 +13064,12 @@ var $mdgriffith$elm_ui$Internal$Model$FontSize = function (a) {
 	return {$: 'FontSize', a: a};
 };
 var $mdgriffith$elm_ui$Internal$Model$SansSerif = {$: 'SansSerif'};
-var $mdgriffith$elm_ui$Internal$Model$StyleClass = F2(
-	function (a, b) {
-		return {$: 'StyleClass', a: a, b: b};
-	});
 var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
 	return {$: 'Typeface', a: a};
 };
-var $mdgriffith$elm_ui$Internal$Flag$bgColor = $mdgriffith$elm_ui$Internal$Flag$flag(8);
 var $mdgriffith$elm_ui$Internal$Flag$fontColor = $mdgriffith$elm_ui$Internal$Flag$flag(14);
 var $mdgriffith$elm_ui$Internal$Flag$fontFamily = $mdgriffith$elm_ui$Internal$Flag$flag(5);
 var $mdgriffith$elm_ui$Internal$Flag$fontSize = $mdgriffith$elm_ui$Internal$Flag$flag(4);
-var $mdgriffith$elm_ui$Internal$Model$formatColorClass = function (_v0) {
-	var red = _v0.a;
-	var green = _v0.b;
-	var blue = _v0.c;
-	var alpha = _v0.d;
-	return $mdgriffith$elm_ui$Internal$Model$floatClass(red) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(green) + ('-' + ($mdgriffith$elm_ui$Internal$Model$floatClass(blue) + ('-' + $mdgriffith$elm_ui$Internal$Model$floatClass(alpha))))));
-};
 var $mdgriffith$elm_ui$Internal$Model$renderFontClassName = F2(
 	function (font, current) {
 		return _Utils_ap(
@@ -13176,6 +13167,10 @@ var $mdgriffith$elm_ui$Element$layoutWith = F3(
 	});
 var $mdgriffith$elm_ui$Element$layout = $mdgriffith$elm_ui$Element$layoutWith(
 	{options: _List_Nil});
+var $mdgriffith$elm_ui$Element$rgb255 = F3(
+	function (red, green, blue) {
+		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
+	});
 var $mdgriffith$elm_ui$Internal$Model$AsColumn = {$: 'AsColumn'};
 var $mdgriffith$elm_ui$Internal$Model$asColumn = $mdgriffith$elm_ui$Internal$Model$AsColumn;
 var $mdgriffith$elm_ui$Internal$Model$Content = {$: 'Content'};
@@ -13227,10 +13222,6 @@ var $author$project$ViewHelpers$mainFonts = $mdgriffith$elm_ui$Element$Font$fami
 		[$author$project$ViewHelpers$lato, $author$project$ViewHelpers$georgia, $mdgriffith$elm_ui$Element$Font$serif]));
 var $author$project$ViewHelpers$bodyStyle = _List_fromArray(
 	[$author$project$ViewHelpers$mainFonts, $mdgriffith$elm_ui$Element$Font$center]);
-var $mdgriffith$elm_ui$Element$rgb255 = F3(
-	function (red, green, blue) {
-		return A4($mdgriffith$elm_ui$Internal$Model$Rgba, red / 255, green / 255, blue / 255, 1);
-	});
 var $author$project$ViewHelpers$black = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 0);
 var $mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
 	return A2(
@@ -13389,16 +13380,6 @@ var $author$project$ViewHelpers$footer = A2(
 					$mdgriffith$elm_ui$Element$text('COPYRIGHT 2020 NATALIEJANEEDSON.COM')
 				]))
 		]));
-var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$StyleClass,
-		$mdgriffith$elm_ui$Internal$Flag$bgColor,
-		A3(
-			$mdgriffith$elm_ui$Internal$Model$Colored,
-			'bg-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
-			'background-color',
-			clr));
-};
 var $mdgriffith$elm_ui$Element$fillPortion = $mdgriffith$elm_ui$Internal$Model$Fill;
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
@@ -16650,7 +16631,9 @@ var $author$project$View$view = function (model) {
 						_List_fromArray(
 							[
 								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
+								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+								$mdgriffith$elm_ui$Element$Background$color(
+								A3($mdgriffith$elm_ui$Element$rgb255, 242, 243, 244))
 							]),
 						A2(
 							$mdgriffith$elm_ui$Element$image,

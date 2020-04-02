@@ -1,6 +1,7 @@
 module View exposing (..)
 
-import Element exposing (row, centerX, centerY, width, height, fill, image)
+import Element exposing (row, centerX, centerY, width, height, fill, image, rgb255)
+import Element.Background exposing (color)
 import Type exposing (Page(..))
 import Msg exposing (..)
 import Model exposing (Model)
@@ -49,10 +50,10 @@ view model =
         FireDance -> 
             FireDance.view model 
 
-        Loading -> 
+        _ -> 
             { title = "..."
             , body = 
-                [ Element.layout [ width fill, height fill]
+                [ Element.layout [ width fill, height fill, color (rgb255 242 243 244)]
                     ( image 
                         [ centerX, centerY]
                         { src = "assets/Spinner-1s-200px.gif"
